@@ -1,56 +1,50 @@
 const express = require('express');
 const path = require('path');
-const bodyParser = require('body-parser');
+var bodyParser = require('body-parser');
 const app = express();
 var jwt = require('jsonwebtoken');
 var http = require('http');
-const { Pool } = require('pg')
+const bcrypt = require('bcryptjs');
+const pool = require("./DBSettings.js")
 
 
-const pool = new Pool({
-  user: 'root',
-  host: '173.249.41.169',
-  database: 'sandgramBank',
-  password: 'WsH4BHA35nVc',
-  port: 5432,
-})
-
-/*
-pool.query('SELECT NOW()', (err, res) => {
-    console.log(err, res)
-    pool.end()
-  })
-*/
-console.log(jwt.sign({"Nome": "Ale"}, "segreto"));
-
-app.use(bodyParser.urlencoded({
-    extended: true
+app.use( bodyParser.json() );       
+app.use(bodyParser.urlencoded({    
+  extended: true
 }));
 
 
-app.get('/registrazione',  (req, res) => {
+
+console.log(jwt.sign({"Nome": "Ale"}, "segreto"));
+
+
+
+app.post('/registrazione',  (req, res) => {
     
-    pool.query('SELECT * FROM user WHERE email = $1', ["ciao"], (err, res) => {
-        
-        if(res.rowCount == 0)
+    let email = req.query.email;
+    let nome = req.query.nome;
+    let passwd = req.query.passwd;
+    
+    pool.query('SELECT * FROM utenti WHERE email = $1', [email], (err, res) => {
+        if (res.rows.length == 0)
         {
-            console.log("Non sono presente merde");
+           bcrypt.genSalt(10, (err, salt) => {
+               bcrypt.hash(passwd, salt, (err, hash) => {
+                    passwd = hash;
+                    pool.query('INSERT INTO utenti (email, nome, passwd) VALUES ($1, $2, $3)', [email, nome, passwd], (err, res) => {
+                        jwt.sign({ "email": email ,"Nome": nome }, "SendgramBankPassword");   
+                    });
+               });
+           });
         }
         else
         {
-            console.log("Sono presente, che bello");
+            console.log("Esisto");
         }
-        
-        
-        console.log(err, res);
-        pool.end()
-    })
-
+       
+    });
     
-    
-    
-    
-    
+    /*
     try {
         jwt.verify(req.get('JWT'), 'segreto');
         console.log("ok");
@@ -59,20 +53,64 @@ app.get('/registrazione',  (req, res) => {
     {
         console.log("Volevi stronzo");
     }
-
+    */
     res.end();
 });
 
-app.get("/insert", (req, res) => {
-    pool.query('INSERT INTO utenti (email, nome, passwd) VALUES ($1,$2,$3)', ["ale", "bose", "stocazzo"], (err, res) => {
-   
-        console.log(err, res);
-        pool.end()
+app.post("/login", (req, res) => {
+    let email = req.query.email;
+    let nome = req.query.nome;
+    let passwd = req.query.passwd;
+
+    
+    
+    pool.query('SELECT * FROM utenti WHERE email = $1', [email], (err, res) => {
+    
+        let hash =  res.rows[0].passwd;
+        if(res.rows.length == 0)
+        {
+            console.log("Utente non presente");
+        }
+        else
+        {
+            
+            bcrypt.compare(passwd, hash, (err, risp) => {
+                if(risp)
+                {
+                    jwt.sign({ "email": email ,"Nome": nome }, "SendgramBankPassword");
+                }
+                else
+                {
+                    console.log("no")
+                }
+            });
+            
+        }
+        
     });
     res.end();
+});
 
-})
 
+
+
+app.post('/prove', (req, res) =>{
+    let email = req.query.email;
+    let nome = req.query.nome;
+    let passwd = req.query.passwd;
+    
+    console.log(email);
+    console.log(nome);
+    console.log(passwd);
+    
+        pool.query('SELECT * FROM utenti WHERE email = $1', ["ale"], (err, res) => {
+            console.log(err, res);
+        });
+         
+    
+    
+    res.end();
+});
 
 app.listen(3000, () => {
 
