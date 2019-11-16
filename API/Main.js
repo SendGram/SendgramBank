@@ -95,6 +95,7 @@ app.post("/login", (req, res) => {
 
 
 app.post('/prove', (req, res) =>{
+    /*
     let email = req.query.email;
     let nome = req.query.nome;
     let passwd = req.query.passwd;
@@ -108,8 +109,10 @@ app.post('/prove', (req, res) =>{
         });
          
     
+    */
+
+    res.send({ 'SanPaolo': "Ci metto la faccia" });
     
-    res.end();
 });
 
 app.listen(3000, () => {
