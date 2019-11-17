@@ -59,36 +59,37 @@ app.post('/registrazione',  (req, res) => {
 
 app.post("/login", (req, res) => {
     let email = req.query.email;
-    let nome = req.query.nome;
     let passwd = req.query.passwd;
-
     
     
-    pool.query('SELECT * FROM utenti WHERE email = $1', [email], (err, res) => {
     
-        let hash =  res.rows[0].passwd;
-        if(res.rows.length == 0)
+    pool.query('SELECT * FROM utenti WHERE email = $1', [email], (err, result) => {
+    
+        if(result.rows.length == 0)
         {
-            console.log("Utente non presente");
+            res.send({ "errore": "User not found" });
+            return 0;
         }
         else
         {
-            
+            let hash =  result.rows[0].passwd;
             bcrypt.compare(passwd, hash, (err, risp) => {
                 if(risp)
                 {
-                    jwt.sign({ "email": email ,"Nome": nome }, "SendgramBankPassword");
+                    let JWT = jwt.sign({ "email": email }, "SendgramBankPassword");
+                    res.send({ "Successo": JWT });
+                    return 0;
                 }
                 else
                 {
-                    console.log("no")
+                    risposta = res.send({ "errore": "wrong password" });
+                    return 0;
                 }
             });
             
         }
         
     });
-    res.end();
 });
 
 
