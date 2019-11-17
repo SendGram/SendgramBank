@@ -6,23 +6,37 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 public abstract class API {
 
+    public JSONObject JSON_parse(String json) {
+        return new JSONObject(json);
+    }
 
-    public void request(String url)
+    public void request(String url, String... n)
     {
-       String precedente;
+        String precedente = "";
+
+        int cont = 0;
 
         try {
 
             URL urlForGetRequest = new URL("http://127.0.0.1:3000/prove");
             String readLine = null;
             HttpURLConnection conection = (HttpURLConnection) urlForGetRequest.openConnection();
-            for (String i: n) {
-
-            }
             conection.setRequestMethod("POST");
-            conection.setRequestProperty();
+            for (String i: n) {
+                if (cont % 2 == 0) {
+                    precedente = i;
+                } else {
+                    conection.addRequestProperty(precedente, i);
+                    System.out.println(precedente + i);
+                }
+                cont += 1;
+            }
+
 
             int responseCode = conection.getResponseCode();
 
