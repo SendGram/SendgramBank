@@ -1,4 +1,4 @@
-package sample;
+package tech.sendgram.API;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -6,16 +6,14 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
+import netscape.javascript.JSObject;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public abstract class API {
+public class API {
 
-    public JSONObject JSON_parse(String json) {
-        return new JSONObject(json);
-    }
 
-    public void request(String url, String... n)
+    public static JSONObject request(String url, String method, String... parametri)
     {
         String precedente = "";
 
@@ -23,11 +21,11 @@ public abstract class API {
 
         try {
 
-            URL urlForGetRequest = new URL("http://127.0.0.1:3000/prove");
+            URL urlForGetRequest = new URL(url);
             String readLine = null;
             HttpURLConnection conection = (HttpURLConnection) urlForGetRequest.openConnection();
-            conection.setRequestMethod("POST");
-            for (String i: n) {
+            conection.setRequestMethod(method);
+            for (String i : parametri) {
                 if (cont % 2 == 0) {
                     precedente = i;
                 } else {
@@ -43,22 +41,18 @@ public abstract class API {
             if (responseCode == HttpURLConnection.HTTP_OK) {
                 BufferedReader in = new BufferedReader(
                         new InputStreamReader(conection.getInputStream()));
-                StringBuffer response = new StringBuffer();
+                String response = "";
                 while ((readLine = in .readLine()) != null) {
-                    response.append(readLine);
+                    response += readLine;
                     System.out.println(readLine);
                 } in .close();
-                // print result
-                System.out.println("JSON String Result " + response);
-                System.out.println();
-                //GetAndPost.POSTRequest(response.toString());
+                return new JSONObject(response);
             } else {
-                System.out.println("GET NOT WORKED");
+                return new JSONObject("{ \"errore\": \"404 not found\" }");
             }
         } catch (Exception e)
         {}
     }
-
 
 
 }
