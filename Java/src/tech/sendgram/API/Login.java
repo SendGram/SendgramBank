@@ -15,13 +15,13 @@ public class Login extends API {
     }
 
     public int accedi() {
-        /*
+
         if (Controlli.checkSpecialChar(email))
             return 1;
 
         if (Controlli.checkStringLenght(passwd, 8, 20))
             return 2;
-*/
+
         request("http://127.0.0.1:3000/login", "POST", "email", email, "passwd", passwd);
 
         return 0;

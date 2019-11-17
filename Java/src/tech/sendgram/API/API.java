@@ -24,6 +24,7 @@ public class API {
             String readLine = null;
             HttpURLConnection connection = (HttpURLConnection) urlForGetRequest.openConnection();
             connection.setRequestMethod(method);
+
             for (String i : parametri) {
                 if (cont % 2 == 0) {
                     precedente = i;

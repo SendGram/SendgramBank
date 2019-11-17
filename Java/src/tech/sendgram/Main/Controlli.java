@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 public class Controlli {
 
     public static boolean checkSpecialChar(String string) {
-        Pattern regex = Pattern.compile("[$&+,:;=\\?@#|/'<>.^*()%!-]");
+        Pattern regex = Pattern.compile("[$&+,:;=\\?#|/'<>^*()%!]");
         return regex.matcher(string).find();
     }
 

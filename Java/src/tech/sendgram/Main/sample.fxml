@@ -10,7 +10,6 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
             prefWidth="600.0" stylesheets="@Style.css" xmlns="http://javafx.com/javafx/11.0.1"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="tech.sendgram.Main.Controller">
@@ -32,7 +31,8 @@
             <children>
                 <Button fx:id="Login" mnemonicParsing="false" onAction="#Do_Login" text="Button"
                         GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1"/>
-                <TextField fx:id="TextEmail" promptText="Email" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                <TextField fx:id="TextEmail" onInputMethodTextChanged="#Check_Char" promptText="Email"
+                           GridPane.columnIndex="1" GridPane.rowIndex="1">
                     <GridPane.margin>
                         <Insets bottom="100.0"/>
                     </GridPane.margin>
@@ -43,6 +43,18 @@
                         <Insets bottom="50.0"/>
                     </GridPane.margin>
                 </PasswordField>
+                <Label fx:id="ErrorPasswd" text="Password non valida" textFill="RED" visible="false"
+                       GridPane.rowIndex="1">
+                    <GridPane.margin>
+                        <Insets bottom="50.0"/>
+                    </GridPane.margin>
+                </Label>
+                <Label fx:id="ErrorEmail" text="Niente caratteri speciali" textFill="RED" visible="false"
+                       GridPane.rowIndex="1">
+                    <GridPane.margin>
+                        <Insets bottom="100.0"/>
+                    </GridPane.margin>
+                </Label>
             </children>
         </GridPane>
     </center>
