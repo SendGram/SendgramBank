@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="efe45d6a-0ec9-4b4f-9db6-b77f49e01b1f" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/Java/out/production/Java/tech/sendgram/API/API.class" beforeDir="false" afterPath="$PROJECT_DIR$/Java/out/production/Java/tech/sendgram/API/API.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Java/out/production/Java/tech/sendgram/Main/Controller.class" beforeDir="false" afterPath="$PROJECT_DIR$/Java/out/production/Java/tech/sendgram/Main/Controller.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Java/out/production/Java/tech/sendgram/Main/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/Java/out/production/Java/tech/sendgram/Main/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Java/out/production/Java/tech/sendgram/Main/Style.css" beforeDir="false" afterPath="$PROJECT_DIR$/Java/out/production/Java/tech/sendgram/Main/Style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Java/out/production/Java/tech/sendgram/Main/sample.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/Java/out/production/Java/tech/sendgram/Main/sample.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Java/src/tech/sendgram/Main/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/Java/src/tech/sendgram/Main/Controller.java" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1TktZYKidQ5pd4cIG9mZjs9djM9" />
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Java" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="efe45d6a-0ec9-4b4f-9db6-b77f49e01b1f" name="Default Changelist" comment="" />
+      <created>1574015976922</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1574015976922</updated>
+      <workItem from="1574015978799" duration="19000" />
+    </task>
+    <servers />
+  </component>
+</project>
