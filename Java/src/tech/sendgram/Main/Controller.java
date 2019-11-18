@@ -2,40 +2,47 @@ package tech.sendgram.Main;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
-import javafx.scene.control.PasswordField;
-import javafx.scene.input.InputMethodEvent;
 import javafx.scene.control.TextField;
-import tech.sendgram.API.API;
-import tech.sendgram.API.Login;
+import javafx.scene.layout.AnchorPane;
+
+import java.io.IOException;
 
 public class Controller {
 
     @FXML
-    private Button Login;
+    AnchorPane rootPane;
 
     @FXML
-    private TextField TextEmail;
+    private TextField textEmail;
 
     @FXML
-    private PasswordField TextPassword;
+    private TextField textNome;
 
     @FXML
-    private Label ErrorEmail;
+    private TextField textPasswd;
 
     @FXML
-    private Label ErrorPasswd;
-    @FXML
-    private TextField TextEmail;
+    private TextField textRepPasswd;
 
     @FXML
-    private PasswordField TextPassword;
+    private Button Accedi;
+
+    @FXML
+    private Button goReg;
+
+    @FXML
+    private Button goLogin;
+
+    @FXML
+    private Button registrati;
+
 
     public void Do_Login(ActionEvent actionEvent) {
-
+        /*
         Login a = new Login(TextEmail.getText(), TextPassword.getText());
 
-        Login a = new Login(TextEmail.getText(), TextPassword.getText());
         a.accedi();
 
         if (a.accedi() == 1) {
@@ -46,11 +53,18 @@ public class Controller {
             ErrorPasswd.setVisible(true);
 
         }
-
+        */
 
     }
 
-    public void Check_Char(InputMethodEvent event) {
-        System.out.println("Cambio");
+
+    public void go_Registarti(ActionEvent actionEvent) throws IOException {
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("Registrazione.fxml"));
+        rootPane.getChildren().setAll(pane);
+    }
+
+    public void go_Login(ActionEvent actionEvent) throws IOException {
+        AnchorPane pane = FXMLLoader.load(getClass().getResource("Login.fxml"));
+        rootPane.getChildren().setAll(pane);
     }
 }
