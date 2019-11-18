@@ -15,11 +15,13 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        primaryStage.setTitle("Hello World");
-        primaryStage.setScene(new Scene(root, 300, 275));
-        primaryStage.setMinWidth(700);
+        Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
+        primaryStage.setTitle("SendgramBank");
+        primaryStage.setScene(new Scene(root));
+        primaryStage.setMinWidth(800);
         primaryStage.setMinHeight(500);
+        primaryStage.setMaxWidth(800);
+        primaryStage.setMaxHeight(500);
         primaryStage.show();
     }
 
