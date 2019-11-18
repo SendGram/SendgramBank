@@ -6,6 +6,8 @@ var jwt = require('jsonwebtoken');
 var http = require('http');
 const bcrypt = require('bcryptjs');
 const pool = require("./DBSettings.js")
+const { createServer } = require('http');
+
 
 
 app.use( bodyParser.json() );       
@@ -13,7 +15,35 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
+const WebSocket = require('ws');
+ 
+const server = createServer(app);
+const wss = new WebSocket.Server({ server });
 
+wss.on('connection', function(ws) {
+  const id = setInterval(function() {
+    ws.send(JSON.stringify(process.memoryUsage()), function() {
+      //
+      // Ignore errors.
+      //
+    });
+  }, 100);
+  console.log('started client interval');
+
+  ws.on('close', function() {
+    console.log('stopping client interval');
+    clearInterval(id);
+  });
+
+  ws.on('message', function incoming(message) {
+
+    console.log(message);
+  });
+});
+
+server.listen(8080, function() {
+  console.log('Listening on http://localhost:8080');
+});
 
 console.log(jwt.sign({"Nome": "Ale"}, "segreto"));
 
