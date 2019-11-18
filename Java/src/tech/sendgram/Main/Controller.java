@@ -25,18 +25,12 @@ public class Controller {
 
     @FXML
     private Label ErrorPasswd;
-    @FXML
-    private TextField TextEmail;
 
-    @FXML
-    private PasswordField TextPassword;
 
     public void Do_Login(ActionEvent actionEvent) {
 
         Login a = new Login(TextEmail.getText(), TextPassword.getText());
 
-        Login a = new Login(TextEmail.getText(), TextPassword.getText());
-        a.accedi();
 
         if (a.accedi() == 1) {
             System.out.println("Carattere speciale rilevato");

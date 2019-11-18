@@ -9,6 +9,7 @@ import netscape.javascript.JSObject;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+
 public class API {
 
     public boolean writeJwt(String JWT) {
@@ -59,10 +60,10 @@ public class API {
                 in.close();
                 return new JSONObject(response);
             } else {
-                return new JSONObject("{ \"errore\": \"true\" }");
+                return new JSONObject("{ \"errorJ\": \"true\" }");
             }
         } catch (Exception e) {
-            return new JSONObject("{ \"errore\": \"true\" }");
+            return new JSONObject("{ \"errorJ\": \"true\" }");
         }
     }
 

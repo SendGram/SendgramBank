@@ -10,7 +10,16 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/json-20190722.jar!/" />
+          <root url="jar://$MODULE_DIR$/libs/Java-WebSocket-1.4.0-with-dependencies.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/libs/json-20190722.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

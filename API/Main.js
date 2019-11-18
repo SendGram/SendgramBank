@@ -21,13 +21,10 @@ const server = createServer(app);
 const wss = new WebSocket.Server({ server });
 
 wss.on('connection', function(ws) {
-  const id = setInterval(function() {
-    ws.send(JSON.stringify(process.memoryUsage()), function() {
-      //
-      // Ignore errors.
-      //
-    });
-  }, 100);
+  
+    
+    ws.send("hi mario");
+  
   console.log('started client interval');
 
   ws.on('close', function() {
@@ -121,7 +118,6 @@ app.post("/login", (req, res) => {
         
     });
 });
-
 
 
 
