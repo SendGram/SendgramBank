@@ -24,8 +24,8 @@
                 <Font size="14.0"/>
             </font>
         </TextField>
-        <Button fx:id="registrati" layoutX="345.0" layoutY="347.0" mnemonicParsing="false" prefHeight="24.0"
-                prefWidth="112.0" styleClass="bottone" text="Registrati"/>
+        <Button fx:id="registrati" layoutX="345.0" layoutY="347.0" mnemonicParsing="false" onAction="#Do_Registrati"
+                prefHeight="24.0" prefWidth="112.0" styleClass="bottone" text="Registrati"/>
         <ImageView fitHeight="90.0" fitWidth="126.0" layoutX="698.0" layoutY="402.0" pickOnBounds="true"
                    preserveRatio="true">
             <image>

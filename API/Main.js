@@ -51,22 +51,27 @@ app.post('/registrazione',  (req, res) => {
     let email = req.query.email;
     let nome = req.query.nome;
     let passwd = req.query.passwd;
-    
+
     pool.query('SELECT * FROM utenti WHERE email = $1', [email], (err, res) => {
         if (res.rows.length == 0)
         {
            bcrypt.genSalt(10, (err, salt) => {
+               if (err)
+               {
+                   res.send("errore": )
+               }
                bcrypt.hash(passwd, salt, (err, hash) => {
                     passwd = hash;
                     pool.query('INSERT INTO utenti (email, nome, passwd) VALUES ($1, $2, $3)', [email, nome, passwd], (err, res) => {
-                        jwt.sign({ "email": email ,"Nome": nome }, "SendgramBankPassword");   
+                        let JWT = jwt.sign({ "email": email ,"Nome": nome }, "SendgramBankPassword");   
+                        res.send({ "Successo": JWT });
                     });
                });
            });
         }
         else
         {
-            console.log("Esisto");
+            res.send({ "errore": "Utente già presente" });
         }
        
     });
@@ -94,7 +99,7 @@ app.post("/login", (req, res) => {
     
         if(result.rows.length == 0)
         {
-            res.send({ "errore": "User not found" });
+            res.send({ "errore": "wrong password" });
             return 0;
         }
         else
@@ -109,7 +114,7 @@ app.post("/login", (req, res) => {
                 }
                 else
                 {
-                    risposta = res.send({ "errore": "wrong password" });
+                    res.send({ "errore": "wrong password" });
                     return 0;
                 }
             });

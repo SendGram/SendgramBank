@@ -1,4 +1,27 @@
+
 .titolo {
-    -fx-font-size: 25px;
+    -fx-font-size: 36px;
+    -fx-text-fill: #ccc;
 }
 
+.paginaIniziale {
+    -fx-background-color: #1d4769;
+}
+
+.textArea {
+    -fx-background-color: #1d4769;
+    -fx-border-color: #1d4769 #1d4769 #7d9cb6 #1d4769;
+    -fx-text-fill: #ccc;
+    -fx-font-size: 14px;
+}
+
+.bottone {
+    -fx-background-color: #4f7696;
+    -fx-text-fill: #ccc;
+    -fx-font-size: 14px;
+}
+
+.btnFP {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}

@@ -10,13 +10,12 @@ import tech.sendgram.Main.Controlli;
 // Return 5 = Password sbagliata
 // Return 6 = Errore sconosiuto
 // Return 7 = Errore sconosiuto
-
-public class Login extends API {
+public class Registrazione extends API {
 
     private String email;
     private String passwd;
 
-    public Login(String emil, String password) {
+    public Registrazione(String emil, String password) {
         this.email = emil;
         this.passwd = password;
     }
@@ -36,11 +35,6 @@ public class Login extends API {
             return 3;
         } else if (req.has("errore")) {
             switch (req.getString("errore")) {
-                case "User not found":
-                    //utente non trovato API
-                    System.out.println("utente non trovato");
-                    return 4;
-
 
                 case "wrong password":
                     //password sbagliata API

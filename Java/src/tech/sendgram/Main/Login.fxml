@@ -24,8 +24,8 @@
                 <Font size="14.0"/>
             </font>
         </TextField>
-        <Button fx:id="Accedi" layoutX="344.0" layoutY="276.0" mnemonicParsing="false" prefHeight="24.0"
-                prefWidth="112.0" styleClass="bottone" text="Accedi"/>
+        <Button fx:id="Accedi" layoutX="344.0" layoutY="276.0" mnemonicParsing="false" onAction="#Do_Login"
+                prefHeight="24.0" prefWidth="112.0" styleClass="bottone" text="Accedi"/>
         <ImageView fitHeight="90.0" fitWidth="126.0" layoutX="698.0" layoutY="402.0" pickOnBounds="true"
                    preserveRatio="true">
             <image>
@@ -50,6 +50,8 @@
                 <Font size="15.0"/>
             </font>
         </Button>
+        <Label fx:id="ErrorPasswd" layoutX="311.0" layoutY="250.0" text="*Email o password errata" textFill="RED"
+               visible="false"/>
 
     </children>
 </AnchorPane>
