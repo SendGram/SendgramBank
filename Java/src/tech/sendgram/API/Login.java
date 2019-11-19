@@ -2,14 +2,12 @@ package tech.sendgram.API;
 
 import org.json.JSONObject;
 import tech.sendgram.Main.Controlli;
+import tech.sendgram.Main.variabili;
+import tech.sendgram.websocket.websocket;
 
-// Return 1 = Caratteri speciali nella email
-// Return 2 = Caratteri della password inferiori a 8 o superiori a 20
-// Return 3 = Errore sconosciuto
-// Return 4 = Utente non trovato
-// Return 5 = Password sbagliata
-// Return 6 = Errore sconosiuto
-// Return 7 = Errore sconosiuto
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.regex.Pattern;
 
 public class Login extends API {
 
@@ -21,7 +19,7 @@ public class Login extends API {
         this.passwd = password;
     }
 
-    public int accedi() {
+    public int accedi() throws URISyntaxException {
 
         if (Controlli.checkSpecialChar(email))
             return 1;

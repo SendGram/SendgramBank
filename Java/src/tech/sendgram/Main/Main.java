@@ -23,6 +23,8 @@ public class Main extends Application {
         primaryStage.setMaxWidth(800);
         primaryStage.setMaxHeight(500);
         primaryStage.show();
+        variabili.socket = new websocket(new URI("ws://localhost:8080"));
+        variabili.socket.connect();
     }
 
 
@@ -30,7 +32,6 @@ public class Main extends Application {
 
         launch(args);
 
-        websocket c = new websocket(new URI("ws://localhost:8080")); // more about drafts here: http://github.com/TooTallNate/Java-WebSocket/wiki/Drafts
-        c.connect();
+
     }
 }
