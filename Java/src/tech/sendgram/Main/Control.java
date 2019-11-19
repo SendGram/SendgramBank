@@ -2,7 +2,7 @@ package tech.sendgram.Main;
 
 import java.util.regex.Pattern;
 
-public class Controlli {
+public class Control {
 
     public static boolean checkSpecialChar(String string) {
         Pattern regex = Pattern.compile("[$&+,:;=\\?#|/'<>^*()%!/]");
@@ -13,5 +13,8 @@ public class Controlli {
         return (string.length() > maxLenght && string.length() < minLeght) ? false : true;
     }
 
+    public static boolean checkEqualsString(String string1, String string2) {
+        return (string1.equals(string2)) ? false : true;
+    }
 
 }

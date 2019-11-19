@@ -40,7 +40,7 @@ public class API {
                 if (cont % 2 == 0) {
                     precedente = i;
                 } else {
-                    connection.addRequestProperty(precedente, i);
+                    connection.setRequestProperty(precedente, i);
                     System.out.println(precedente + i);
                 }
                 cont += 1;

@@ -56,10 +56,7 @@ app.post('/registrazione',  (req, res) => {
         if (res.rows.length == 0)
         {
            bcrypt.genSalt(10, (err, salt) => {
-               if (err)
-               {
-                   res.send("errore": )
-               }
+               
                bcrypt.hash(passwd, salt, (err, hash) => {
                     passwd = hash;
                     pool.query('INSERT INTO utenti (email, nome, passwd) VALUES ($1, $2, $3)', [email, nome, passwd], (err, res) => {
@@ -90,11 +87,12 @@ app.post('/registrazione',  (req, res) => {
 });
 
 app.post("/login", (req, res) => {
-    let email = req.query.email;
-    let passwd = req.query.passwd;
+    let email = req.headers.email;
+    let passwd = req.headers.passwd;
     
-    
-    
+    console.log(email);
+    console.log(passwd);
+
     pool.query('SELECT * FROM utenti WHERE email = $1', [email], (err, result) => {
     
         if(result.rows.length == 0)

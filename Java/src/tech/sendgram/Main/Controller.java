@@ -10,6 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
 import tech.sendgram.API.Login;
+import tech.sendgram.API.Registrazione;
 
 import java.io.IOException;
 
@@ -54,45 +55,52 @@ public class Controller {
     public void Do_Login(ActionEvent actionEvent) {
 
         Login a = new Login(textEmail.getText(), textPasswd.getText());
-        textEmail.setStyle("-fx-border-color: none");
-        textPasswd.setStyle("-fx-border-color: none");
-
+        textEmail.setStyle(" -fx-border-color: #1d4769 #1d4769 #7d9cb6 #1d4769");
+        textPasswd.setStyle("-fx-border-color: #1d4769 #1d4769 #7d9cb6 #1d4769");
+        ErrorPasswd.setVisible(false);
 
         switch (a.accedi()) {
             case 1:
-                textEmail.setStyle("-fx-border-color: red");
-                shake(textEmail);
-                ErrorPasswd.setVisible(true);
+                // Futura allert box
                 break;
             case 2:
                 textPasswd.setStyle("-fx-border-color: red");
                 shake(textPasswd);
                 ErrorPasswd.setVisible(true);
                 break;
-        }
-        /*
-         if (a.accedi() == 3)
-        {
 
-        } else if (a.accedi() == 4)
-        {
-
-        }else if (a.accedi() == 5)
-        {
-
-        }else if (a.accedi() == 6)
-        {
-
-        } else if (a.accedi() == 7);
-        {
 
         }
-         */
     }
 
 
     public void Do_Registrati(ActionEvent actionEvent) {
+        Registrazione reg = new Registrazione(textEmail.getText(), textNome.getText(), textPasswd.getText(), textRepPasswd.getText());
 
+        switch (reg.registrati()) {
+            case 1:
+                textEmail.setStyle("-fx-border-color: red");
+                shake(textEmail);
+                //ErrorEmail.setVisible(true);
+                break;
+
+            case 2:
+                textPasswd.setStyle("-fx-border-color: red");
+                shake(textPasswd);
+                //ErrorPasswd.setVisible(true);
+                break;
+
+
+            case 3:
+                textRepPasswd.setStyle("-fx-border-color: red");
+                shake(textRepPasswd);
+                // ErrorRepPassword.setVisible(true);
+                break;
+
+            case 4:
+                // Eventuale alert box per errori generali
+                break;
+        }
     }
 
 

@@ -1,13 +1,14 @@
 package tech.sendgram.API;
 
 import org.json.JSONObject;
-import tech.sendgram.Main.Controlli;
-import tech.sendgram.Main.variabili;
-import tech.sendgram.websocket.websocket;
+import tech.sendgram.Main.Control;
 
-import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.regex.Pattern;
+
+// Return 1 = Errorri non defeiniti
+// Return 2 = Password sbagliata
+
+
 
 public class Login extends API {
 
@@ -19,52 +20,50 @@ public class Login extends API {
         this.passwd = password;
     }
 
-    public int accedi() throws URISyntaxException {
-
-        if (Controlli.checkSpecialChar(email))
-            return 1;
-
-        if (Controlli.checkStringLenght(passwd, 8, 20))
-            return 2;
+    public int accedi() {
 
         JSONObject req = request("http://127.0.0.1:3000/login", "POST", "email", email, "passwd", passwd);
+
+        return controlLogin(req);
+    }
+
+
+    private int controlLogin(JSONObject req) {
+
         if (req.has("errorJ")) {
             //error display
-            System.out.println("errore");
-            return 3;
+            System.out.println("1");
+            return 1; // Errore generico
+
+
         } else if (req.has("errore")) {
             switch (req.getString("errore")) {
-                case "User not found":
-                    //utente non trovato API
-                    System.out.println("utente non trovato");
-                    return 4;
-
 
                 case "wrong password":
                     //password sbagliata API
                     System.out.println("password sbagliata");
-                    return 5;
+                    return 2; // Password errata
             }
-        } else if (req.has("successo")) {
-            String JWT = req.getString("successo");
+        } else if (req.has("Successo")) {
+            String JWT = req.getString("Successo");
             if (writeJwt(JWT)) {
                 //JWT salvato
                 System.out.println("JWT salvato");
 
+
             } else {
                 //errore salvando JWT
                 System.out.println("Errore salvataggio JWT");
-                return 6;
+                return 1; // Errore generico
             }
         } else {
             //errore
-            System.out.println("errore");
-            return 7;
+            System.out.println("2");
+            return 1; // Errore generico
         }
-
 
         return 0;
     }
 
-
 }
+
