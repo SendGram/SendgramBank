@@ -6,7 +6,9 @@ var jwt = require('jsonwebtoken');
 var http = require('http');
 const bcrypt = require('bcryptjs');
 const pool = require("./DBSettings.js")
+const websocket=require("./websocket");
 const { createServer } = require('http');
+const WebSocket = require('ws');
 
 
 
@@ -15,7 +17,6 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-const WebSocket = require('ws');
  
 const server = createServer(app);
 const wss = new WebSocket.Server({ server });
@@ -32,10 +33,7 @@ wss.on('connection', function(ws) {
    
   });
 
-  ws.on('message', function incoming(message) {
-
-    console.log(message);
-  });
+  ws.on('message', handle(message, ws));
 });
 
 server.listen(8080, function() {
@@ -56,8 +54,17 @@ app.post('/registrazione',  (req, res) => {
         if (res.rows.length == 0)
         {
            bcrypt.genSalt(10, (err, salt) => {
-               
+               if (err)
+               {
+                   res.send({"errore": "generico"});
+                   return 0;
+               }
                bcrypt.hash(passwd, salt, (err, hash) => {
+                if (err)
+                {
+                    res.send({"errore": "generico"});
+                    return 0;
+                }
                     passwd = hash;
                     pool.query('INSERT INTO utenti (email, nome, passwd) VALUES ($1, $2, $3)', [email, nome, passwd], (err, res) => {
                         let JWT = jwt.sign({ "email": email ,"Nome": nome }, "SendgramBankPassword");   
@@ -87,12 +94,11 @@ app.post('/registrazione',  (req, res) => {
 });
 
 app.post("/login", (req, res) => {
-    let email = req.headers.email;
-    let passwd = req.headers.passwd;
+    let email = req.query.email;
+    let passwd = req.query.passwd;
     
-    console.log(email);
-    console.log(passwd);
-
+    
+    
     pool.query('SELECT * FROM utenti WHERE email = $1', [email], (err, result) => {
     
         if(result.rows.length == 0)
@@ -149,3 +155,18 @@ app.listen(3000, () => {
 
     console.log('API SENDGRAMBANK ONLINE');
 });
+
+
+
+
+function handle(msg, ws){
+    //login message
+    try {
+        let jwt =JSON.parse(msg);
+        if(jwt.hasOwnProperty("login")){
+            //aggiungo utente
+        }
+    } catch (error) {
+        ws.send({"error":"Json"});
+    }
+}
