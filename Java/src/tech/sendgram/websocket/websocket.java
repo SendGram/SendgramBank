@@ -4,10 +4,15 @@ package tech.sendgram.websocket;
  @autore: Alessandro Caldonazzi
  */
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.net.URI;
 
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
+import tech.sendgram.Main.variabili;
+
 
 public class websocket extends WebSocketClient {
 
@@ -16,12 +21,33 @@ public class websocket extends WebSocketClient {
         super(serverURI);
     }
 
+    public String getJWT() {
+        File f = new File("JWT.txt");
+        if (f.exists() && !f.isDirectory()) {
+            //esiste il JWT lo invio a node
+
+            try {
+                BufferedReader brTest = new BufferedReader(new FileReader("JWT.txt"));
+                String jwt = brTest.readLine();
+                return jwt;
+
+            } catch (Exception e) {
+                System.out.println("error " + e);
+                return "error";
+            }
+
+        } else {
+            return "error";
+        }
+    }
 
     @Override
     public void onOpen(ServerHandshake handshakedata) {
-        send("Hello, it is me. Mario :)");
+        String jwt = getJWT();
+        if (jwt != "errore") {
+            send("{\"login\": \"" + jwt + "\"}");
+        }
 
-        System.out.println("connessione aperta");
     }
 
     @Override
@@ -35,7 +61,11 @@ public class websocket extends WebSocketClient {
     @Override
     public void onClose(int code, String reason, boolean remote) {
         // chiusura websocket
-        System.out.println("Connessione chiusa");
+
+        String jwt = getJWT();
+        if (jwt != "errore") {
+            send("{\"logout\": \"" + jwt + "\"}");
+        }
     }
 
     @Override
