@@ -33,7 +33,9 @@ wss.on('connection', function(ws) {
    
   });
 
-  ws.on('message', handle(message, ws));
+  ws.on('message', (message) => {
+        handle(message, ws);
+  });
 });
 
 server.listen(8080, function() {
@@ -46,29 +48,48 @@ console.log(jwt.sign({"Nome": "Ale"}, "segreto"));
 
 app.post('/registrazione',  (req, res) => {
     
-    let email = req.query.email;
-    let nome = req.query.nome;
-    let passwd = req.query.passwd;
+    let email = req.headers.email;
+    let nome = req.headers.nome;
+    let passwd = req.headers.passwd;
 
-    pool.query('SELECT * FROM utenti WHERE email = $1', [email], (err, res) => {
-        if (res.rows.length == 0)
+    pool.query('SELECT * FROM utenti WHERE email = $1', [email], (err, risultato) => {
+        if (risultato.rows.length == 0)
         {
            bcrypt.genSalt(10, (err, salt) => {
                if (err)
                {
-                   res.send({"errore": "generico"});
+                   res.send({"errore": "generico1"});
                    return 0;
                }
                bcrypt.hash(passwd, salt, (err, hash) => {
                 if (err)
                 {
-                    res.send({"errore": "generico"});
+                    console.log(passwd);
+                    res.send({"errore": "generico2"});
                     return 0;
                 }
                     passwd = hash;
-                    pool.query('INSERT INTO utenti (email, nome, passwd) VALUES ($1, $2, $3)', [email, nome, passwd], (err, res) => {
-                        let JWT = jwt.sign({ "email": email ,"Nome": nome }, "SendgramBankPassword");   
-                        res.send({ "Successo": JWT });
+                    pool.query('INSERT INTO utenti (email, nome, passwd) VALUES ($1, $2, $3)', [email, nome, passwd], (err, risultato1) => {
+                        if(err)
+                        {
+                            res.send({"errore": "generico3"});
+                            return 0;
+                        } else
+                        {
+                            try 
+                            {
+                                console.log("ciao");
+                                let JWT = jwt.sign({ "email": email ,"Nome": nome }, "SendgramBankPassword");   
+                                res.send({ "Successo": JWT });
+                                return 0;
+                            } catch
+                            {
+                                res.send({"errore": "generico4"});
+                                return 0;
+                            }
+                           
+                        }
+                        
                     });
                });
            });
@@ -76,6 +97,7 @@ app.post('/registrazione',  (req, res) => {
         else
         {
             res.send({ "errore": "Utente già presente" });
+            return 0;
         }
        
     });
@@ -90,12 +112,11 @@ app.post('/registrazione',  (req, res) => {
         console.log("Volevi stronzo");
     }
     */
-    res.end();
 });
 
 app.post("/login", (req, res) => {
-    let email = req.query.email;
-    let passwd = req.query.passwd;
+    let email = req.headers.email;
+    let passwd = req.headers.passwd;
     
     
     

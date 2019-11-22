@@ -10,47 +10,48 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-            prefHeight="500.0" prefWidth="800.0" styleClass="paginaIniziale" stylesheets="@Style.css"
+            prefHeight="500.0" prefWidth="800.0" styleClass="paginaIniziale" stylesheets="@StylePageLogin.css"
             xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="tech.sendgram.Main.Controller">
+            fx:controller="tech.sendgram.RegLogForm.RegLogController">
     <children>
-        <PasswordField fx:id="textPasswd" layoutX="313.0" layoutY="250.0" promptText="Password" styleClass="textArea">
+        <PasswordField fx:id="textPasswd" layoutX="312.0" layoutY="218.0" promptText="Password" styleClass="textArea">
             <font>
                 <Font size="14.0"/>
             </font>
         </PasswordField>
-        <TextField fx:id="textEmail" layoutX="313.0" layoutY="161.0" promptText="Email" styleClass="textArea">
+        <TextField fx:id="textEmail" layoutX="312.0" layoutY="168.0" promptText="Email" styleClass="textArea">
             <font>
                 <Font size="14.0"/>
             </font>
         </TextField>
-        <Button fx:id="registrati" layoutX="345.0" layoutY="347.0" mnemonicParsing="false" onAction="#Do_Registrati"
-                prefHeight="24.0" prefWidth="112.0" styleClass="bottone" text="Registrati"/>
+        <Button fx:id="Accedi" layoutX="344.0" layoutY="276.0" mnemonicParsing="false" onAction="#Do_Login"
+                prefHeight="24.0" prefWidth="112.0" styleClass="bottone" text="Accedi"/>
         <ImageView fitHeight="90.0" fitWidth="126.0" layoutX="698.0" layoutY="402.0" pickOnBounds="true"
                    preserveRatio="true">
             <image>
-                <Image url="@../../../../../../../../../../Downloads/LOGO1-no-back.png"/>
+                <Image url="@../../../../LOGO1-no-back.png"/>
             </image>
         </ImageView>
+        <Button layoutX="331.0" layoutY="316.0" mnemonicParsing="false" styleClass="btnFP" text="Password dimenticata?"
+                textFill="#cccccc" underline="true"/>
         <Label layoutX="281.0" layoutY="14.0" styleClass="titolo" text="SendgramBank">
             <font>
                 <Font size="14.0"/>
             </font>
         </Label>
-        <Label layoutX="280.0" layoutY="402.0" text="Hai già un account?" textFill="#cccccc">
+        <Label layoutX="281.0" layoutY="366.0" text="Non hai un account?" textFill="#cccccc">
             <font>
                 <Font size="15.0"/>
             </font>
         </Label>
-        <Button fx:id="goLogin" layoutX="411.0" layoutY="393.0" mnemonicParsing="false" onAction="#go_Login"
-                styleClass="btnFP" text="Accedi" textFill="#91b6ff">
+        <Button fx:id="goReg" layoutX="413.0" layoutY="360.0" mnemonicParsing="false" onAction="#go_Registarti"
+                styleClass="btnFP" text="Registrati" textFill="#91b6ff">
             <font>
-                <Font size="17.0"/>
+                <Font size="15.0"/>
             </font>
         </Button>
-        <TextField fx:id="textNome" layoutX="313.0" layoutY="209.0" promptText="Nome " styleClass="textArea"/>
-        <TextField fx:id="textRepPasswd" layoutX="313.0" layoutY="292.0" promptText="Ripeti password"
-                   styleClass="textArea"/>
+        <Label fx:id="errorPasswd" layoutX="311.0" layoutY="250.0" text="*Email o password errata" textFill="RED"
+               visible="false"/>
 
     </children>
 </AnchorPane>
