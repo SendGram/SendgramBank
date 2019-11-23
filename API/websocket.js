@@ -1,7 +1,9 @@
 let utenti={};
 
 exports.newUser=(email, ws)=>{
+    
     utenti[email]=ws;
+    
 }
 exports.sendMex=(email, mex)=>{
     if(!UserExist(email)){
@@ -24,6 +26,9 @@ exports.disconnect=(email)=>{
     }
 }
 function UserExist(email){
+    return utenti.hasOwnProperty(email);
+}
+exports.isOnline=(email)=>{
     return utenti.hasOwnProperty(email);
 }
 

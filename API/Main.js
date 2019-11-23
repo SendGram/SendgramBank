@@ -7,6 +7,7 @@ var http = require('http');
 const bcrypt = require('bcryptjs');
 const pool = require("./DBSettings.js")
 const websocket=require("./websocket");
+const bank=require("./bank");
 const { createServer } = require('http');
 const WebSocket = require('ws');
 
@@ -42,7 +43,6 @@ server.listen(8080, function() {
   console.log('Listening on http://localhost:8080');
 });
 
-console.log(jwt.sign({"Nome": "Ale"}, "segreto"));
 
 
 
@@ -183,11 +183,28 @@ app.listen(3000, () => {
 function handle(msg, ws){
     //login message
     try {
-        let jwt =JSON.parse(msg);
-        if(jwt.hasOwnProperty("login")){
+        let json =JSON.parse(msg);
+        console.log(msg);
+        if(json.hasOwnProperty("login")){
             //aggiungo utente
+            console.log("[+] arrivato nuovo jwt utenti validazione in corso");
+            try {
+                let decoded= jwt.verify(json.login, "SendgramBankPassword"); 
+                websocket.newUser(decoded.email, ws);
+            } catch (error) {
+                console.log("error");
+            }
+
+
+        }else if(json.hasOwnProperty("logout")){
+            let decoded= jwt.verify(json.logout, "SendgramBankPassword");
+            if(websocket.disconnect(decoded.email)){}
         }
     } catch (error) {
+        console.log("aaa");
         ws.send({"error":"Json"});
     }
 }
+
+
+
