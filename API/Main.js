@@ -208,3 +208,16 @@ function handle(msg, ws){
 
 
 
+bank.newTransation("bose", "ale", 500, (a)=>{
+    console.log(a);
+});
+
+/*
+bank.getSaldo("ale", (a)=>{
+    console.log(a);
+});
+bank.getSaldo("ale1", (a)=>{
+    console.log("ale1");
+    console.log(a);
+});
+*/
