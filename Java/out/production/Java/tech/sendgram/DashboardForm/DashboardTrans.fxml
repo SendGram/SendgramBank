@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="rootPane" maxHeight="500.0" maxWidth="800.0" minHeight="500.0" minWidth="800.0" prefHeight="500.0" prefWidth="800.0" stylesheets="@StyleDashboard.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tech.sendgram.DashboardForm.DashboardController">
+    <children>
+        <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="210.0" styleClass="VboxLeft">
+            <children>
+                <Pane prefHeight="60.0" prefWidth="200.0" styleClass="paneLeft">
+                    <children>
+                        <Label layoutX="74.0" layoutY="17.0" style="-fx-text-fill: #ffffffff;" text="MENU">
+                            <font>
+                                <Font size="18.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </Pane>
+                <HBox alignment="CENTER_LEFT">
+                    <VBox.margin>
+                        <Insets top="10.0" />
+                    </VBox.margin>
+                    <children>
+                        <Button fx:id="saldo" mnemonicParsing="false" onAction="#switchElement" prefHeight="32.0" prefWidth="210.0" style="-fx-text-fill: #ffffff;" styleClass="btn" text="SALDO" HBox.hgrow="ALWAYS">
+                            <HBox.margin>
+                                <Insets />
+                            </HBox.margin>
+                            <font>
+                                <Font size="16.0" />
+                            </font>
+                        </Button>
+                    </children>
+                </HBox>
+                <HBox alignment="CENTER_LEFT" styleClass="BtnHB">
+                    <children>
+                        <Button fx:id="trans" mnemonicParsing="false" onAction="#switchElement" prefHeight="32.0" prefWidth="210.0" style="-fx-text-fill: #ffffff;" styleClass="btn" text="TRANSLAZIONI">
+                            <font>
+                                <Font size="16.0" />
+                            </font>
+                        </Button>
+                    </children>
+                </HBox>
+                <HBox alignment="CENTER_LEFT" styleClass="BtnHB">
+                    <children>
+                        <Button fx:id="inviaDenaro" mnemonicParsing="false" onAction="#switchElement" prefHeight="32.0" prefWidth="210.0" style="-fx-text-fill: #ffffff;" styleClass="btn" text="INVIA DENARO">
+                            <font>
+                                <Font size="16.0" />
+                            </font>
+                        </Button>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+        <VBox layoutX="210.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="590.0" styleClass="VboxRight">
+            <children>
+                <Pane prefHeight="60.0" prefWidth="400.0" styleClass="paneRight">
+                    <children>
+                        <Label layoutX="304.0" layoutY="22.0" />
+                        <Label layoutX="268.0" layoutY="17.0" style="-fx-text-fill: #ffffff;" text="AleBose">
+                            <font>
+                                <Font size="17.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </Pane>
+            <Button mnemonicParsing="false" onAction="#prova" prefHeight="25.0" prefWidth="590.0" text="Button" />
+            <ScrollPane fx:id="scrool" prefHeight="449.0" prefWidth="590.0">
+               <content>
+                  <VBox fx:id="transBox" prefHeight="412.0" prefWidth="560.0" />
+               </content>
+            </ScrollPane>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>
