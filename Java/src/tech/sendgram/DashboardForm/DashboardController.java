@@ -1,20 +1,18 @@
 package tech.sendgram.DashboardForm;
 
-import javafx.beans.property.ReadOnlyStringWrapper;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.geometry.Insets;
+import javafx.scene.Parent;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
-import tech.sendgram.Main.Control;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+
 
 import java.io.IOException;
+
 
 public class DashboardController {
 
@@ -22,29 +20,47 @@ public class DashboardController {
     private AnchorPane rootPane;
 
     @FXML
-    private Button saldo, trans, inviaDenaro, prv;
+    private Button saldo, trans, inviaDenaro;
 
     @FXML
-    private TableView transTable;
+    private ScrollPane scrool;
 
     @FXML
-    private TableColumn transData, transImporto, transDest, transMit;
-
-    @FXML
-    private TextField tx1, tx2, tx3, tx4;
-
-
-    public void inizialize()
-    {
-
-    }
+    private VBox transBox;
 
     public void prova(ActionEvent event)
     {
-        ObservableList<Person> list = FXCollections.observableArrayList(new Person("Jhon", "Dee"));
-        transData.setCellValueFactory(new PropertyValueFactory<Person, String>("name"));
-        transTable.setItems(list);
-        //list.add(list);
+        newItem();
+    }
+
+
+    public void newItem() {
+        HBox a = new HBox();
+        Label data = new Label("10/10/19");
+        Label importo = new Label("20");
+        Label mittenre = new Label("Caldo");
+        Label destinatario = new Label("Bose");
+        a.prefWidth(200);
+        a.prefHeight(40);
+
+        data.setStyle("-fx-font-size: 15px");
+        importo.setStyle("-fx-font-size: 15px");
+        mittenre.setStyle("-fx-font-size: 15px");
+        destinatario.setStyle("-fx-font-size: 15px");
+
+        a.setMargin(data, new Insets(10, 0, 0, 50));
+        a.setMargin(importo, new Insets(10, 0, 0, 100));
+        a.setMargin(mittenre, new Insets(10, 0, 0, 100));
+        a.setMargin(destinatario, new Insets(10, 0, 0, 100));
+
+        transBox.getChildren().add(a);
+        scrool.setContent(transBox);
+        a.getChildren().add(data);
+        a.getChildren().add(importo);
+        a.getChildren().add(mittenre);
+        a.getChildren().add(destinatario);
+
+
 
     }
 
@@ -65,23 +81,4 @@ public class DashboardController {
     public void sendMoney(ActionEvent actionEvent) {
     }
 
-}
-
-
-class Person {
-    private String name;
-    private String surname;
-
-    public Person(String name, String surname) {
-        this.name = name;
-        this.surname = surname;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
 }
