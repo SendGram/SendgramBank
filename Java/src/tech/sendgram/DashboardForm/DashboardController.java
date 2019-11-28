@@ -4,7 +4,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
-import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -15,7 +14,6 @@ import java.io.IOException;
 
 
 public class DashboardController {
-
     @FXML
     private AnchorPane rootPane;
 
@@ -27,6 +25,14 @@ public class DashboardController {
 
     @FXML
     private VBox transBox;
+
+    @FXML
+    private Label nome;
+
+    @FXML
+    public void initialize() {
+
+    }
 
     public void prova(ActionEvent event)
     {
