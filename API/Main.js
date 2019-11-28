@@ -193,7 +193,9 @@ function handle(msg, ws){
                 let decoded= jwt.verify(json.login, "SendgramBankPassword"); 
                 websocket.newUser(decoded.email, ws);
                 user.getUserInfo(decoded.email, (nome, saldo, transazioni)=>{
-                    ws.send({"login":true, "nome":nome, "saldo":saldo, "transazioni":transazioni});
+                    let o= {"login":"true", "nome":nome, "saldo":saldo, "transazioni":transazioni};
+                    
+                    ws.send(JSON.stringify(o));
                 });
             } catch (error) {
                 console.log("error");

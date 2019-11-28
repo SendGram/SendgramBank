@@ -29,11 +29,6 @@ public class Control {
         alert.setTitle(titolo);
         alert.setHeaderText(null);
         alert.setContentText(messaggio);
-        Label loader = new Label("LOADING");
-        loader.setContentDisplay(ContentDisplay.BOTTOM);
-        loader.setGraphic(new ProgressIndicator());
-        alert.getDialogPane().setGraphic(loader);
-        loader.setAlignment(Pos.CENTER);
         alert.showAndWait();
     }
 }

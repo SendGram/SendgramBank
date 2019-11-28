@@ -7,17 +7,21 @@ import java.awt.*;
 public class Conto {
     private String nome;
     private static float saldo;
-    private String[] transazioni;
-    private Label labelSaldo;
+    private static String[][] transazioni;
+    public static Label labelSaldo;
 
-    public Conto(String nome, float saldo, String[] transazioni) {
+    public Conto(String nome, float saldo, String[][] transazioni) {
         this.nome = nome;
         this.saldo = saldo;
         this.transazioni = transazioni;
     }
 
-    public Conto(Label label) {
-        this.labelSaldo = label;
+    public static String[][] getTransazioni() {
+        return transazioni;
+    }
+
+    public static void setSaldo(float saldo) {
+        Conto.saldo = saldo;
     }
 
     public static void newTrans(float importo, String destinatario) {
@@ -30,6 +34,7 @@ public class Conto {
 
     public static void refreshSaldo() {
 
+        labelSaldo.setText(saldo + "$");
     }
 
 }

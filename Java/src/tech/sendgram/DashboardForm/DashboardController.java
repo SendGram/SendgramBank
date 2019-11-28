@@ -41,7 +41,8 @@ public class DashboardController {
     @FXML
     public void initialize() {
         nome.setText("ale");
-        Conto.setSaldo(labelSaldo);
+        Conto.labelSaldo = labelSaldo;
+        Conto.refreshSaldo();
 
     }
 
@@ -84,7 +85,7 @@ public class DashboardController {
         } else if (actionEvent.getSource().equals(trans)) {
             AnchorPane pane = FXMLLoader.load(getClass().getResource("DashboardTrans.fxml"));
             rootPane.getChildren().setAll(pane);
-            for (String[] a : t) {
+            for (String[] a : Conto.getTransazioni()) {
                 newItem(a[0], a[1], a[2], a[3]);
 
             }

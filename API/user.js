@@ -1,6 +1,6 @@
-import pool from "./DBSettings.js"
-export function getUserInfo(email, callback){
-    pool.query("SELECT name FROM utenti WHERE email=$1", [email], (err, res)=>{
+const pool = require("./DBSettings.js");
+exports.getUserInfo=(email, callback)=>{
+    pool.query("SELECT nome FROM utenti WHERE email=$1", [email], (err, res)=>{
         if(err){
             callback(false);
             return 0;

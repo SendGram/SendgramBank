@@ -10,7 +10,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="rootPane" prefHeight="500.0" prefWidth="800.0" stylesheets="@StyleDashboard.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tech.sendgram.DashboardForm.DashboardController">
+<AnchorPane fx:id="rootPane" prefHeight="500.0" prefWidth="800.0" stylesheets="@StyleDashboard.css"
+            xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="tech.sendgram.DashboardForm.DashboardController">
     <children>
         <VBox prefHeight="500.0" prefWidth="210.0" styleClass="VboxLeft">
             <children>
@@ -18,40 +20,44 @@
                     <children>
                         <Label layoutX="74.0" layoutY="17.0" style="-fx-text-fill: #ffffffff;" text="MENU">
                             <font>
-                                <Font size="18.0" />
+                                <Font size="18.0"/>
                             </font>
                         </Label>
                     </children>
                 </Pane>
                 <HBox alignment="CENTER_LEFT">
                     <VBox.margin>
-                        <Insets top="10.0" />
+                        <Insets top="10.0"/>
                     </VBox.margin>
                     <children>
-                        <Button fx:id="saldo" mnemonicParsing="false" onAction="#switchElement" prefHeight="32.0" prefWidth="210.0" style="-fx-text-fill: #ffffff;" styleClass="btn" text="SALDO" HBox.hgrow="ALWAYS">
+                        <Button fx:id="saldo" mnemonicParsing="false" onAction="#switchElement" prefHeight="32.0"
+                                prefWidth="210.0" style="-fx-text-fill: #ffffff;" styleClass="btn" text="SALDO"
+                                HBox.hgrow="ALWAYS">
                             <HBox.margin>
-                                <Insets />
+                                <Insets/>
                             </HBox.margin>
                             <font>
-                                <Font size="16.0" />
+                                <Font size="16.0"/>
                             </font>
                         </Button>
                     </children>
                 </HBox>
                 <HBox alignment="CENTER_LEFT" styleClass="BtnHB">
                     <children>
-                        <Button fx:id="trans" mnemonicParsing="false" onAction="#switchElement" prefHeight="32.0" prefWidth="210.0" style="-fx-text-fill: #ffffff;" styleClass="btn" text="TRANSLAZIONI">
+                        <Button fx:id="trans" mnemonicParsing="false" onAction="#switchElement" prefHeight="32.0"
+                                prefWidth="210.0" style="-fx-text-fill: #ffffff;" styleClass="btn" text="TRANSLAZIONI">
                             <font>
-                                <Font size="16.0" />
+                                <Font size="16.0"/>
                             </font>
                         </Button>
                     </children>
                 </HBox>
                 <HBox alignment="CENTER_LEFT" styleClass="BtnHB">
                     <children>
-                        <Button fx:id="inviaDenaro" mnemonicParsing="false" onAction="#switchElement" prefHeight="32.0" prefWidth="210.0" style="-fx-text-fill: #ffffff;" styleClass="btn" text="INVIA DENARO">
+                        <Button fx:id="inviaDenaro" mnemonicParsing="false" onAction="#switchElement" prefHeight="32.0"
+                                prefWidth="210.0" style="-fx-text-fill: #ffffff;" styleClass="btn" text="INVIA DENARO">
                             <font>
-                                <Font size="16.0" />
+                                <Font size="16.0"/>
                             </font>
                         </Button>
                     </children>
@@ -62,10 +68,11 @@
             <children>
                 <Pane prefHeight="60.0" prefWidth="400.0" styleClass="paneRight">
                     <children>
-                        <Label layoutX="304.0" layoutY="22.0" />
-                        <Label fx:id="nome" layoutX="268.0" layoutY="17.0" style="-fx-text-fill: #ffffff;" text="AleBose">
+                        <Label layoutX="304.0" layoutY="22.0"/>
+                        <Label fx:id="nome" layoutX="268.0" layoutY="17.0" style="-fx-text-fill: #ffffff;"
+                               text="AleBose">
                             <font>
-                                <Font size="17.0" />
+                                <Font size="17.0"/>
                             </font>
                         </Label>
                     </children>
@@ -76,16 +83,18 @@
                             <children>
                                 <Label layoutX="241.0" layoutY="150.0" text="SALDO">
                                     <font>
-                                        <Font size="35.0" />
+                                        <Font size="35.0"/>
                                     </font>
                                 </Label>
                                 <Label fx:id="labelSaldo" layoutX="258.0" layoutY="201.0" text="2000$">
                                     <font>
-                                        <Font size="27.0" />
+                                        <Font size="27.0"/>
                                     </font>
                                 </Label>
-                        <VBox fx:id="transBox" layoutX="8.0" layoutY="240.0" prefHeight="200.0" prefWidth="100.0" visible="false" />
-                        <ScrollPane fx:id="scrool" layoutX="8.0" layoutY="226.0" prefHeight="200.0" prefWidth="200.0" visible="false" />
+                                <VBox fx:id="transBox" layoutX="8.0" layoutY="240.0" prefHeight="200.0"
+                                      prefWidth="100.0" visible="false"/>
+                                <ScrollPane fx:id="scrool" layoutX="8.0" layoutY="226.0" prefHeight="200.0"
+                                            prefWidth="200.0" visible="false"/>
                             </children>
                         </Pane>
                     </children>
