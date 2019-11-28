@@ -121,10 +121,10 @@ function addTrans(email, importo, dest, callback){
                 }
             });
             if(typeof importo !="string"){
-                ris.push([d, importo.toString(), email, dest]);
+                ris.push([d, "- "+importo.toString(), email, dest]);
 
             }else{
-                ris.push([d, importo, email, dest]);
+                ris.push([d, "- "+importo, email, dest]);
             }
             
             console.log(ris);
@@ -141,10 +141,11 @@ function addTrans(email, importo, dest, callback){
                         }
                         
                         if(typeof importo !="string"){
-                            riss.push([d, importo.toString(), email, dest]);
+                            riss.push([d, "+ "+importo.toString(), email, dest]);
                         }else{
-                            riss.push([d, importo, email, dest]);
+                            riss.push([d, "+ "+importo, email, dest]);
                         }
+                        
                         
                         pool.query("UPDATE transazioni SET transazioni= $1 WHERE email=$2", [riss, dest], (err, res)=>{
                             if(err){
