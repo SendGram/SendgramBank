@@ -4,11 +4,18 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ContentDisplay;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.paint.Color;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import tech.sendgram.websocket.websocket;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 
 
 public class Main extends Application {
@@ -23,12 +30,15 @@ public class Main extends Application {
         primaryStage.setMaxWidth(800);
         primaryStage.setMaxHeight(500);
         primaryStage.show();
-        variabili.socket = new websocket(new URI("ws://localhost:8080"));
-        variabili.socket.connect();
+        Variabili.socket = new websocket(new URI("ws://localhost:8080"));
+        Variabili.socket.connect();
+        Control.alert("A", "AAA");
+
+
     }
 
 
-    public static void main(String[] args) throws URISyntaxException {
+    public static void main(String[] args) {
 
         launch(args);
 

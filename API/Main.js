@@ -8,6 +8,7 @@ const bcrypt = require('bcryptjs');
 const pool = require("./DBSettings.js")
 const websocket=require("./websocket");
 const bank=require("./bank");
+const user=require("./user");
 const { createServer } = require('http');
 const WebSocket = require('ws');
 
@@ -191,6 +192,9 @@ function handle(msg, ws){
             try {
                 let decoded= jwt.verify(json.login, "SendgramBankPassword"); 
                 websocket.newUser(decoded.email, ws);
+                user.getUserInfo(decoded.email, (nome, saldo, transazioni)=>{
+                    ws.send({"login":true, "nome":nome, "saldo":saldo, "transazioni":transazioni});
+                });
             } catch (error) {
                 console.log("error");
             }
@@ -207,17 +211,3 @@ function handle(msg, ws){
 }
 
 
-
-bank.newTransation("bose", "ale", 500, (a)=>{
-    console.log(a);
-});
-
-/*
-bank.getSaldo("ale", (a)=>{
-    console.log(a);
-});
-bank.getSaldo("ale1", (a)=>{
-    console.log("ale1");
-    console.log(a);
-});
-*/
