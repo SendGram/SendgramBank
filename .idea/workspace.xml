@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="efe45d6a-0ec9-4b4f-9db6-b77f49e01b1f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/Java/out/production/Java/tech/sendgram/API/API.class" beforeDir="false" afterPath="$PROJECT_DIR$/Java/out/production/Java/tech/sendgram/API/API.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Java/out/production/Java/tech/sendgram/Main/Controller.class" beforeDir="false" afterPath="$PROJECT_DIR$/Java/out/production/Java/tech/sendgram/Main/Controller.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Java/out/production/Java/tech/sendgram/Main/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/Java/out/production/Java/tech/sendgram/Main/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Java/out/production/Java/tech/sendgram/Main/Style.css" beforeDir="false" afterPath="$PROJECT_DIR$/Java/out/production/Java/tech/sendgram/Main/Style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Java/out/production/Java/tech/sendgram/Main/sample.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/Java/out/production/Java/tech/sendgram/Main/sample.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Java/src/tech/sendgram/Main/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/Java/src/tech/sendgram/Main/Controller.java" afterDir="false" />
-    </list>
+    <list default="true" id="efe45d6a-0ec9-4b4f-9db6-b77f49e01b1f" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,7 +40,22 @@
       <option name="presentableId" value="Default" />
       <updated>1574015976922</updated>
       <workItem from="1574015978799" duration="19000" />
+      <workItem from="1574791925385" duration="17000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>

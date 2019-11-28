@@ -29,6 +29,7 @@ public class Main extends Application {
         primaryStage.setMinHeight(500);
         primaryStage.setMaxWidth(800);
         primaryStage.setMaxHeight(500);
+        primaryStage.setResizable(false);
         primaryStage.show();
         Variabili.socket = new websocket(new URI("ws://localhost:8080"));
         Variabili.socket.connect();

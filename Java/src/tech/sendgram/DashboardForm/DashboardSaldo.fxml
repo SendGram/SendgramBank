@@ -68,7 +68,8 @@
                 <Pane prefHeight="60.0" prefWidth="400.0" styleClass="paneRight">
                     <children>
                         <Label layoutX="304.0" layoutY="22.0"/>
-                        <Label layoutX="268.0" layoutY="17.0" style="-fx-text-fill: #ffffff;" text="AleBose">
+                        <Label fx:id="nome" layoutX="268.0" layoutY="17.0" style="-fx-text-fill: #ffffff;"
+                               text="AleBose">
                             <font>
                                 <Font size="17.0"/>
                             </font>
