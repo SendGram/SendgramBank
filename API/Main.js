@@ -7,8 +7,6 @@ var http = require('http');
 const bcrypt = require('bcryptjs');
 const pool = require("./DBSettings.js")
 const websocket=require("./websocket");
-const bank=require("./bank");
-const user=require("./user");
 const { createServer } = require('http');
 const WebSocket = require('ws');
 
@@ -26,7 +24,7 @@ const wss = new WebSocket.Server({ server });
 wss.on('connection', function(ws) {
   
     
-    
+    ws.send("hi mario");
   
   console.log('started client interval');
 
@@ -35,8 +33,8 @@ wss.on('connection', function(ws) {
    
   });
 
-  ws.on('message', (message) => {
-        handle(message, ws);
+  ws.on('message', (msg)=>{
+    handle(msg, ws)
   });
 });
 
@@ -44,53 +42,35 @@ server.listen(8080, function() {
   console.log('Listening on http://localhost:8080');
 });
 
+console.log(jwt.sign({"Nome": "Ale"}, "segreto"));
 
 
 
 app.post('/registrazione',  (req, res) => {
     
-    let email = req.headers.email;
-    let nome = req.headers.nome;
-    let passwd = req.headers.passwd;
+    let email = req.query.email;
+    let nome = req.query.nome;
+    let passwd = req.query.passwd;
 
-    pool.query('SELECT * FROM utenti WHERE email = $1', [email], (err, risultato) => {
-        if (risultato.rows.length == 0)
+    pool.query('SELECT * FROM utenti WHERE email = $1', [email], (err, res) => {
+        if (res.rows.length == 0)
         {
            bcrypt.genSalt(10, (err, salt) => {
                if (err)
                {
-                   res.send({"errore": "generico1"});
+                   res.send({"errore": "generico"});
                    return 0;
                }
                bcrypt.hash(passwd, salt, (err, hash) => {
                 if (err)
                 {
-                    console.log(passwd);
-                    res.send({"errore": "generico2"});
+                    res.send({"errore": "generico"});
                     return 0;
                 }
                     passwd = hash;
-                    pool.query('INSERT INTO utenti (email, nome, passwd) VALUES ($1, $2, $3)', [email, nome, passwd], (err, risultato1) => {
-                        if(err)
-                        {
-                            res.send({"errore": "generico3"});
-                            return 0;
-                        } else
-                        {
-                            try 
-                            {
-                                console.log("ciao");
-                                let JWT = jwt.sign({ "email": email ,"Nome": nome }, "SendgramBankPassword");   
-                                res.send({ "Successo": JWT });
-                                return 0;
-                            } catch
-                            {
-                                res.send({"errore": "generico4"});
-                                return 0;
-                            }
-                           
-                        }
-                        
+                    pool.query('INSERT INTO utenti (email, nome, passwd) VALUES ($1, $2, $3)', [email, nome, passwd], (err, res) => {
+                        let JWT = jwt.sign({ "email": email ,"Nome": nome }, "SendgramBankPassword");   
+                        res.send({ "Successo": JWT });
                     });
                });
            });
@@ -98,7 +78,6 @@ app.post('/registrazione',  (req, res) => {
         else
         {
             res.send({ "errore": "Utente già presente" });
-            return 0;
         }
        
     });
@@ -113,23 +92,12 @@ app.post('/registrazione',  (req, res) => {
         console.log("Volevi stronzo");
     }
     */
-});
-
-app.post("/transazione", (req, res) => {
     res.end();
-    let string = req.headers.re;
-    console.log(string);
-    let json =JSON.parse(string);
-    let decoded= jwt.verify(json.jwt, "SendgramBankPassword");
-            bank.newTransation(decoded.email,  json.destinatario,json.importo,  (a)=>{
-                console.log("aaaaaa" +a);
-            })
 });
-
 
 app.post("/login", (req, res) => {
-    let email = req.headers.email;
-    let passwd = req.headers.passwd;
+    let email = req.query.email;
+    let passwd = req.query.passwd;
     
     
     
@@ -204,29 +172,18 @@ function handle(msg, ws){
             try {
                 let decoded= jwt.verify(json.login, "SendgramBankPassword"); 
                 websocket.newUser(decoded.email, ws);
-                user.getUserInfo(decoded.email, (nome, saldo, transazioni)=>{
-                    let o= {"login":"true", "nome":nome, "saldo":saldo, "transazioni":transazioni};
-                    
-                    ws.send(JSON.stringify(o));
-                });
             } catch (error) {
                 console.log("error");
             }
-
+            
 
         }else if(json.hasOwnProperty("logout")){
             let decoded= jwt.verify(json.logout, "SendgramBankPassword");
             if(websocket.disconnect(decoded.email)){}
-        }else if(json.hasOwnProperty("new-trans")){
-            let decoded= jwt.verify(json.jwt, "SendgramBankPassword");
-            bank.newTransation(decoded.email, json.destinatario, jwt.importo, (a)=>{
-                console.log(a);
-            })
         }
     } catch (error) {
         console.log("aaa");
-        console.log(msg);
-        ws.send(JSON.stringify({"error":"Json"}));
+        ws.send({"error":"Json"});
     }
 }
 
