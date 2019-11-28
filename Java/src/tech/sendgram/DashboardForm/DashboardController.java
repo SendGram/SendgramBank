@@ -32,10 +32,9 @@ public class DashboardController {
     private Label nome, labelSaldo;
 
     @FXML
-    private TextField desti, insertM;
+    private TextField dest, insertM;
 
     String[][] t = {{"2019-11-25", "500", "Ale", "Bose"}, {"2019-11-26", "800", "Ale", "caldo"}};
-
 
 
     @FXML
@@ -96,8 +95,9 @@ public class DashboardController {
     }
 
     public void sendMoney(ActionEvent actionEvent) {
-        //float a = Float.parseFloat(insertM.getText());
-        Conto.newTrans(100f, "bose");
+        float a = Float.parseFloat(insertM.getText());
+        String b = dest.getText();
+        Conto.newTrans(a, b);
     }
 
 }
