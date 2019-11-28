@@ -77,7 +77,11 @@
                 </Pane>
                 <ScrollPane fx:id="scrool" prefHeight="440.0" prefWidth="590.0">
                     <content>
-                        <VBox fx:id="transBox" prefHeight="409.0" prefWidth="560.0"/>
+                        <VBox fx:id="transBox" prefHeight="409.0" prefWidth="560.0">
+                            <children>
+                                <Label fx:id="labelSaldo" text="Label" visible="false"/>
+                            </children>
+                        </VBox>
                     </content>
                 </ScrollPane>
             </children>

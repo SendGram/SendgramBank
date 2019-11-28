@@ -1,9 +1,14 @@
 package tech.sendgram.Main;
 
+import javafx.scene.control.Label;
+
+import java.awt.*;
+
 public class Conto {
-    public String nome;
-    public float saldo;
-    public String[] transazioni;
+    private String nome;
+    private static float saldo;
+    private String[] transazioni;
+    private Label labelSaldo;
 
     public Conto(String nome, float saldo, String[] transazioni) {
         this.nome = nome;
@@ -11,12 +16,20 @@ public class Conto {
         this.transazioni = transazioni;
     }
 
-    public void newTrans(float importo, String destinatario) {
-        if (this.saldo >= importo) {
+    public Conto(Label label) {
+        this.labelSaldo = label;
+    }
+
+    public static void newTrans(float importo, String destinatario) {
+        if (saldo >= importo) {
             Variabili.socket.send("{\"new-trans\":true, \"destinatario\": " + destinatario + ", \"importo\": " + importo + "}");
         } else {
             Control.alert("Attenzione", "Impossibili eseguire transazione: saldo insufficiente");
         }
+    }
+
+    public static void refreshSaldo() {
+
     }
 
 }

@@ -8,8 +8,10 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import tech.sendgram.Main.Conto;
 
 
+import java.io.Console;
 import java.io.IOException;
 
 
@@ -27,25 +29,29 @@ public class DashboardController {
     private VBox transBox;
 
     @FXML
-    private Label nome;
+    private Label nome, labelSaldo;
+
+    @FXML
+    private TextField desti, insertM;
+
+    String[][] t = {{"2019-11-25", "500", "Ale", "Bose"}, {"2019-11-26", "800", "Ale", "caldo"}};
+
+
 
     @FXML
     public void initialize() {
+        nome.setText("ale");
+        Conto.setSaldo(labelSaldo);
 
     }
 
-    public void prova(ActionEvent event)
-    {
-        newItem();
-    }
 
-
-    public void newItem() {
+    public void newItem(String d, String i, String m, String de) {
         HBox a = new HBox();
-        Label data = new Label("10/10/19");
-        Label importo = new Label("20");
-        Label mittenre = new Label("Caldo");
-        Label destinatario = new Label("Bose");
+        Label data = new Label(d);
+        Label importo = new Label(i);
+        Label mittenre = new Label(m);
+        Label destinatario = new Label(de);
         a.prefWidth(200);
         a.prefHeight(40);
 
@@ -78,6 +84,10 @@ public class DashboardController {
         } else if (actionEvent.getSource().equals(trans)) {
             AnchorPane pane = FXMLLoader.load(getClass().getResource("DashboardTrans.fxml"));
             rootPane.getChildren().setAll(pane);
+            for (String[] a : t) {
+                newItem(a[0], a[1], a[2], a[3]);
+
+            }
         } else if (actionEvent.getSource().equals(inviaDenaro)) {
             AnchorPane pane = FXMLLoader.load(getClass().getResource("DashboardInviaDenaro.fxml"));
             rootPane.getChildren().setAll(pane);
@@ -85,6 +95,8 @@ public class DashboardController {
     }
 
     public void sendMoney(ActionEvent actionEvent) {
+        float a = Float.parseFloat(insertM.getText());
+        Conto.newTrans(a, desti.getText());
     }
 
 }

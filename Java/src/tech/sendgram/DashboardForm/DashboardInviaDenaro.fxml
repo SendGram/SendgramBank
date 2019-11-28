@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
@@ -75,16 +76,24 @@
                     <children>
                         <Pane prefHeight="445.0" prefWidth="590.0" VBox.vgrow="ALWAYS">
                             <children>
-                                <TextField layoutX="184.0" layoutY="220.0" prefHeight="32.0" prefWidth="235.0"
-                                           promptText="Inserisci soldi" styleClass="textArea"/>
+                                <TextField fx:id="insertM" layoutX="184.0" layoutY="220.0" prefHeight="32.0"
+                                           prefWidth="235.0" promptText="Inserisci soldi" styleClass="textArea"/>
                                 <Button layoutX="221.0" layoutY="288.0" mnemonicParsing="false" onAction="#sendMoney"
                                         prefHeight="17.0" prefWidth="149.0" styleClass="botnSend" text="Invia denaro">
                                     <font>
                                         <Font size="15.0" />
                                     </font>
                                 </Button>
-                                <TextField layoutX="184.0" layoutY="156.0" prefHeight="32.0" prefWidth="235.0"
-                                           promptText="Destinatario" styleClass="textArea"/>
+                                <TextField fx:id="dest" layoutX="184.0" layoutY="156.0" prefHeight="32.0"
+                                           prefWidth="235.0" promptText="Destinatario" styleClass="textArea"/>
+                                <VBox fx:id="transBox" layoutX="14.0" layoutY="240.0" prefHeight="200.0"
+                                      prefWidth="100.0" visible="false">
+                                    <children>
+                                        <ScrollPane fx:id="scrool" prefHeight="200.0" prefWidth="200.0"
+                                                    visible="false"/>
+                                    </children>
+                                </VBox>
+                                <Label fx:id="labelSaldo" layoutX="14.0" layoutY="21.0" text="Label" visible="false"/>
                             </children>
                         </Pane>
                     </children>

@@ -63,19 +63,21 @@
                 <Pane prefHeight="60.0" prefWidth="400.0" styleClass="paneRight">
                     <children>
                         <Label layoutX="304.0" layoutY="22.0" />
-                        <Label layoutX="268.0" layoutY="17.0" style="-fx-text-fill: #ffffff;" text="AleBose">
+                        <Label fx:id="nome" layoutX="274.0" layoutY="17.0" style="-fx-text-fill: #ffffff;" text="AleBose">
                             <font>
                                 <Font size="17.0" />
                             </font>
                         </Label>
                     </children>
                 </Pane>
-            <Button mnemonicParsing="false" onAction="#prova" prefHeight="25.0" prefWidth="590.0" text="Button" />
-            <ScrollPane fx:id="scrool" prefHeight="449.0" prefWidth="590.0">
-               <content>
-                  <VBox fx:id="transBox" prefHeight="412.0" prefWidth="560.0" />
-               </content>
-            </ScrollPane>
+                <ScrollPane fx:id="scrool" prefHeight="440.0" prefWidth="590.0">
+                    <content>
+                        <VBox fx:id="transBox" prefHeight="409.0" prefWidth="560.0">
+                     <children>
+                        <Label fx:id="labelSaldo" text="Label" visible="false" />
+                     </children></VBox>
+                    </content>
+                </ScrollPane>
             </children>
         </VBox>
     </children>
