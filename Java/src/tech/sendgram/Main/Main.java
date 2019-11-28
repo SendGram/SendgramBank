@@ -6,13 +6,16 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import tech.sendgram.websocket.websocket;
 
 
 import javax.management.Notification;
+import javax.print.attribute.standard.Media;
 import java.awt.*;
+import java.io.FileInputStream;
 import java.net.URI;
 
 
@@ -32,6 +35,8 @@ public class Main extends Application {
         primaryStage.show();
         Variabili.socket = new websocket(new URI("ws://173.249.41.169:8080"));
         Variabili.socket.connect();
+        Toolkit.getDefaultToolkit().beep();
+
 
 
     }

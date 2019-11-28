@@ -99,6 +99,7 @@ public class websocket extends WebSocketClient {
                 } else if (message.contains("saldo")) {
                     //setta saldo
                     Conto.setSaldo(jsonObject.getFloat("saldo"));
+                    Conto.refreshSaldo();
                 } else if (message.contains("transazioni")) {
                     String[][] vett = new String[100][100];
                     JSONArray a = jsonObject.getJSONArray("transazioni");

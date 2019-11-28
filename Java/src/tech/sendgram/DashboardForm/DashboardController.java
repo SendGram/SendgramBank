@@ -34,7 +34,7 @@ public class DashboardController {
     @FXML
     private TextField dest, insertM;
 
-    String[][] t = {{"2019-11-25", "500", "Ale", "Bose"}, {"2019-11-26", "800", "Ale", "caldo"}};
+    //String[][] t = {{"2019-11-25", "500", "Ale", "Bose"}, {"2019-11-26", "800", "Ale", "caldo"}};
 
 
     @FXML
