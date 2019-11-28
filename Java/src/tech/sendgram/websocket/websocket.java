@@ -22,6 +22,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import tech.sendgram.Main.Conto;
+import tech.sendgram.Main.Control;
 import tech.sendgram.Main.Main;
 import tech.sendgram.Main.Variabili;
 
@@ -109,6 +110,10 @@ public class websocket extends WebSocketClient {
                         }
                     }
                     Conto.setTransazioni(vett);
+                } else if (message.contains("confirm-trans")) {
+                    Control.notifica("Transazione confermata", "Buone notizie la tua transazione è stata confermata");
+                } else if (message.contains("new-trans")) {
+                    Control.notifica("Nuova transazione", "Buone notizie abbiamo individuato una nuova transazione");
                 }
             } catch (JSONException | IOException err) {
                 System.out.print("Error" + err);

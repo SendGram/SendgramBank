@@ -1,12 +1,18 @@
 package tech.sendgram.Main;
 
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import tech.sendgram.websocket.websocket;
 
+
+import javax.management.Notification;
+import java.awt.*;
 import java.net.URI;
 
 
@@ -26,11 +32,6 @@ public class Main extends Application {
         primaryStage.show();
         Variabili.socket = new websocket(new URI("ws://localhost:8080"));
         Variabili.socket.connect();
-        websocket.sendNew("ciao mondo");
-        websocket.sendNew("ciao mondo");
-        websocket.sendNew("ciao mondo");
-        websocket.sendNew("ciao mondo");
-
 
 
     }

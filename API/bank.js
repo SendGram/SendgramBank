@@ -120,7 +120,13 @@ function addTrans(email, importo, dest, callback){
                     }
                 }
             });
-            ris.push([d, importo.toString(), email, dest]);
+            if(typeof importo !="string"){
+                ris.push([d, importo.toString(), email, dest]);
+
+            }else{
+                ris.push([d, importo, email, dest]);
+            }
+            
             console.log(ris);
             pool.query("UPDATE transazioni SET transazioni= $1 WHERE email=$2", [ris, email], (err, res)=>{
                 if(err){
@@ -133,7 +139,12 @@ function addTrans(email, importo, dest, callback){
                             riss=[];
             
                         }
-                        riss.push([d, importo.toString(), dest, email]);
+                        if(typeof importo !="string"){
+                            riss.push([d, importo.toString(), dest, email]);
+                        }else{
+                            riss.push([d, importo, dest, email]);
+                        }
+                        
                         pool.query("UPDATE transazioni SET transazioni= $1 WHERE email=$2", [riss, dest], (err, res)=>{
                             if(err){
                                 console.log(err);
@@ -153,8 +164,8 @@ function addTrans(email, importo, dest, callback){
 }
 
 function notifyUser(mitt, dest, importo){
-    websocket.sendMex(mitt, {"confirm-trans": true, "importo": importo, "dest": dest});
-    websocket.sendMex(dest, {"new-trans": true, "importo": importo, "mitt": mitt});
+    websocket.sendMex(mitt, JSON.stringify({"confirm-trans": true, "importo": importo, "dest": dest}));
+    websocket.sendMex(dest,  JSON.stringify({"new-trans": true, "importo": importo, "mitt": mitt}));
 
     getSaldo(mitt,(a)=>{
         if(a!=false){
@@ -185,6 +196,6 @@ exports.newTransation=(mitt, dest, importo, callback)=>{
             return 0;
         }
     });
-    callback(false);
+    
     return 0;
 }

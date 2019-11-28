@@ -43,7 +43,10 @@ public class DashboardController {
         nome.setText("ale");
         Conto.labelSaldo = labelSaldo;
         Conto.refreshSaldo();
+        for (String[] a : Conto.getTransazioni()) {
+            newItem(a[0], a[1], a[2], a[3]);
 
+        }
     }
 
 
@@ -85,10 +88,7 @@ public class DashboardController {
         } else if (actionEvent.getSource().equals(trans)) {
             AnchorPane pane = FXMLLoader.load(getClass().getResource("DashboardTrans.fxml"));
             rootPane.getChildren().setAll(pane);
-            for (String[] a : Conto.getTransazioni()) {
-                newItem(a[0], a[1], a[2], a[3]);
 
-            }
         } else if (actionEvent.getSource().equals(inviaDenaro)) {
             AnchorPane pane = FXMLLoader.load(getClass().getResource("DashboardInviaDenaro.fxml"));
             rootPane.getChildren().setAll(pane);

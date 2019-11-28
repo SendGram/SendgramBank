@@ -10,9 +10,13 @@ exports.sendMex=(email, mex)=>{
         return false;
     }
     try {
+        if(typeof mex =="object"){
+            mex=JSON.stringify(mex);
+        }
         utenti[email].send(mex);
         return true;
     } catch (error) {
+        console.log(error);
         return false;
     }
     
