@@ -5,5 +5,6 @@ import tech.sendgram.websocket.websocket;
 
 public class Variabili {
     public static websocket socket;
+    public static Thread a;
 
 }

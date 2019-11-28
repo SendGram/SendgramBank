@@ -9,11 +9,13 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URI;
+import java.util.ArrayList;
 
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import org.java_websocket.WebSocket;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 import org.json.JSONArray;
@@ -26,12 +28,12 @@ import tech.sendgram.Main.Variabili;
 
 public class websocket extends WebSocketClient {
 
-
+    public static ArrayList<String> mex = new ArrayList<>();
     public websocket(URI serverURI) {
         super(serverURI);
     }
 
-    public String getJWT() {
+    public static String getJWT() {
         File f = new File("JWT.txt");
         if (f.exists() && !f.isDirectory()) {
             //esiste il JWT lo invio a node
@@ -54,17 +56,24 @@ public class websocket extends WebSocketClient {
     @Override
     public void onOpen(ServerHandshake handshakedata) {
         String jwt = getJWT();
+
         if (jwt != "errore") {
             send("{\"login\": \"" + jwt + "\"}");
         }
 
+
     }
 
+    public static void sendNew(String messaggio) {
+        mex.add(messaggio);
+        System.out.println("[+] Nuovo messaggio aggiunto alla coda di invio");
+    }
 
     //handle function message
     @Override
     public void onMessage(String message) {
         if (!message.contains("rss")) {
+
             try {
                 JSONObject jsonObject = new JSONObject(message);
                 System.out.println("ricevuto: " + message);
@@ -73,7 +82,7 @@ public class websocket extends WebSocketClient {
 
                     if (jsonObject.getString("login").equals("true")) {
                         //setta saldo
-                        String[][] vett = new String[10][10];
+                        String[][] vett = new String[100][100];
                         JSONArray a = jsonObject.getJSONArray("transazioni");
                         for (int i = 0; i < a.length(); i++) {
                             JSONArray obj = a.getJSONArray(i);
@@ -89,6 +98,17 @@ public class websocket extends WebSocketClient {
                 } else if (message.contains("saldo")) {
                     //setta saldo
                     Conto.setSaldo(jsonObject.getFloat("saldo"));
+                } else if (message.contains("transazioni")) {
+                    String[][] vett = new String[100][100];
+                    JSONArray a = jsonObject.getJSONArray("transazioni");
+                    for (int i = 0; i < a.length(); i++) {
+                        JSONArray obj = a.getJSONArray(i);
+                        for (int j = 0; j < obj.length(); j++) {
+                            vett[i][j] = obj.getString(j);
+
+                        }
+                    }
+                    Conto.setTransazioni(vett);
                 }
             } catch (JSONException | IOException err) {
                 System.out.print("Error" + err);

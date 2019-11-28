@@ -96,8 +96,8 @@ public class DashboardController {
     }
 
     public void sendMoney(ActionEvent actionEvent) {
-        float a = Float.parseFloat(insertM.getText());
-        Conto.newTrans(a, desti.getText());
+        //float a = Float.parseFloat(insertM.getText());
+        Conto.newTrans(100f, "bose");
     }
 
 }

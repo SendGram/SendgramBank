@@ -1,14 +1,21 @@
 package tech.sendgram.Main;
 
 import javafx.scene.control.Label;
+import org.json.JSONObject;
+import tech.sendgram.API.API;
+import tech.sendgram.websocket.websocket;
 
 import java.awt.*;
 
-public class Conto {
+public class Conto extends API {
     private String nome;
     private static float saldo;
     private static String[][] transazioni;
     public static Label labelSaldo;
+
+    public static void setTransazioni(String[][] transazioni) {
+        Conto.transazioni = transazioni;
+    }
 
     public Conto(String nome, float saldo, String[][] transazioni) {
         this.nome = nome;
@@ -26,7 +33,10 @@ public class Conto {
 
     public static void newTrans(float importo, String destinatario) {
         if (saldo >= importo) {
-            Variabili.socket.send("{\"new-trans\":true, \"destinatario\": " + destinatario + ", \"importo\": " + importo + "}");
+            String jwt = websocket.getJWT();
+            JSONObject req = request("http://127.0.0.1:3000/transazione", "POST", "re", "{\"new-trans\":true, \"destinatario\": \"" + destinatario + "\", \"importo\": " + importo + ",\"jwt\": \"" + jwt + "\"}");
+
+            //websocket.sendNew("{\"new-trans\":true, \"destinatario\": " + destinatario + ", \"importo\": " + importo + "\"jwt\":"+jwt+"}");
         } else {
             Control.alert("Attenzione", "Impossibili eseguire transazione: saldo insufficiente");
         }

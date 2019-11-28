@@ -26,6 +26,10 @@ public class Main extends Application {
         primaryStage.show();
         Variabili.socket = new websocket(new URI("ws://localhost:8080"));
         Variabili.socket.connect();
+        websocket.sendNew("ciao mondo");
+        websocket.sendNew("ciao mondo");
+        websocket.sendNew("ciao mondo");
+        websocket.sendNew("ciao mondo");
 
 
 

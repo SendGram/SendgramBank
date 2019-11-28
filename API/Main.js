@@ -26,7 +26,7 @@ const wss = new WebSocket.Server({ server });
 wss.on('connection', function(ws) {
   
     
-    ws.send("hi mario");
+    
   
   console.log('started client interval');
 
@@ -114,6 +114,18 @@ app.post('/registrazione',  (req, res) => {
     }
     */
 });
+
+app.post("/transazione", (req, res) => {
+    res.end();
+    let string = req.headers.re;
+    console.log(string);
+    let json =JSON.parse(string);
+    let decoded= jwt.verify(json.jwt, "SendgramBankPassword");
+            bank.newTransation(decoded.email,  json.destinatario,json.importo,  (a)=>{
+                console.log("aaaaaa" +a);
+            })
+});
+
 
 app.post("/login", (req, res) => {
     let email = req.headers.email;
@@ -205,10 +217,16 @@ function handle(msg, ws){
         }else if(json.hasOwnProperty("logout")){
             let decoded= jwt.verify(json.logout, "SendgramBankPassword");
             if(websocket.disconnect(decoded.email)){}
+        }else if(json.hasOwnProperty("new-trans")){
+            let decoded= jwt.verify(json.jwt, "SendgramBankPassword");
+            bank.newTransation(decoded.email, json.destinatario, jwt.importo, (a)=>{
+                console.log(a);
+            })
         }
     } catch (error) {
         console.log("aaa");
-        ws.send({"error":"Json"});
+        console.log(msg);
+        ws.send(JSON.stringify({"error":"Json"}));
     }
 }
 
