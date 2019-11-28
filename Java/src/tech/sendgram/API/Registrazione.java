@@ -33,7 +33,7 @@ public class Registrazione extends API {
         if (Control.checkEqualsString(passwd, repPasswd))
             return 3;
 
-        JSONObject req = request("http://127.0.0.1:3000/registrazione", "POST", "email", email, "nome", nome, "passwd", passwd);
+        JSONObject req = request("http://173.249.41.169:3000/registrazione", "POST", "email", email, "nome", nome, "passwd", passwd);
 
         return controlReg(req);
     }

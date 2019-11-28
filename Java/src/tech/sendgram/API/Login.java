@@ -22,7 +22,7 @@ public class Login extends API {
 
     public int accedi() {
 
-        JSONObject req = request("http://127.0.0.1:3000/login", "POST", "email", email, "passwd", passwd);
+        JSONObject req = request("http://173.249.41.169:3000/login", "POST", "email", email, "passwd", passwd);
 
         return controlLogin(req);
     }

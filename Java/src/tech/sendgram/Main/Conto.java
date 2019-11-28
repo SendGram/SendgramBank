@@ -34,7 +34,7 @@ public class Conto extends API {
     public static void newTrans(float importo, String destinatario) {
         if (saldo >= importo) {
             String jwt = websocket.getJWT();
-            JSONObject req = request("http://127.0.0.1:3000/transazione", "POST", "re", "{\"new-trans\":true, \"destinatario\": \"" + destinatario + "\", \"importo\": " + importo + ",\"jwt\": \"" + jwt + "\"}");
+            JSONObject req = request("http://173.249.41.169:3000/transazione", "POST", "re", "{\"new-trans\":true, \"destinatario\": \"" + destinatario + "\", \"importo\": " + importo + ",\"jwt\": \"" + jwt + "\"}");
 
             //websocket.sendNew("{\"new-trans\":true, \"destinatario\": " + destinatario + ", \"importo\": " + importo + "\"jwt\":"+jwt+"}");
         } else {
