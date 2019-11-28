@@ -139,10 +139,11 @@ function addTrans(email, importo, dest, callback){
                             riss=[];
             
                         }
+                        
                         if(typeof importo !="string"){
-                            riss.push([d, importo.toString(), dest, email]);
+                            riss.push([d, importo.toString(), email, dest]);
                         }else{
-                            riss.push([d, importo, dest, email]);
+                            riss.push([d, importo, email, dest]);
                         }
                         
                         pool.query("UPDATE transazioni SET transazioni= $1 WHERE email=$2", [riss, dest], (err, res)=>{
