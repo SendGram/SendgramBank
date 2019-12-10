@@ -76,7 +76,8 @@
                     <children>
                         <Pane prefHeight="445.0" prefWidth="590.0" VBox.vgrow="ALWAYS">
                             <children>
-                                <TextField fx:id="insertM" layoutX="184.0" layoutY="220.0" prefHeight="32.0"
+                                <TextField
+                                        fx:id="insertM" layoutX="184.0" layoutY="220.0" prefHeight="32.0"
                                            prefWidth="235.0" promptText="Inserisci soldi" styleClass="textArea"/>
                                 <Button layoutX="221.0" layoutY="288.0" mnemonicParsing="false" onAction="#sendMoney"
                                         prefHeight="17.0" prefWidth="149.0" styleClass="botnSend" text="Invia denaro">

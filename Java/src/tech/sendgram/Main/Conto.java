@@ -13,10 +13,11 @@ import java.awt.*;
 import java.io.IOException;
 
 public class Conto extends API {
-    private String nome;
+    private static String nome;
     private static float saldo;
     private static String[][] transazioni;
     public static Label labelSaldo;
+    public static Label labelNome;
 
     public static void setTransazioni(String[][] transazioni) {
         Conto.transazioni = transazioni;
@@ -33,7 +34,7 @@ public class Conto extends API {
     }
 
     public static void setSaldo(float saldo) {
-        Conto.saldo = saldo;
+        saldo = saldo;
     }
 
     public static void newTrans(float importo, String destinatario) {
@@ -48,13 +49,20 @@ public class Conto extends API {
     }
 
     public static void refreshSaldo() {
-
         Platform.runLater(
                 () -> {
                     labelSaldo.setText(saldo + "$");
                 }
         );
+    }
 
+    public static void refreshNome()
+    {
+        Platform.runLater(
+                () -> {
+                    labelNome.setText(nome);
+                }
+        );
     }
 
 }
