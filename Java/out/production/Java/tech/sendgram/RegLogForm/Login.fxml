@@ -9,47 +9,59 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0" styleClass="paginaIniziale" stylesheets="@StylePageLogin.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tech.sendgram.RegLogForm.RegLogController">
+<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="500.0" prefWidth="800.0" styleClass="paginaIniziale" stylesheets="@StylePageLogin.css"
+            xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="tech.sendgram.RegLogForm.RegLogController">
     <children>
         <PasswordField fx:id="textPasswd" layoutX="312.0" layoutY="218.0" promptText="Password" styleClass="textArea">
             <font>
-                <Font size="14.0" />
+                <Font size="14.0"/>
             </font>
         </PasswordField>
         <TextField fx:id="textEmail" layoutX="312.0" layoutY="168.0" promptText="Email" styleClass="textArea">
             <font>
-                <Font size="14.0" />
+                <Font size="14.0"/>
             </font>
         </TextField>
-        <Button fx:id="Accedi" layoutX="344.0" layoutY="276.0" mnemonicParsing="false" onAction="#Do_Login" prefHeight="24.0" prefWidth="112.0" styleClass="bottone" text="Accedi" />
-        <ImageView fitHeight="90.0" fitWidth="126.0" layoutX="691.0" layoutY="391.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="19.0" AnchorPane.rightAnchor="14.508316040039062">
-         <image>
-            <Image url="@LOGO1-no-back.png" />
-         </image>
+        <Button fx:id="Accedi" layoutX="344.0" layoutY="276.0" mnemonicParsing="false" onAction="#Do_Login"
+                prefHeight="24.0" prefWidth="112.0" styleClass="bottone" text="Accedi"/>
+        <ImageView fitHeight="90.0" fitWidth="126.0" layoutX="691.0" layoutY="391.0" pickOnBounds="true"
+                   preserveRatio="true" AnchorPane.bottomAnchor="19.0" AnchorPane.rightAnchor="14.508316040039062">
+            <image>
+                <Image url="@LOGO1-no-back.png"/>
+            </image>
         </ImageView>
-        <Button layoutX="331.0" layoutY="316.0" mnemonicParsing="false" styleClass="btnFP" text="Password dimenticata?" textFill="#cccccc" underline="true" />
+        <Button layoutX="331.0" layoutY="316.0" mnemonicParsing="false" styleClass="btnFP" text="Password dimenticata?"
+                textFill="#cccccc" underline="true"/>
         <Label layoutX="281.0" layoutY="14.0" styleClass="titolo" text="SendgramBank">
             <font>
-                <Font size="14.0" />
+                <Font size="14.0"/>
             </font>
         </Label>
         <Label layoutX="281.0" layoutY="366.0" text="Non hai un account?" textFill="#cccccc">
             <font>
-                <Font size="15.0" />
+                <Font size="15.0"/>
             </font>
         </Label>
-        <Button fx:id="goReg" layoutX="413.0" layoutY="360.0" mnemonicParsing="false" onAction="#go_Registarti" styleClass="btnFP" text="Registrati" textFill="#91b6ff">
+        <Button fx:id="goReg" layoutX="413.0" layoutY="360.0" mnemonicParsing="false" onAction="#go_Registarti"
+                styleClass="btnFP" text="Registrati" textFill="#91b6ff">
             <font>
-                <Font size="15.0" />
+                <Font size="15.0"/>
             </font>
         </Button>
-        <Label fx:id="errorPasswd" layoutX="311.0" layoutY="250.0" text="*Email o password errata" textFill="RED" visible="false" />
-      <ImageView fx:id="face" fitHeight="71.0" fitWidth="73.0" layoutX="567.0" layoutY="168.0" onMouseClicked="#FaceLogin" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="261.0" AnchorPane.rightAnchor="162.0">
-         <image>
-            <Image url="@face.png" />
-         </image>
-      </ImageView>
-      <Button layoutX="551.0" layoutY="244.0" mnemonicParsing="false" onAction="#FaceLogin" styleClass="btnFP" text="Login with face" textFill="#cccccc" underline="true" AnchorPane.bottomAnchor="227.0" AnchorPane.rightAnchor="146.5" />
+        <Label fx:id="errorPasswd" layoutX="311.0" layoutY="250.0" text="*Email o password errata" textFill="RED"
+               visible="false"/>
+        <ImageView fx:id="face" fitHeight="71.0" fitWidth="73.0" layoutX="567.0" layoutY="168.0"
+                   onMouseClicked="#FaceLogin" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="261.0"
+                   AnchorPane.rightAnchor="162.0">
+            <image>
+                <Image url="@face.png"/>
+            </image>
+        </ImageView>
+        <Button layoutX="551.0" layoutY="244.0" mnemonicParsing="false" onAction="#FaceLogin" styleClass="btnFP"
+                text="Login with face" textFill="#cccccc" underline="true" AnchorPane.bottomAnchor="227.0"
+                AnchorPane.rightAnchor="146.5"/>
 
     </children>
 </AnchorPane>
