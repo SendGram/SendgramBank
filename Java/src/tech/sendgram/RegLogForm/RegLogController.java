@@ -11,8 +11,15 @@ import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
 import tech.sendgram.API.Login;
 import tech.sendgram.API.Registrazione;
+import javafx.scene.image.ImageView;
+import tech.sendgram.Main.Variabili;
+import tech.sendgram.websocket.websocket;
+
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.http.WebSocket;
+import java.util.UUID;
 
 public class RegLogController {
 
@@ -20,11 +27,26 @@ public class RegLogController {
     AnchorPane rootPane;
 
     @FXML
+    private ImageView face;
+
+    @FXML
     private TextField textEmail, textNome, textPasswd, textRepPasswd;
 
     @FXML
-    private Label errorPasswd, errorEmail, errorRepPasswd, errorNome;
+    private Label errorPasswd, errorEmail, errorRepPasswd, errorNome, textFace;
 
+    public void FaceLogin(ActionEvent actionEvent) {
+        try {
+            Variabili.uuid = UUID.randomUUID().toString();
+
+            Process p = Runtime.getRuntime().exec(new String[]{"bash", "-c", "open -a \"Google Chrome\" --args --user-data-dir=\"/tmp/chrome_dev_test\" --disable-web-security http://localhost:3000/facelogin?uuid=" + Variabili.uuid});
+            Variabili.InLogin = true;
+            websocket socket = new websocket(new URI("ws://localhost:8081"));
+            socket.connect();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
 
     public void Do_Login(ActionEvent actionEvent) {
 

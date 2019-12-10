@@ -35,7 +35,7 @@ public class Main extends Application {
         primaryStage.show();
         Variabili.socket = new websocket(new URI("ws://173.249.41.169:8080"));
         Variabili.socket.connect();
-        Toolkit.getDefaultToolkit().beep();
+        //Toolkit.getDefaultToolkit().beep();
 
 
 

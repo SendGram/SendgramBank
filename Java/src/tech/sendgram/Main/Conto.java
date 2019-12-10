@@ -1,11 +1,16 @@
 package tech.sendgram.Main;
 
+import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import org.json.JSONObject;
 import tech.sendgram.API.API;
 import tech.sendgram.websocket.websocket;
 
 import java.awt.*;
+import java.io.IOException;
 
 public class Conto extends API {
     private String nome;
@@ -44,7 +49,12 @@ public class Conto extends API {
 
     public static void refreshSaldo() {
 
-        labelSaldo.setText(saldo + "$");
+        Platform.runLater(
+                () -> {
+                    labelSaldo.setText(saldo + "$");
+                }
+        );
+
     }
 
 }

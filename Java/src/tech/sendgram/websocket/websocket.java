@@ -4,10 +4,10 @@ package tech.sendgram.websocket;
  @autore: Alessandro Caldonazzi
  */
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+
+import java.io.*;
+import java.util.UUID;
+
 import java.net.URI;
 import java.util.ArrayList;
 
@@ -56,11 +56,17 @@ public class websocket extends WebSocketClient {
 
     @Override
     public void onOpen(ServerHandshake handshakedata) {
-        String jwt = getJWT();
+        if (Variabili.InLogin) {
+            send("{\"FaceLogin\": \"" + Variabili.uuid + "\"}");
 
-        if (jwt != "errore") {
-            send("{\"login\": \"" + jwt + "\"}");
+        } else {
+            String jwt = getJWT();
+
+            if (jwt != "errore") {
+                send("{\"login\": \"" + jwt + "\"}");
+            }
         }
+
 
 
     }
@@ -73,16 +79,69 @@ public class websocket extends WebSocketClient {
     //handle function message
     @Override
     public void onMessage(String message) {
-        if (!message.contains("rss")) {
+        if (Variabili.InLogin) {
+            if (message.contains("facelogin")) {
+                try {
+                    JSONObject jsonObject1 = new JSONObject(message);
 
-            try {
-                JSONObject jsonObject = new JSONObject(message);
-                System.out.println("ricevuto: " + message);
-                if (message.contains("login")) {
+                    System.out.println(jsonObject1.getString("facelogin"));
+                    if (jsonObject1.getBoolean("facelogin")) {
+                        System.out.println("ok");
+                        try {
+                            PrintWriter writer = new PrintWriter("JWT.txt", "UTF-8");
+                            writer.println(jsonObject1.getString("jwt"));
+                            writer.close();
+                            System.out.println("JWT Salvato");
+                            Variabili.socket = new websocket(new URI("ws://173.249.41.169:8080"));
+                            Variabili.socket.connect();
+                            Variabili.InClose = true;
+                            close();
+                            Variabili.InLogin = false;
+                        } catch (Exception e) {
+                            System.out.println(e);
+                            Control.alert("Login", "Il sistema non è riuscito ad identificare la tua faccia");
+                            Variabili.InLogin = false;
+                        }
+                    } else {
+                        Control.alert("Login", "Il sistema non è riuscito ad identificare la tua facciaa");
+                        Variabili.InLogin = false;
+                    }
+                    System.out.println("ricevuto in login: " + message);
+                } catch (Exception e) {
+                    System.out.println(e);
+                    System.out.println("qui");
+                    Variabili.InLogin = false;
+                }
+            }
+        } else {
+            if (!message.contains("rss")) {
+
+                try {
+                    JSONObject jsonObject = new JSONObject(message);
+                    System.out.println("ricevuto: " + message);
+                    if (message.contains("login")) {
 
 
-                    if (jsonObject.getString("login").equals("true")) {
+                        if (jsonObject.getString("login").equals("true")) {
+                            //setta saldo
+                            String[][] vett = new String[100][100];
+                            JSONArray a = jsonObject.getJSONArray("transazioni");
+                            for (int i = 0; i < a.length(); i++) {
+                                JSONArray obj = a.getJSONArray(i);
+                                for (int j = 0; j < obj.length(); j++) {
+                                    vett[i][j] = obj.getString(j);
+
+                                }
+                            }
+                            Conto conto = new Conto(jsonObject.getString("nome"), jsonObject.getFloat("saldo"), vett);
+
+                            changeScene("../DashboardForm/DashboardSaldo.fxml");
+                        }
+                    } else if (message.contains("saldo")) {
                         //setta saldo
+                        Conto.setSaldo(jsonObject.getFloat("saldo"));
+                        Conto.refreshSaldo();
+                    } else if (message.contains("transazioni")) {
                         String[][] vett = new String[100][100];
                         JSONArray a = jsonObject.getJSONArray("transazioni");
                         for (int i = 0; i < a.length(); i++) {
@@ -92,35 +151,19 @@ public class websocket extends WebSocketClient {
 
                             }
                         }
-                        Conto conto = new Conto(jsonObject.getString("nome"), jsonObject.getFloat("saldo"), vett);
-
-                        changeScene("../DashboardForm/DashboardSaldo.fxml");
+                        Conto.setTransazioni(vett);
+                    } else if (message.contains("confirm-trans")) {
+                        Control.notifica("Transazione confermata", "Buone notizie la tua transazione è stata confermata");
+                    } else if (message.contains("new-trans")) {
+                        Control.notifica("Nuova transazione", "Buone notizie abbiamo individuato una nuova transazione");
                     }
-                } else if (message.contains("saldo")) {
-                    //setta saldo
-                    Conto.setSaldo(jsonObject.getFloat("saldo"));
-                    Conto.refreshSaldo();
-                } else if (message.contains("transazioni")) {
-                    String[][] vett = new String[100][100];
-                    JSONArray a = jsonObject.getJSONArray("transazioni");
-                    for (int i = 0; i < a.length(); i++) {
-                        JSONArray obj = a.getJSONArray(i);
-                        for (int j = 0; j < obj.length(); j++) {
-                            vett[i][j] = obj.getString(j);
-
-                        }
-                    }
-                    Conto.setTransazioni(vett);
-                } else if (message.contains("confirm-trans")) {
-                    Control.notifica("Transazione confermata", "Buone notizie la tua transazione è stata confermata");
-                } else if (message.contains("new-trans")) {
-                    Control.notifica("Nuova transazione", "Buone notizie abbiamo individuato una nuova transazione");
+                } catch (JSONException | IOException err) {
+                    System.out.print("Error" + err);
                 }
-            } catch (JSONException | IOException err) {
-                System.out.print("Error" + err);
-            }
 
+            }
         }
+
 
     }
 
@@ -145,11 +188,14 @@ public class websocket extends WebSocketClient {
     @Override
     public void onClose(int code, String reason, boolean remote) {
         // chiusura websocket
-
-        String jwt = getJWT();
-        if (jwt != "errore") {
-            send("{\"logout\": \"" + jwt + "\"}");
+        if (!Variabili.InClose) {
+            String jwt = getJWT();
+            if (jwt != "errore") {
+                send("{\"logout\": \"" + jwt + "\"}");
+            }
         }
+
+
     }
 
     @Override

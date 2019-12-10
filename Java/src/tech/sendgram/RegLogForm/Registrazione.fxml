@@ -29,7 +29,7 @@
         <ImageView fitHeight="90.0" fitWidth="126.0" layoutX="705.0" layoutY="402.0" pickOnBounds="true"
                    preserveRatio="true">
             <image>
-                <Image url="@../../../../LOGO1-no-back.png"/>
+                <Image url="@LOGO1-no-back.png"/>
             </image>
         </ImageView>
         <Label layoutX="281.0" layoutY="14.0" styleClass="titolo" text="SendgramBank">

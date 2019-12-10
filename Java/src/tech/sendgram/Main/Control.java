@@ -1,5 +1,6 @@
 package tech.sendgram.Main;
 
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ContentDisplay;
@@ -26,14 +27,9 @@ public class Control {
 
     public static void notifica(String titolo, String testo) {
         try {
-            //Obtain only one instance of the SystemTray object
+
             SystemTray tray = SystemTray.getSystemTray();
-
-            // If you want to create an icon in the system tray to preview
             Image image = Toolkit.getDefaultToolkit().createImage("some-icon.png");
-            //Alternative (if the icon is on the classpath):
-            //Image image = Toolkit.getDefaultToolkit().createImage(getClass().getResource("icon.png"));
-
             TrayIcon trayIcon = new TrayIcon(image, "Java AWT Tray Demo");
             //Let the system resize the image if needed
             trayIcon.setImageAutoSize(true);
@@ -41,22 +37,24 @@ public class Control {
             trayIcon.setToolTip("System tray icon demo");
             tray.add(trayIcon);
 
-            // Display info notification:
+
             trayIcon.displayMessage(titolo, testo, TrayIcon.MessageType.INFO);
-            // Error:
-            // trayIcon.displayMessage("Hello, World", "Java Notification Demo", MessageType.ERROR);
-            // Warning:
-            // trayIcon.displayMessage("Hello, World", "Java Notification Demo", MessageType.WARNING);
         } catch (Exception ex) {
             System.err.print(ex);
         }
     }
 
     public static void alert(String titolo, String messaggio) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(titolo);
-        alert.setHeaderText(null);
-        alert.setContentText(messaggio);
-        alert.showAndWait();
+
+        Platform.runLater(
+                () -> {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle(titolo);
+                    alert.setHeaderText(null);
+                    alert.setContentText(messaggio);
+                    alert.showAndWait();
+
+                }
+        );
     }
 }
