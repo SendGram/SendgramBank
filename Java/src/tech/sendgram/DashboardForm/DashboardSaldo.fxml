@@ -70,6 +70,8 @@
                                 <Font size="17.0" />
                             </font>
                         </Label>
+                  <Button layoutX="524.0" layoutY="18.0" mnemonicParsing="false" onAction="#logout" prefHeight="25.0"
+                          prefWidth="51.0" style="-fx-background-color: red;" text="ESCI" textFill="WHITE"/>
                     </children>
                 </Pane>
                 <VBox alignment="CENTER" prefHeight="340.0" prefWidth="560.0" VBox.vgrow="ALWAYS">

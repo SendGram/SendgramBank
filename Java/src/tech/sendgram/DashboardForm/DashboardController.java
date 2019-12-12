@@ -14,6 +14,7 @@ import javafx.scene.layout.VBox;
 import tech.sendgram.Main.Conto;
 
 
+import java.io.File;
 import java.io.IOException;
 
 
@@ -70,10 +71,22 @@ public class DashboardController {
         }
     }
 
+
     public void sendMoney(ActionEvent actionEvent) {
         float a = Float.parseFloat(insertM.getText());
         String b = dest.getText();
         Conto.newTrans(a, b);
     }
 
+    public void logout(ActionEvent actionEvent) throws IOException {
+        // AnchorPane pane = FXMLLoader.load(getClass().getResource("./RegLogForm/Login.fxml"));
+        //rootPane.getChildren().setAll(pane);
+
+        File file = new File("./coso.txt");
+        if (file.delete()) {
+            System.out.println("Deleted the file: " + file.getName());
+        } else {
+            System.out.println("Failed to delete the file.");
+        }
+    }
 }

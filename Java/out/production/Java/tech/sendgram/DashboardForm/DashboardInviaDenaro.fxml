@@ -4,6 +4,8 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
@@ -64,10 +66,9 @@
                 <Pane prefHeight="60.0" prefWidth="400.0" styleClass="paneRight">
                     <children>
                         <Label layoutX="304.0" layoutY="22.0" />
-                        <Label fx:id="nome" layoutX="268.0" layoutY="17.0" style="-fx-text-fill: #ffffff;"
-                               text="AleBose">
+                        <Label fx:id="nome" layoutX="268.0" layoutY="17.0" style="-fx-text-fill: #ffffff;" text="AleBose">
                             <font>
-                                <Font size="17.0"/>
+                                <Font size="17.0" />
                             </font>
                         </Label>
                     </children>
@@ -76,22 +77,24 @@
                     <children>
                         <Pane prefHeight="445.0" prefWidth="590.0" VBox.vgrow="ALWAYS">
                             <children>
-                                <TextField
-                                        fx:id="insertM" layoutX="184.0" layoutY="220.0" prefHeight="32.0"
-                                           prefWidth="235.0" promptText="Inserisci soldi" styleClass="textArea"/>
-                                <Button layoutX="221.0" layoutY="288.0" mnemonicParsing="false" onAction="#sendMoney"
-                                        prefHeight="17.0" prefWidth="149.0" styleClass="botnSend" text="Invia denaro">
+                                <TextField fx:id="insertM" layoutX="184.0" layoutY="220.0" prefHeight="32.0" prefWidth="235.0" promptText="Inserisci soldi" styleClass="textArea" />
+                                <Button layoutX="221.0" layoutY="288.0" mnemonicParsing="false" onAction="#sendMoney" prefHeight="17.0" prefWidth="149.0" styleClass="botnSend" text="Invia denaro">
                                     <font>
-                                        <Font size="15.0"/>
+                                        <Font size="15.0" />
                                     </font>
                                 </Button>
-                                <TextField fx:id="dest" layoutX="184.0" layoutY="156.0" prefHeight="32.0"
-                                           prefWidth="235.0" promptText="Destinatario" styleClass="textArea"/>
-                                <VBox fx:id="transBox" layoutX="14.0" layoutY="14.0" prefHeight="200.0"
-                                      prefWidth="100.0" visible="false"/>
-                                <Label fx:id="labelSaldo" layoutX="14.0" layoutY="21.0" text="Label" visible="false"/>
-                                <ScrollPane fx:id="scrool" layoutY="226.0" prefHeight="200.0" prefWidth="200.0"
-                                            visible="false"/>
+                                <TextField fx:id="dest" layoutX="184.0" layoutY="156.0" prefHeight="32.0" prefWidth="235.0" promptText="Destinatario" styleClass="textArea" />
+                                <VBox fx:id="transBox" layoutX="14.0" layoutY="14.0" prefHeight="200.0" prefWidth="100.0" visible="false" />
+                                <Label fx:id="labelSaldo" layoutX="14.0" layoutY="21.0" text="Label" visible="false" />
+                                <ScrollPane fx:id="scrool" layoutY="226.0" prefHeight="200.0" prefWidth="200.0" visible="false" />
+                        <TableView fx:id="table" layoutX="8.0" prefHeight="200.0" prefWidth="348.0" visible="false">
+                          <columns>
+                            <TableColumn fx:id="destinatario" prefWidth="75.0" text="C1" />
+                            <TableColumn fx:id="data" prefWidth="75.0" text="C2" />
+                              <TableColumn fx:id="importo" prefWidth="75.0" text="Column X" />
+                              <TableColumn fx:id="mittente" prefWidth="75.0" text="Column X" />
+                          </columns>
+                        </TableView>
                             </children>
                         </Pane>
                     </children>
