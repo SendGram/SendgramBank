@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script type="text/javascript" src="webcam.min.js"></script>
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
+  <title>Conferma Transazione</title>
   <script  src="face-api.js"></script>
   <script defer src="script.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
@@ -24,13 +24,31 @@
     #my_camera{
 display: none;
 }
+.titolo{
+    position: absolute;
+    top: 0px;
+    color: #ccc;
+    margin-left: 40%;
+}
 #removeBg{
   position: absolute;
-  top: 20px;
+  top: 140px;
+  margin-left: 40%;
+  padding: 10px;
+  border-radius: 0px;
+  background-color:#f19595ea;
+  color: #f4f4f4;
+  border: 0px solid #f19595ea;
 }
 #button{
   position: absolute;
-  top: 0;
+  top: 90px;
+  margin-left: 40%;
+  padding: 10px;
+  border-radius: 0px;
+  background-color:#f19595ea;
+  color: #f4f4f4;
+  border: 0px solid #f19595ea;
 }
     canvas {
       position: absolute;
@@ -92,6 +110,9 @@ display: none;
 
 
 
+
+
+
   </style>
 </head>
 <body>
@@ -101,9 +122,14 @@ display: none;
       </div>
     <div id="results" ></div>
     <div id="my_camera"></div>
+    <h2 class="titolo">Conferma Transazione</h2>
+
 <input type=button id="button" value="Take Snapshot" onClick="take_snapshot()">
 <input type=button id="removeBg" value="Rimuovi video" onClick="removeVideo()">
 
   <video id="video" width="720" height="560" autoplay muted></video>
+ 
+  
+  
 </body>
 </html>

@@ -5,6 +5,8 @@ import javafx.scene.control.Alert;
 
 import java.awt.*;
 import java.io.File;
+import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.regex.Pattern;
 
 public class Control {
@@ -29,7 +31,13 @@ public class Control {
         return (string1.equals(string2)) ? false : true;
     }
 
-    public static void notifica(String titolo, String testo) {
+    public static void notifica(String titolo, String testo) throws IOException {
+
+        if (Control.isFace()) {
+            Process p = Runtime.getRuntime().exec(new String[]{"bash", "-c", "echo '" + testo + "' | terminal-notifier -sound default -title " + titolo});
+
+        }
+
         try {
 
             SystemTray tray = SystemTray.getSystemTray();

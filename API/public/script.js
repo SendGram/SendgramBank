@@ -29,7 +29,10 @@ Webcam.set({
 
       http.onreadystatechange = function() {
           if(http.readyState == 4 && http.status == 200) {
-              alert(http.responseText);
+              if(http.responseText==true){
+                var docs = document.getElementById("img");
+                docs.setAttribute("src", "face.gif");
+              }
           }
           
       }
