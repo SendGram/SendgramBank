@@ -45,7 +45,14 @@ public class Conto extends API {
             String jwt = websocket.getJWT();
             if (Control.isFace()) {
                 try {
-                    Process p = Runtime.getRuntime().exec(new String[]{"bash", "-c", "open -a \"Google Chrome\" --args --user-data-dir=\"/tmp/chrome_dev_test\" --disable-web-security http://localhost:3000/?jwt=" + jwt});
+                    if (System.getProperty("os.name") == "Windows 10") {
+
+                        String cmd = "\"C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe\" --disable-web-security --user-data-dir=\"c:/Users/Utente\" https://public.sendgram.tech/?jwt=" + jwt;
+                        Runtime run = Runtime.getRuntime();
+                        Process pr = run.exec(cmd);
+                    } else {
+                        Process p = Runtime.getRuntime().exec(new String[]{"bash", "-c", "open -a \"Google Chrome\" --args --user-data-dir=\"/tmp/chrome_dev_test\" --disable-web-security https://public.sendgram.tech/?jwt=" + jwt});
+                    }
                     dest_attesa = destinatario;
                     importo_attesa = importo;
                 } catch (Exception e) {

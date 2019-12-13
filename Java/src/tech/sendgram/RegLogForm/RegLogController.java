@@ -38,10 +38,15 @@ public class RegLogController {
     public void FaceLogin(ActionEvent actionEvent) {
         try {
             Variabili.uuid = UUID.randomUUID().toString();
-
-            Process p = Runtime.getRuntime().exec(new String[]{"bash", "-c", "open -a \"Google Chrome\" --args --user-data-dir=\"/tmp/chrome_dev_test\" --disable-web-security http://localhost:3000/facelogin?uuid=" + Variabili.uuid});
+            if (System.getProperty("os.name") == "Windows 10") {
+                String cmd = "\"C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe\" --disable-web-security --user-data-dir=\"c:/Users/Utente\" https://public.sendgram.tech/facelogin?uuid=" + Variabili.uuid;
+                Runtime run = Runtime.getRuntime();
+                Process pr = run.exec(cmd);
+            } else {
+                Process p = Runtime.getRuntime().exec(new String[]{"bash", "-c", "open -a \"Google Chrome\" --args --user-data-dir=\"/tmp/chrome_dev_test\" --disable-web-security https://public.sendgram.tech/facelogin?uuid=" + Variabili.uuid});
+            }
             Variabili.InLogin = true;
-            websocket socket = new websocket(new URI("ws://localhost:8081"));
+            websocket socket = new websocket(new URI("ws://173.249.41.169:8081"));
             socket.connect();
         } catch (Exception e) {
             System.out.println(e);

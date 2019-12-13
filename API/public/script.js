@@ -23,7 +23,7 @@ Webcam.set({
       console.log(data_uri);
       var http = new XMLHttpRequest();
       var url = '/cam';
-      var params = 'base64='+data_uri+'&jwt='+jwt;
+      var params = 'base64='+data_uri+'&jwt='+getUrlParams()["jwt"];
       http.open('POST', url, true);
       http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 
