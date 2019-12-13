@@ -13,7 +13,11 @@ const websocket=require("./websocket");
 const { createServer } = require('http');
 const WebSocket = require('ws');
 
-const ipAdd="239.3.12.31"       //ip
+const bank=require("./bank");	
+const user=require("./user");
+
+
+const ipAdd="82.60.169.173"       //ip
 
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 app.use(express.json())
@@ -123,6 +127,7 @@ app.get('/', function (req, res) {
     request.post(options, (error, response, body)=>{
       if (!error && response.statusCode == 200) {
         var info = JSON.parse(body);
+        console.log(info);
         if(info.length==0){
           res.send("error");
           websocket.sendMexFace(uuid, JSON.stringify({"facelogin":"false"}));
@@ -149,6 +154,7 @@ app.get('/', function (req, res) {
             request.post(options, (error, response, body)=>{
               if (!error && response.statusCode == 200) {
                 var info = JSON.parse(body);
+                console.log(info);
                 if(info.length==0){
                   res.send("error");
                   websocket.sendMexFace(uuid, JSON.stringify({"facelogin":"false"}));
@@ -280,6 +286,7 @@ function existPhoto(email){
               console.log(faceId2)
               verify(faceId1, faceId2, (result)=>{
                 res.send(result);
+                websocket.sendMex(decoded.email, {"face-trans":result});
               })
   
             }
@@ -336,7 +343,8 @@ function existPhoto(email){
     return result;
   }
   
-
+//non funzionante 
+/*
 app.post('/registrazione',  (req, res) => {
     
     let email = req.query.email;
@@ -359,14 +367,36 @@ app.post('/registrazione',  (req, res) => {
                     return 0;
                 }
                     passwd = hash;
+                    /*
                     pool.query('INSERT INTO utenti (email, nome, passwd) VALUES ($1, $2, $3)', [email, nome, passwd], (err, res) => {
                         let JWT = jwt.sign({ "email": email ,"Nome": nome }, "SendgramBankPassword");   
                         res.send({ "Successo": JWT });
                     });
+                  
+                   pool.query('INSERT INTO utenti (email, nome, passwd) VALUES ($1, $2, $3)', [email, nome, passwd], (err, risultato1) => {
+                    if(err)
+                    {
+                        res.send({"errore": "generico3"});
+                        return 0;
+                    } else
+                    {
+                        try 
+                        {
+                            console.log("ciao");
+                            let JWT = jwt.sign({ "email": email ,"Nome": nome }, "SendgramBankPassword");   
+                            res.send({ "Successo": JWT });
+                            return 0;
+                        } catch
+                        {
+                            res.send({"errore": "generico4"});
+                            return 0;
+                        }
+
+                    }
                });
            });
         }
-        else
+      }else
         {
             res.send({ "errore": "Utente già presente" });
         }
@@ -382,13 +412,26 @@ app.post('/registrazione',  (req, res) => {
     {
         console.log("Volevi stronzo");
     }
-    */
+    
     res.end();
 });
 
+*/
+
+app.post("/transazione", (req, res) => {
+  res.end();
+  let string = req.headers.re;
+  console.log(string);
+  let json =JSON.parse(string);
+  let decoded= jwt.verify(json.jwt, "SendgramBankPassword");
+          bank.newTransation(decoded.email,  json.destinatario,json.importo,  (a)=>{
+              console.log("aaaaaa" +a);
+          })
+});
+
 app.post("/login", (req, res) => {
-    let email = req.query.email;
-    let passwd = req.query.passwd;
+  let email = req.headers.email;
+  let passwd = req.headers.passwd;
     
     
     
@@ -463,6 +506,11 @@ function handle(msg, ws){
             try {
                 let decoded= jwt.verify(json.login, "SendgramBankPassword"); 
                 websocket.newUser(decoded.email, ws);
+                user.getUserInfo(decoded.email, (nome, saldo, transazioni)=>{
+                  let o= {"login":"true", "nome":nome, "saldo":saldo, "transazioni":transazioni};
+
+                  ws.send(JSON.stringify(o));
+              });
             } catch (error) {
                 console.log("error");
             }
@@ -471,11 +519,19 @@ function handle(msg, ws){
         }else if(json.hasOwnProperty("logout")){
             let decoded= jwt.verify(json.logout, "SendgramBankPassword");
             if(websocket.disconnect(decoded.email)){}
-        }
+        }else if(json.hasOwnProperty("new-trans")){
+          let decoded= jwt.verify(json.jwt, "SendgramBankPassword");
+          bank.newTransation(decoded.email, json.destinatario, jwt.importo, (a)=>{
+              console.log(a);
+          })
+      }
     } catch (error) {
         console.log("aaa");
-        ws.send({"error":"Json"});
+        ws.send(JSON.stringify({"error":"Json"}));
     }
 }
+
+
+
 
 

@@ -26,6 +26,8 @@ import tech.sendgram.Main.Control;
 import tech.sendgram.Main.Main;
 import tech.sendgram.Main.Variabili;
 
+import static tech.sendgram.API.API.request;
+
 
 public class websocket extends WebSocketClient {
 
@@ -136,6 +138,16 @@ public class websocket extends WebSocketClient {
                             Conto conto = new Conto(jsonObject.getString("nome"), jsonObject.getFloat("saldo"), vett);
 
                             changeScene("../DashboardForm/DashboardSaldo.fxml");
+                        }
+                    } else if (message.contains("face-trans")) {
+                        if (jsonObject.getBoolean("face-trans")) {
+                            String jwt = websocket.getJWT();
+                            Control.notifica("Riconoscimento Facciale", "Buone notizie,  abbiamo riconosciuto la tua faccia, procediamo con la transazione");
+                            JSONObject req = request("http://173.249.41.169:3000/transazione", "POST", "re", "{\"new-trans\":true, \"destinatario\": \"" + Conto.dest_attesa + "\", \"importo\": " + Conto.importo_attesa + ",\"jwt\": \"" + jwt + "\"}");
+                            Conto.importo_attesa = 0;
+                            Conto.dest_attesa = "";
+                        } else {
+                            Control.notifica("Riconoscimento Facciale", "Cattive notizie,  non abbiamo riconosciuto la tua faccia, la transazione verrà rifiutata");
                         }
                     } else if (message.contains("saldo")) {
                         //setta saldo

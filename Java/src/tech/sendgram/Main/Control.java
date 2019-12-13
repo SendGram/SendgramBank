@@ -1,17 +1,21 @@
 package tech.sendgram.Main;
 
 import javafx.application.Platform;
-import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ContentDisplay;
-import javafx.scene.control.Label;
-import javafx.scene.control.ProgressIndicator;
 
 import java.awt.*;
+import java.io.File;
 import java.util.regex.Pattern;
 
 public class Control {
 
+    public static boolean isFace() {
+        File f = new File("face.txt");
+        if (f.exists() && !f.isDirectory()) {
+            return true;
+        } else
+            return false;
+    }
     public static boolean checkSpecialChar(String string) {
         Pattern regex = Pattern.compile("[$&+,:;=\\?#|/'<>^*()%!/]");
         return regex.matcher(string).find();
