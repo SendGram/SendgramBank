@@ -36,8 +36,8 @@ public class Conto extends API {
         return transazioni;
     }
 
-    public static void setSaldo(float saldo) {
-        saldo = saldo;
+    public static void setSaldo(float sal) {
+        saldo = sal;
     }
 
     public static void newTrans(float importo, String destinatario) {
