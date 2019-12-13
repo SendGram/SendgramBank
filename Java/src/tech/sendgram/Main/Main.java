@@ -38,7 +38,6 @@ public class Main extends Application {
         //Toolkit.getDefaultToolkit().beep();
 
 
-
     }
 
     public static Stage getStage() {
