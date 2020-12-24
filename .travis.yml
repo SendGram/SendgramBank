@@ -1,0 +1,17 @@
+language: node_js
+node_js:
+  - "stable"
+before_install:
+  - cd API
+install: npm i
+cache:
+  directories:
+    - "API/node_modules"  
+services:
+  - mongodb
+before_script:
+  - sleep 1
+  - mongo admin --eval 'db.createUser({user:"ale",pwd:"password",roles:["readWrite"]});'
+script: npm test
+env: 
+  - MONGO_PASSWORD=password JWT_SECRET=segreto MONGO_IP=127.0.0.1 D_USER=ale
