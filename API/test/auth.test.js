@@ -1,0 +1,50 @@
+const chai = require('chai');
+const chaiHttp = require('chai-http');
+const server = require('../bin/www');
+
+chai.use(chaiHttp);
+chai.should();
+
+
+module.exports = () => {
+    let jwt, refreshToken;
+    step('registro utente valido', async(done) => {
+        chai.request(server)
+            .post('/auth/register')
+            .send({ 'email': 'email@example.com', 'password': 'password', 'name': 'name', 'lastname': 'lastname' })
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.should.have.property('jwt');
+                res.body.should.have.property('refreshToken');
+                jwt = res.body.jwt;
+                refreshToken = res.body.refreshToken;
+                done();
+            });
+    });
+    step('login valido', async(done) => {
+        chai.request(server)
+            .post('/auth/login')
+            .send({
+                "email": "email@example.com",
+                "password": "password"
+            })
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.should.have.property('jwt');
+                res.body.should.have.property('refreshToken');
+                done();
+            });
+    });
+    step('refresh', async(done) => {
+        chai.request(server)
+            .post('/auth/refresh')
+            .send({
+                "refreshToken": refreshToken
+            })
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.should.have.property('jwt');
+                done();
+            });
+    });
+}
