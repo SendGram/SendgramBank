@@ -1,4 +1,4 @@
 # Sendgram Bank
 
-## Real-time banking system, with facial recognition based on cloud azure
+## Real-time banking system, with face recognition based on azure cloud
 
