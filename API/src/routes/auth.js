@@ -12,9 +12,10 @@ const { validate } = require('express-validation');
  * @apiGroup Auth
  * @apiPermission public
  *
- * @apiParam  {String{3..128}}          username     User's nikname
- * @apiParam  {String{6..128}}        email     User's email
- * @apiParam  {String{6..128}}  password  User's password
+ * @apiParam  {String{3..128}}          name      User's name
+ * @apiParam  {String{3..128}}          lastname  User's lastname
+ * @apiParam  {String{6..128}}          email     User's email
+ * @apiParam  {String{6..128}}          password  User's password
  *
  * @apiSuccess (Created 201) {String}  token.jwt   Authorization Token (Json Web Token)
  * @apiSuccess (Created 201) {String}  token.refreshToken  Token to get a new accessToken
@@ -31,8 +32,8 @@ router.post('/register', validate(register), controller.register);
  * @apiGroup Auth
  * @apiPermission public
  *
- * @apiParam  {String{3..128}}          username     User's nikname
- * @apiParam  {String{6..128}}  password  User's password
+ * @apiParam  {String{6..128}}          email     User's email
+ * @apiParam  {String{6..128}}          password  User's password
  *
  * @apiSuccess {String}  token.jwt   Authorization Token (Json Web Token)
  * @apiSuccess {String}  token.refreshToken  Token to get a new accessToken
