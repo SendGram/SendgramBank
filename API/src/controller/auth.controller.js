@@ -28,12 +28,13 @@ exports.register = async(req, res, next) => {
 
 exports.login = async(req, res, next) => {
     try {
-        let { username, password } = req.body;
-        const user = await User.findUser(username, password);
+        let { email, password } = req.body;
+        const user = await User.findUser(email, password);
 
         const { jwt, refreshToken } = await session.newSession({
             "_id": user._id,
-            "username": user.username,
+            "name": user.name,
+            "lastname": user.lastname,
             "email": user.email
         }, "user");
 
