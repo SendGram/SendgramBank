@@ -6,7 +6,7 @@ before_install:
 cache:
   directories:
     - "API/node_modules"  
-install: npm ci --prefer-offline
+install: npm i --prefer-offline --no-audit
 services:
   - mongodb
 before_script:
