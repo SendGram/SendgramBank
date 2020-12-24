@@ -5,7 +5,11 @@ const httpStatus = require('http-status');
 
 const userSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
-    username: {
+    name: {
+        type: String,
+        required: true,
+    },
+    lastname: {
         type: String,
         required: true,
     },
@@ -57,15 +61,15 @@ userSchema.statics.checkForDuplicateEmail = (error) => {
     return error;
 };
 
-userSchema.statics.findUser = async function(username, password) {
+userSchema.statics.findUser = async function(email, password) {
     const err = {
         status: httpStatus.UNAUTHORIZED,
         isPublic: true,
     };
-    if (!username) throw new APIError({...err, message: 'A username is required' });
+    if (!email) throw new APIError({...err, message: 'A email is required' });
     if (!password) throw new APIError({...err, message: 'A password is required' });
-    const user = await this.findOne({ username }).exec();
-    if (!user || !await user.checkPassword(password)) throw new APIError({...err, message: 'Incorrect username or password' });
+    const user = await this.findOne({ email }).exec();
+    if (!user || !await user.checkPassword(password)) throw new APIError({...err, message: 'Incorrect email or password' });
     return user;
 };
 

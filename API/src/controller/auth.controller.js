@@ -8,16 +8,17 @@ const httpStatus = require('http-status');
 
 exports.register = async(req, res, next) => {
     try {
-        let { username, password, email } = req.body;
+        let { name, lastname, password, email } = req.body;
         const user = new User({
             _id: new mongoose.Types.ObjectId(),
-            username,
+            name,
+            lastname,
             password,
             email
         });
 
         const saved = await user.save();
-        const { jwt, refreshToken } = await session.newSession({ "_id": saved._id, username, email }, "user");
+        const { jwt, refreshToken } = await session.newSession({ "_id": saved._id, name, lastname, email }, "user");
 
         res.status(200).json({ jwt, refreshToken });
     } catch (err) {
@@ -27,12 +28,13 @@ exports.register = async(req, res, next) => {
 
 exports.login = async(req, res, next) => {
     try {
-        let { username, password } = req.body;
-        const user = await User.findUser(username, password);
+        let { email, password } = req.body;
+        const user = await User.findUser(email, password);
 
         const { jwt, refreshToken } = await session.newSession({
             "_id": user._id,
-            "username": user.username,
+            "name": user.name,
+            "lastname": user.lastname,
             "email": user.email
         }, "user");
 

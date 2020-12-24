@@ -4,7 +4,9 @@ module.exports = {
     // POST /auth/register
     register: {
         body: Joi.object({
-            username: Joi.string()
+            name: Joi.string()
+                .required(),
+            lastname: Joi.string()
                 .required(),
             email: Joi.string()
                 .email()
@@ -19,7 +21,8 @@ module.exports = {
     // POST /auth/login
     login: {
         body: Joi.object({
-            username: Joi.string()
+            email: Joi.string()
+                .email()
                 .required(),
             password: Joi.string()
                 .required()

@@ -14,7 +14,7 @@ describe('test', () => {
     step('registro utente valido', async(done) => {
         chai.request(server)
             .post('/auth/register')
-            .send({ 'email': 'email@example.com', 'password': 'password', 'username': 'username' })
+            .send({ 'email': 'email@example.com', 'password': 'password', 'name': 'name', 'lastname': 'lastname' })
             .end((err, res) => {
                 res.should.have.status(200);
                 res.body.should.have.property('jwt');
@@ -28,7 +28,7 @@ describe('test', () => {
         chai.request(server)
             .post('/auth/login')
             .send({
-                "username": "username",
+                "email": "email@example.com",
                 "password": "password"
             })
             .end((err, res) => {
