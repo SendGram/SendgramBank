@@ -1,19 +1,35 @@
 {
-  "name": "sendgram-api",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/SendGram/SendgramBank.git"
-  },
-  "author": "Sendgram",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/SendGram/SendgramBank/issues"
-  },
-  "homepage": "https://github.com/SendGram/SendgramBank#readme"
+    "name": "sendgram-api",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+        "start": "node ./bin/www",
+        "test": "mocha --require mocha-steps --exit"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/SendGram/SendgramBank.git"
+    },
+    "dependencies": {
+        "cookie-parser": "~1.4.4",
+        "debug": "~2.6.9",
+        "express": "~4.16.1",
+        "http-errors": "~1.6.3",
+        "morgan": "~1.9.1",
+        "pug": "^3.0.0",
+        "session-jwt": "^2.0.6",
+        "http-status": "^1.5.0",
+        "joi": "^17.3.0",
+        "express-validation": "^3.0.6",
+        "mongoose": "5.11.4",
+        "bcrypt": "5.0.0",
+        "nodemailer": "6.4.11",
+        "email-templates": "^6.0.3"
+    },
+    "devDependencies": {
+        "chai": "^4.2.0",
+        "chai-http": "^4.3.0",
+        "mocha": "^8.1.0",
+        "mocha-steps": "^1.3.0"
+    }
 }
