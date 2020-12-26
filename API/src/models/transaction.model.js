@@ -17,7 +17,7 @@ const transactionSchema = mongoose.Schema({
         ref: 'User',
         required: true,
     },
-    amount: {
+    ammount: {
         type: Double,
         required: true,
     }
