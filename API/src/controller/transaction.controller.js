@@ -14,7 +14,7 @@ exports.newTransaction = async(req, res, next) => {
         });
 
         const saved = await transaction.save();
-        res.status(201).json('success');
+        res.status(201).json(saved);
     } catch (error) {
         next(error);
     }
