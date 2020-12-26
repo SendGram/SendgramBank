@@ -5,9 +5,10 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const httpStatus = require('http-status');
 
-var indexRouter = require('./src/routes/index');
-var usersRouter = require('./src/routes/users');
-var authRouter = require('./src/routes/auth');
+const indexRouter = require('./src/routes/index');
+const usersRouter = require('./src/routes/users');
+const authRouter = require('./src/routes/auth');
+const transactionRouter = require('./src/routes/transaction');
 var env = process.env.NODE_ENV || 'developent';
 
 const mongoose = require('mongoose');
@@ -34,6 +35,7 @@ app.use(express.static(path.join(__dirname, 'src/public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/auth', authRouter);
+app.use('/transaction', transactionRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
