@@ -7,30 +7,30 @@ const User = require('../models/user.model');
 
 const transactionSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
-    mittente: {
+    sender: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true,
     },
-    destinatario: {
+    beneficiary: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true,
     },
-    importo: {
+    amount: {
         type: Double,
         required: true,
     }
 });
 
 transactionSchema.pre('save', async function(next) {
-    if (isEmail(this.mittente)) {
-        const user = await User.findOne({ "email": this.mittente });
-        this.mittente = user._id;
+    if (isEmail(this.sender)) {
+        const user = await User.findOne({ "email": this.sender });
+        this.sender = user._id;
     }
-    if (isEmail(this.destinatario)) {
-        const user = await User.findOne({ "email": this.destinatario });
-        this.destinatario = user._id;
+    if (isEmail(this.beneficiary)) {
+        const user = await User.findOne({ "email": this.beneficiary });
+        this.beneficiary = user._id;
     }
     return next();
 });
