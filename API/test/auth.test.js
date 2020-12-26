@@ -1,6 +1,7 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const server = require('../bin/www');
+const sharedData = require('./testSharedData').sharedData;
 
 chai.use(chaiHttp);
 chai.should();
@@ -17,6 +18,7 @@ module.exports = () => {
                 res.body.should.have.property('jwt');
                 res.body.should.have.property('refreshToken');
                 jwt = res.body.jwt;
+                sharedData['jwt'] = jwt;
                 refreshToken = res.body.refreshToken;
                 done();
             });
@@ -58,4 +60,4 @@ module.exports = () => {
                 done();
             });
     });
-}
+};
