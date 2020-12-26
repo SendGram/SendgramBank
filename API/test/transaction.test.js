@@ -13,7 +13,6 @@ module.exports = () => {
             .post('/transaction/new')
             .send({ 'sender': 'email@example.com', 'beneficiary': 'email1@example.com', 'ammount': 10 })
             .end((err, res) => {
-                console.log(res)
                 res.should.have.status(201);
                 jwt = res.body.jwt;
                 refreshToken = res.body.refreshToken;
@@ -21,4 +20,4 @@ module.exports = () => {
             });
     });
 
-}
+};
