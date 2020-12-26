@@ -21,6 +21,17 @@ module.exports = () => {
                 done();
             });
     });
+    step('registro secondo utente valido', async(done) => {
+        chai.request(server)
+            .post('/auth/register')
+            .send({ 'email': 'email1@example.com', 'password': 'password1', 'name': 'name1', 'lastname': 'lastname1' })
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.should.have.property('jwt');
+                res.body.should.have.property('refreshToken');
+                done();
+            });
+    });
     step('login valido', async(done) => {
         chai.request(server)
             .post('/auth/login')
