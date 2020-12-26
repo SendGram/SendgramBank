@@ -3,10 +3,10 @@ node_js:
   - "stable"
 before_install:
   - cd API
-install: npm i
 cache:
   directories:
     - "API/node_modules"  
+install: npm i --prefer-offline --no-audit
 services:
   - mongodb
 before_script:
