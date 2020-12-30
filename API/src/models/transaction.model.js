@@ -24,7 +24,7 @@ const transactionSchema = mongoose.Schema({
 });
 
 transactionSchema.statics.newTransaction = async function(senderEmail, beneficiaryEmail, ammount) {
-    let senderId, beneficiaryId;
+    let sender, beneficiary;
     const err = {
         status: httpStatus.UNAUTHORIZED,
         isPublic: true,
@@ -32,18 +32,18 @@ transactionSchema.statics.newTransaction = async function(senderEmail, beneficia
 
     const userSender = await User.findOne({ "email": senderEmail });
     if (!userSender) throw new APIError({...err, message: 'Sender email is wrong' });
-    senderId = userSender._id;
+    sender = userSender._id;
 
 
     const userBeneficiary = await User.findOne({ "email": beneficiaryEmail });
     if (!userBeneficiary) throw new APIError({...err, message: 'Beneficiary email is wrong' });
-    beneficiaryId = userBeneficiary._id;
+    beneficiary = userBeneficiary._id;
 
 
     return await new Transaction({
         _id: new mongoose.Types.ObjectId(),
-        senderId,
-        beneficiaryId,
+        sender,
+        beneficiary,
         ammount
     });
 };
