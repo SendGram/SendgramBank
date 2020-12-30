@@ -1,26 +1,24 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 const httpStatus = require('http-status');
-
 const indexRouter = require('./src/routes/index');
 const usersRouter = require('./src/routes/users');
 const authRouter = require('./src/routes/auth');
 const transactionRouter = require('./src/routes/transaction');
-var env = process.env.NODE_ENV || 'developent';
-
+const session = require('session-jwt');
 const mongoose = require('mongoose');
+
+const env = process.env.NODE_ENV || 'developent';
+const app = express();
 
 mongoose.connect(`mongodb://${process.env.D_USER}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_IP}:27017/SendgramBankDB?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false`, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false }, function(err) {
     if (err) throw err;
 });
 
-const session = require('session-jwt');
 session.settings(process.env.JWT_SECRET);
-
-var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'src/views'));
