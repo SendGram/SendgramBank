@@ -24,7 +24,7 @@ const transactionSchema = mongoose.Schema({
 });
 
 transactionSchema.statics.newTransaction = async function(senderEmail, beneficiaryEmail, ammount) {
-    const senderId, beneficiaryId;
+    let senderId, beneficiaryId;
     const err = {
         status: httpStatus.UNAUTHORIZED,
         isPublic: true,
