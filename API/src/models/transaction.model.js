@@ -4,7 +4,6 @@ const httpStatus = require('http-status');
 const Double = require('@mongoosejs/double');
 const User = require('../models/user.model');
 
-
 const transactionSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     sender: {
@@ -34,11 +33,9 @@ transactionSchema.statics.newTransaction = async function(senderEmail, beneficia
     if (!userSender) throw new APIError({...err, message: 'Sender email is wrong' });
     sender = userSender._id;
 
-
     const userBeneficiary = await User.findOne({ "email": beneficiaryEmail });
     if (!userBeneficiary) throw new APIError({...err, message: 'Beneficiary email is wrong' });
     beneficiary = userBeneficiary._id;
-
 
     return await new Transaction({
         _id: new mongoose.Types.ObjectId(),
