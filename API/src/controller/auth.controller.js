@@ -1,10 +1,6 @@
 const User = require('../models/user.model');
-const APIError = require('../utils/apiError');
 const mongoose = require('mongoose');
 const session = require('session-jwt');
-const ResetTokenPassword = require('../models/resetTokenPassword.model');
-const emailProvider = require('../services/email/emailProvider');
-const httpStatus = require('http-status');
 
 exports.register = async(req, res, next) => {
     try {
