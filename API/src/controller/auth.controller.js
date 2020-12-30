@@ -8,7 +8,7 @@ const httpStatus = require('http-status');
 
 exports.register = async(req, res, next) => {
     try {
-        let { name, lastname, password, email } = req.body;
+        const { name, lastname, password, email } = req.body;
         const user = new User({
             _id: new mongoose.Types.ObjectId(),
             name,
@@ -28,7 +28,7 @@ exports.register = async(req, res, next) => {
 
 exports.login = async(req, res, next) => {
     try {
-        let { email, password } = req.body;
+        const { email, password } = req.body;
         const user = await User.findUser(email, password);
 
         const { jwt, refreshToken } = await session.newSession({
