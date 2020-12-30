@@ -1,6 +1,3 @@
-const APIError = require('../utils/apiError');
-const mongoose = require('mongoose');
-const httpStatus = require('http-status');
 const Transaction = require('../models/transaction.model');
 
 exports.newTransaction = async(req, res, next) => {
