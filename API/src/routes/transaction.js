@@ -1,7 +1,9 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 const controller = require('../controller/transaction.controller');
 const session = require('session-jwt');
+const { newTransaction } = require('../validator/transaction.validator');
+const { validate } = require('express-validation');
 
 /**
  * @api {post} transaction/new Transaction
@@ -20,6 +22,6 @@ const session = require('session-jwt');
  *
  * @apiError (Bad Request 400)  ValidationError  Some parameters may contain invalid values
  */
-router.post('/new', session.ensureAuth, controller.newTransaction);
+router.post('/new', validate(newTransaction), session.ensureAuth, controller.newTransaction);
 
 module.exports = router;
