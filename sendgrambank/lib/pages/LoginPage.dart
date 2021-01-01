@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:sendgrambank/widgets/CustomTextField.dart';
+import 'package:sendgrambank/widgets/CustomButton.dart';
 
 class LoginPage extends StatelessWidget {
   @override
@@ -22,7 +24,7 @@ class LoginPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Expanded(
-                      child: LoginTextField(text: "Email"),
+                      child: CustomTextField(text: "Email"),
                     ),
                   ],
                 ),
@@ -30,7 +32,7 @@ class LoginPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Expanded(
-                      child: LoginTextField(text: "Password"),
+                      child: CustomTextField(text: "Password"),
                     ),
                   ],
                 ),
@@ -43,21 +45,21 @@ class LoginPage extends StatelessWidget {
                   children: [
                     Expanded(
                       flex: 3,
-                      child: Button(text: "HELP", onPressed: () {}),
+                      child: CustomButton(text: "HELP", onPressed: () {}),
                     ),
                     SizedBox(
                       width: 10,
                     ),
                     Expanded(
                       flex: 4,
-                      child: Button(text: "LOGIN", onPressed: () {}),
+                      child: CustomButton(text: "LOGIN", onPressed: () {}),
                     ),
                     SizedBox(
                       width: 10,
                     ),
                     Expanded(
                       flex: 3,
-                      child: Button(text: "SIGNUP", onPressed: () {}),
+                      child: CustomButton(text: "SIGNUP", onPressed: () {}),
                     )
                   ],
                 ),
@@ -66,43 +68,6 @@ class LoginPage extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-class Button extends StatelessWidget {
-  final String text;
-  final Function onPressed;
-  Button({this.text, this.onPressed});
-  @override
-  Widget build(BuildContext context) {
-    return RaisedButton(
-      //hover cfcfcf
-      color: Color(0xff9e9e9e),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8.0),
-      ),
-      padding: EdgeInsets.all(20),
-      child: Text(text,
-          style: GoogleFonts.robotoCondensed(
-              fontSize: 17, fontWeight: FontWeight.w500)),
-      onPressed: onPressed,
-    );
-  }
-}
-
-class LoginTextField extends StatelessWidget {
-  final String text;
-  LoginTextField({this.text});
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      cursorColor: Color(0xcfcfcf),
-      style: TextStyle(
-        color: Color(0xffffffff),
-      ),
-      decoration:
-          InputDecoration(labelText: text, fillColor: Color(0xff9e9e9e)),
     );
   }
 }
