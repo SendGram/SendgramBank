@@ -2,10 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sendgrambank/widgets/CustomTextField.dart';
 import 'package:sendgrambank/widgets/CustomButton.dart';
+import '../blocs/auth/auth.dart';
+import '../blocs/login/login.dart';
+import '../services/AuthService.dart';
+
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final authService = RepositoryProvider.of<AuthService>(context);
+    final authBloc = BlocProvider.of<AuthenticationBloc>(context);
     final size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Color(0xff37474f),
@@ -13,61 +20,95 @@ class LoginPage extends StatelessWidget {
         child: Center(
           child: Container(
             width: (size.width < 750) ? size.width * 0.8 : size.width * 0.4,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text("Login",
-                    style: GoogleFonts.oxygen(
-                        fontSize: 40, color: Color(0xffCECFC9))),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: CustomTextField(text: "Email"),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: CustomTextField(text: "Password"),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      flex: 3,
-                      child: CustomButton(text: "HELP", onPressed: () {}),
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Expanded(
-                      flex: 4,
-                      child: CustomButton(text: "LOGIN", onPressed: () {}),
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Expanded(
-                      flex: 3,
-                      child: CustomButton(text: "SIGNUP", onPressed: () {}),
-                    )
-                  ],
-                ),
-              ],
-            ),
+            child: BlocBuilder<AuthenticationBloc, AuthState>(
+                builder: (context, state) {
+              if (state is AuthenticationLoading) {
+                return LinearProgressIndicator();
+              } else if (state is AuthFail) {
+                return Text("Network Fail");
+              }
+              return BlocProvider(
+                create: (context) => LoginBloc(authBloc, authService),
+                child: LoginForm(),
+              );
+            }),
           ),
         ),
       ),
     );
+  }
+}
+
+class LoginForm extends StatelessWidget {
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
+      if (state is LoginLoading) return LinearProgressIndicator();
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text("Login",
+              style:
+                  GoogleFonts.oxygen(fontSize: 40, color: Color(0xffCECFC9))),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(
+                child: CustomTextField(
+                    text: "Email", controller: _emailController),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(
+                child: CustomTextField(
+                    text: "Password", controller: _passwordController),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                flex: 3,
+                child: CustomButton(text: "HELP", onPressed: () {}),
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Expanded(
+                flex: 4,
+                child: CustomButton(
+                    text: "LOGIN",
+                    onPressed: () {
+                      String email = _emailController.value.text;
+                      String password = _passwordController.value.text;
+                      final loginBloc = BlocProvider.of<LoginBloc>(context);
+
+                      loginBloc.add(
+                          LoginRequestEvent(email: email, password: password));
+                    }),
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Expanded(
+                flex: 3,
+                child: CustomButton(text: "SIGNUP", onPressed: () {}),
+              )
+            ],
+          ),
+        ],
+      );
+    });
   }
 }
