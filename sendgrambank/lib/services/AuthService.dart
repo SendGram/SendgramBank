@@ -10,6 +10,7 @@ abstract class AuthService {
 class APIAuthenticationService extends AuthService {
   @override
   Future<User> getCurrentUser() async {
+    //mando refresh token a refresh endpoint
     return null; // Da fare
   }
 

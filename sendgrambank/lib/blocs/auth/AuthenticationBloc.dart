@@ -26,14 +26,17 @@ class AuthenticationBloc extends Bloc<AuthEvents, AuthState> {
     //mappa evento -> stato per app appena aperta (AppLoaded)
     yield AuthenticationLoading();
     try {
+      //otteniamo Refresh Token da Hive (DB) verifichiamo se è valido
       await Future.delayed(Duration(
           milliseconds:
               500)); // finta richiesta bloccante per testare AuthenticationLoading()
       final currentUser = await _authenticationService.getCurrentUser();
 
       if (currentUser != null) {
+        //Refresh token è valido, utento loggato
         yield AuthenticatedState(user: currentUser);
       } else {
+        //Utente deve fare il login
         yield AuthenticationNotAuthenticated();
       }
     } catch (e) {
