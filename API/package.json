@@ -4,7 +4,7 @@
     "private": true,
     "scripts": {
         "start": "node ./bin/www",
-        "test": "mocha --require mocha-steps --exit"
+        "test": "mocha --require mocha-steps --exit --timeout 3000"
     },
     "repository": {
         "type": "git",
