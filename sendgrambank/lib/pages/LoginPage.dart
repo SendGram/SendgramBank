@@ -42,8 +42,13 @@ class LoginPage extends StatelessWidget {
 class LoginForm extends StatelessWidget {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _nameController = TextEditingController();
+  final _lastNameController = TextEditingController();
+  LoginBloc loginBloc;
+
   @override
   Widget build(BuildContext context) {
+    loginBloc = BlocProvider.of<LoginBloc>(context);
     return BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
       if (state is LoginLoading) return LinearProgressIndicator();
       return Column(
@@ -71,6 +76,26 @@ class LoginForm extends StatelessWidget {
               ),
             ],
           ),
+          if (state is Registering)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: CustomTextField(
+                      text: "Name", controller: _nameController),
+                ),
+              ],
+            ),
+          if (state is Registering)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: CustomTextField(
+                      text: "Lastname", controller: _lastNameController),
+                ),
+              ],
+            ),
           SizedBox(
             height: 20,
           ),
@@ -90,9 +115,10 @@ class LoginForm extends StatelessWidget {
                 child: CustomButton(
                     text: "LOGIN",
                     onPressed: () {
+                      if (state is Registering)
+                        return loginBloc.add(GoToLoginForm());
                       String email = _emailController.value.text;
                       String password = _passwordController.value.text;
-                      final loginBloc = BlocProvider.of<LoginBloc>(context);
 
                       loginBloc.add(
                           LoginRequestEvent(email: email, password: password));
@@ -103,7 +129,23 @@ class LoginForm extends StatelessWidget {
               ),
               Expanded(
                 flex: 3,
-                child: CustomButton(text: "SIGNUP", onPressed: () {}),
+                child: CustomButton(
+                    text: "SIGNUP",
+                    onPressed: () {
+                      if (state is Registering) {
+                        String email = _emailController.value.text;
+                        String password = _passwordController.value.text;
+                        String name = _nameController.value.text;
+                        String lastName = _lastNameController.value.text;
+                        loginBloc.add(RegisterRequestEvent(
+                            email: email,
+                            password: password,
+                            name: name,
+                            lastName: lastName));
+                      } else {
+                        loginBloc.add(GoToRegisterForm());
+                      }
+                    }),
               )
             ],
           ),
