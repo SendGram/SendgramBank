@@ -20,6 +20,12 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   Stream<LoginState> mapEventToState(LoginEvent event) async* {
     if (event is LoginRequestEvent) {
       yield* _mapLoginWithEmailToState(event);
+    } else if (event is GoToRegisterForm) {
+      yield Registering();
+    } else if (event is RegisterRequestEvent) {
+      yield* _mapRegisterRequestToState(event);
+    } else if (event is GoToLoginForm) {
+      yield LoginInitial();
     }
   }
 
@@ -40,5 +46,12 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     } catch (err) {
       yield LoginFailure(error: err.message ?? 'An unknown error occured');
     }
+  }
+
+  Stream<LoginState> _mapRegisterRequestToState(LoginEvent event) async* {
+    //TODO use AuthService
+    yield LoginLoading();
+    await Future.delayed(Duration(seconds: 2));
+    yield LoginFailure(error: "error");
   }
 }
