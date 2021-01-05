@@ -1,9 +1,14 @@
+import 'dart:io';
+
+import 'package:dio/dio.dart';
+import 'package:sendgrambank/blocs/login/login_state.dart';
+
 import '../exceptions/AuthException.dart';
 import '../models/User.dart';
 
 abstract class AuthService {
   Future<User> getCurrentUser();
-  Future<User> signInWithEmailAndPassword(String email, String password);
+  Future<bool> signInWithEmailAndPassword(String email, String password);
   Future<void> signOut();
 }
 
@@ -15,14 +20,23 @@ class APIAuthenticationService extends AuthService {
   }
 
   @override
-  Future<User> signInWithEmailAndPassword(String email, String password) async {
-    //TODO chiamata API
-    await Future.delayed(Duration(seconds: 1)); // finta azione bloccante
-
-    if (email.toLowerCase() != 'mail@prova.com' || password != 'testpass123') {
-      throw AuthException(message: 'Wrong email or password');
+  Future<bool> signInWithEmailAndPassword(String email, String password) async {
+    var response;
+    try {
+      response = await Dio().post("http://192.168.1.116:3000/auth/login",
+          options: Options(headers: {
+            HttpHeaders.contentTypeHeader: "application/json",
+          }),
+          data: {"email": email, "password": password});
+    } on DioError catch (e) {
+      throw AuthException();
     }
-    return User(name: 'Test User', email: email);
+    if (response.statusCode == 400)
+      throw new AuthException(message: "Invalid email or password");
+    else if (response.statusCode == 401)
+      throw new AuthException(message: "Wrong user name or password");
+    else
+      return response.statusCode == 200;
   }
 
   @override
