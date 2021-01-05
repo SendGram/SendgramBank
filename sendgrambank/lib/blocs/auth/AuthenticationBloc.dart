@@ -34,7 +34,7 @@ class AuthenticationBloc extends Bloc<AuthEvents, AuthState> {
 
       if (currentUser != null) {
         //Refresh token è valido, utento loggato
-        yield AuthenticatedState(user: currentUser);
+        yield AuthenticatedState();
       } else {
         //Utente deve fare il login
         yield AuthenticationNotAuthenticated();
@@ -45,6 +45,6 @@ class AuthenticationBloc extends Bloc<AuthEvents, AuthState> {
   }
 
   Stream<AuthState> _mapUserLoggedInToState(UserLoggedIn event) async* {
-    yield AuthenticatedState(user: event.user);
+    yield AuthenticatedState();
   }
 }
