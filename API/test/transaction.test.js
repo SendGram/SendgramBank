@@ -16,8 +16,6 @@ module.exports = () => {
             .send({ 'beneficiary': 'email1@example.com', 'ammount': 10 })
             .end((err, res) => {
                 res.should.have.status(201);
-                jwt = res.body.jwt;
-                refreshToken = res.body.refreshToken;
                 done();
             });
     });
