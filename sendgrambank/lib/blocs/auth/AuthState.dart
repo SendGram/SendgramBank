@@ -4,11 +4,7 @@ abstract class AuthState {
   const AuthState();
 }
 
-class AuthenticatedState extends AuthState {
-  final User user;
-
-  AuthenticatedState({this.user});
-}
+class AuthenticatedState extends AuthState {}
 
 class AuthFail extends AuthState {
   final String message;
