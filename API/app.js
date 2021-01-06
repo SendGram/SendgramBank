@@ -48,7 +48,7 @@ app.use(function(req, res, next) {
 app.use((err, req, res, next) => {
     const response = {
         code: err.status || 400,
-        message: err.message || httpStatus[response.code],
+        message: err.message || httpStatus[400],
         errors: err.errors,
         stack: err.stack,
     };
