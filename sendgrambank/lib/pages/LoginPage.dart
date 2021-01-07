@@ -58,14 +58,22 @@ class LoginForm extends StatelessWidget {
           Text("Login",
               style:
                   GoogleFonts.oxygen(fontSize: 40, color: Color(0xffCECFC9))),
+          SizedBox(
+            height: 5,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Expanded(
                 child: CustomTextField(
-                    text: "Email", controller: _emailController),
-              ),
+                  text: "Email",
+                  controller: _emailController,
+                ),
+              )
             ],
+          ),
+          SizedBox(
+            height: 5,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
