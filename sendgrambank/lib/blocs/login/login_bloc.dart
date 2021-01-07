@@ -30,10 +30,12 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }
 
   Stream<LoginState> _mapLoginWithEmailToState(LoginRequestEvent event) async* {
+    String email = event.email;
+    String password = event.password;
     yield LoginLoading();
     try {
       final bool user = await _authenticationService.signInWithEmailAndPassword(
-          event.email, event.password);
+          email, password);
       if (user) {
         _authenticationBloc.add(UserLoggedIn());
         yield LoginSuccess();
