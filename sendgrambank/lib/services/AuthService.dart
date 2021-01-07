@@ -1,12 +1,8 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:sendgrambank/blocs/login/login_state.dart';
-
 import '../exceptions/AuthException.dart';
 import '../models/User.dart';
-
-final String ip = "127.0.0.1";
 
 abstract class AuthService {
   Future<User> getCurrentUser();
@@ -23,7 +19,7 @@ class APIAuthenticationService extends AuthService {
 
   @override
   Future<bool> signInWithEmailAndPassword(String email, String password) async {
-    var response;
+    Response response;
     try {
       response = await Dio().post("http://127.0.0.1:3000/auth/login",
           options: Options(headers: {
@@ -33,14 +29,20 @@ class APIAuthenticationService extends AuthService {
     } on DioError catch (e) {
       if (e.response != null) {
         if (e.response.statusCode == 400)
-          throw new AuthException(message: "Insert a valid email and passowrd");
+          throw new AuthException(
+              message: "Insert a valid email and passowrd",
+              position: "emailPassword");
 
         if (e.response.statusCode == 401)
-          throw new AuthException(message: "Wrong user name or password");
+          throw new AuthException(
+              message: "Wrong user name or password",
+              position: "emailPassword");
       }
+
+      throw new AuthException();
     }
 
-    return true;
+    return response.statusCode == 200;
   }
 
   @override
