@@ -10,8 +10,9 @@ class LoginSuccess extends LoginState {}
 
 class LoginFailure extends LoginState {
   final String error;
+  final String position;
 
-  LoginFailure({@required this.error});
+  LoginFailure({@required this.error, this.position});
 }
 
 class Registering extends LoginState {}

@@ -49,7 +49,11 @@ class LoginForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     loginBloc = BlocProvider.of<LoginBloc>(context);
-    return BlocBuilder<LoginBloc, LoginState>(builder: (context, state) {
+    return BlocConsumer<LoginBloc, LoginState>(listener: (context, state) {
+      if (state is LoginFailure && state.position == null) {
+        Scaffold.of(context).showSnackBar(SnackBar(content: Text(state.error)));
+      }
+    }, builder: (context, state) {
       if (state is LoginLoading) return LinearProgressIndicator();
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -68,6 +72,11 @@ class LoginForm extends StatelessWidget {
                 child: CustomTextField(
                   text: "Email",
                   controller: _emailController,
+                  errorText: (state is LoginFailure &&
+                          (state.position == "email" ||
+                              state.position == "emailPassword"))
+                      ? state.error
+                      : null,
                 ),
               )
             ],
@@ -80,7 +89,14 @@ class LoginForm extends StatelessWidget {
             children: [
               Expanded(
                 child: CustomTextField(
-                    text: "Password", controller: _passwordController),
+                  text: "Password",
+                  controller: _passwordController,
+                  errorText: (state is LoginFailure &&
+                          (state.position == "password" ||
+                              state.position == "emailPassword"))
+                      ? state.error
+                      : null,
+                ),
               ),
             ],
           ),

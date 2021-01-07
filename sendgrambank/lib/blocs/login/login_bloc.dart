@@ -34,6 +34,16 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     String password = event.password;
     yield LoginLoading();
     try {
+      if (email.isEmpty) {
+        throw new AuthException(
+            message: "Insert a valid email", position: "email");
+      }
+
+      if (password.isEmpty) {
+        throw new AuthException(
+            message: "Insert a valid password", position: "password");
+      }
+
       final bool user = await _authenticationService.signInWithEmailAndPassword(
           email, password);
       if (user) {
@@ -44,7 +54,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         yield LoginFailure(error: 'Error');
       }
     } on AuthException catch (e) {
-      yield LoginFailure(error: e.message);
+      yield LoginFailure(error: e.message, position: e.position);
     } catch (err) {
       yield LoginFailure(error: err.message ?? 'An unknown error occured');
     }
