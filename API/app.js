@@ -47,8 +47,8 @@ app.use(function(req, res, next) {
 // error handler
 app.use((err, req, res, next) => {
     const response = {
-        code: err.status || 400,
-        message: err.message || httpStatus[400],
+        code: err.status || 500,
+        message: err.message || httpStatus['500_MESSAGE'],
         errors: err.errors,
         stack: err.stack,
     };
