@@ -113,3 +113,5 @@ dist
 .vscode
 .idea
 API/docs/
+
+.dccache

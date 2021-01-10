@@ -10,9 +10,11 @@ const authRouter = require('./src/routes/auth');
 const transactionRouter = require('./src/routes/transaction');
 const session = require('session-jwt');
 const mongoose = require('mongoose');
-
+const helmet = require('helmet');
 const env = process.env.NODE_ENV || 'developent';
 const app = express();
+
+
 
 mongoose.connect(`mongodb://${process.env.D_USER}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_IP}:27017/SendgramBankDB?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false`, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false }, function(err) {
     if (err) throw err;
@@ -29,6 +31,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'src/public')));
+app.use(helmet());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
@@ -44,8 +47,8 @@ app.use(function(req, res, next) {
 // error handler
 app.use((err, req, res, next) => {
     const response = {
-        code: err.status || 400,
-        message: err.message || httpStatus[response.code],
+        code: err.status || 500,
+        message: err.message || httpStatus['500_MESSAGE'],
         errors: err.errors,
         stack: err.stack,
     };
