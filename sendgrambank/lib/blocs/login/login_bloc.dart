@@ -38,14 +38,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       email = emailValidator(email);
       password = passwordValidator(password);
 
-      final bool user = await _authenticationService.signInWithEmailAndPassword(
-          email, password);
+      final bool user = await _authenticationService.signIn(email, password);
       if (user) {
         _authenticationBloc.add(UserLoggedIn());
         yield LoginSuccess();
         yield LoginInitial();
-      } else {
-        yield LoginFailure(error: 'Error');
       }
     } on AuthException catch (e) {
       yield LoginFailure(error: e.message, position: e.position);
@@ -68,10 +65,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       name = nameValidator(name);
       lastName = lastNameValidator(lastName);
 
-      //TODO use AuthService
-
-      //fake event
-      yield RegisterFailure(error: ".");
+      final bool user =
+          await _authenticationService.signUp(email, password, name, lastName);
+      if (user) yield LoginInitial();
     } on AuthException catch (e) {
       print(e.message);
       yield RegisterFailure(error: e.message, position: e.position);
