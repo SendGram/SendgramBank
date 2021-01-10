@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:sendgrambank/validator/LoginValidator.dart';
 import 'login_event.dart';
 import 'login_state.dart';
 import '../auth/AuthenticationBloc.dart';
@@ -30,10 +31,15 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }
 
   Stream<LoginState> _mapLoginWithEmailToState(LoginRequestEvent event) async* {
+    String email = event.email;
+    String password = event.password;
     yield LoginLoading();
     try {
+      email = emailValidator(email);
+      password = passwordValidator(password);
+
       final bool user = await _authenticationService.signInWithEmailAndPassword(
-          event.email, event.password);
+          email, password);
       if (user) {
         _authenticationBloc.add(UserLoggedIn());
         yield LoginSuccess();
@@ -42,16 +48,35 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         yield LoginFailure(error: 'Error');
       }
     } on AuthException catch (e) {
-      yield LoginFailure(error: e.message);
+      yield LoginFailure(error: e.message, position: e.position);
     } catch (err) {
       yield LoginFailure(error: err.message ?? 'An unknown error occured');
     }
   }
 
-  Stream<LoginState> _mapRegisterRequestToState(LoginEvent event) async* {
-    //TODO use AuthService
+  Stream<LoginState> _mapRegisterRequestToState(
+      RegisterRequestEvent event) async* {
+    String email = event.email;
+    String password = event.password;
+    String name = event.name;
+    String lastName = event.lastName;
+
     yield LoginLoading();
-    await Future.delayed(Duration(seconds: 2));
-    yield LoginFailure(error: "error");
+    try {
+      email = emailValidator(email);
+      password = passwordValidator(password);
+      name = nameValidator(name);
+      lastName = lastNameValidator(lastName);
+
+      //TODO use AuthService
+
+      //fake event
+      yield RegisterFailure(error: ".");
+    } on AuthException catch (e) {
+      print(e.message);
+      yield RegisterFailure(error: e.message, position: e.position);
+    } catch (err) {
+      yield RegisterFailure(error: err.message ?? 'An unknown error occured');
+    }
   }
 }

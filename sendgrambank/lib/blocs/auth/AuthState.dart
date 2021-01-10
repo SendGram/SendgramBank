@@ -6,12 +6,6 @@ abstract class AuthState {
 
 class AuthenticatedState extends AuthState {}
 
-class AuthFail extends AuthState {
-  final String message;
-
-  AuthFail({this.message});
-}
-
 class AuthenticationInitial extends AuthState {}
 
 class AuthenticationLoading extends AuthState {}
