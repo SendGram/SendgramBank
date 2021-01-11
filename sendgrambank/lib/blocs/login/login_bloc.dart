@@ -43,6 +43,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         _authenticationBloc.add(UserLoggedIn());
         yield LoginSuccess();
         yield LoginInitial();
+      } else {
+        yield LoginFailure(error: "Internal Error");
       }
     } on AuthException catch (e) {
       yield LoginFailure(error: e.message, position: e.position);
@@ -67,7 +69,12 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
       final bool user =
           await _authenticationService.signUp(email, password, name, lastName);
-      if (user) yield LoginInitial();
+      if (user) {
+        _authenticationBloc.add(UserLoggedIn());
+        yield LoginSuccess();
+      } else {
+        yield LoginFailure(error: "Internal Error");
+      }
     } on AuthException catch (e) {
       print(e.message);
       yield RegisterFailure(error: e.message, position: e.position);
