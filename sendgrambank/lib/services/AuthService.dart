@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -6,8 +7,8 @@ import '../models/User.dart';
 
 abstract class AuthService {
   Future<User> getCurrentUser();
-  Future<bool> signIn(String email, String password);
-  Future<bool> signUp(
+  Future<User> signIn(String email, String password);
+  Future<User> signUp(
       String email, String password, String name, String lastname);
   Future<void> signOut();
 }
@@ -20,19 +21,24 @@ class APIAuthenticationService extends AuthService {
   }
 
   @override
-  Future<bool> signIn(String email, String password) async {
+  Future<User> signIn(String email, String password) async {
     Response response;
+    User user;
     try {
       response = await Dio().post("http://127.0.0.1:3000/auth/login",
           options: Options(headers: {
             HttpHeaders.contentTypeHeader: "application/json",
           }),
           data: {"email": email, "password": password});
+      user = User(
+          email: email,
+          JWT: response.data['jwt'],
+          refreshToken: response.data['refreshToken']);
     } on DioError catch (e) {
       if (e.response != null) {
         if (e.response.statusCode == 400)
           throw new AuthException(
-              message: "Insert a valid email and passowrd",
+              message: "Insert a valid email and password",
               position: "emailPassword");
 
         if (e.response.statusCode == 401)
@@ -44,13 +50,14 @@ class APIAuthenticationService extends AuthService {
       throw new AuthException();
     }
 
-    return response.statusCode == 200;
+    return user;
   }
 
   @override
-  Future<bool> signUp(
+  Future<User> signUp(
       String email, String password, String name, String lastname) async {
     Response response;
+    User user;
     try {
       response = await Dio().post("http://127.0.0.1:3000/auth/register",
           options: Options(headers: {
@@ -62,6 +69,10 @@ class APIAuthenticationService extends AuthService {
             "name": name,
             "lastname": lastname
           });
+      user = User(
+          email: email,
+          JWT: response.data['jwt'],
+          refreshToken: response.data['refreshToken']);
     } on DioError catch (e) {
       if (e.response != null) {
         if (e.response.statusCode == 400)
@@ -75,7 +86,7 @@ class APIAuthenticationService extends AuthService {
       throw new AuthException();
     }
 
-    return response.statusCode == 200;
+    return user;
   }
 
   @override
