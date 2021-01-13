@@ -3,15 +3,25 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sendgrambank/pages/HomePage.dart';
 import 'package:sendgrambank/pages/LoginPage.dart';
 import 'package:sendgrambank/services/AuthService.dart';
+import 'package:sendgrambank/services/LocalDbService.dart';
 import 'blocs/auth/auth.dart';
 
 void main() =>
     //Dependency injection
     runApp(
-      RepositoryProvider<AuthService>(
-        create: (context) {
-          return APIAuthenticationService();
-        },
+      MultiRepositoryProvider(
+        providers: [
+          RepositoryProvider<AuthService>(
+            create: (context) {
+              return APIAuthenticationService();
+            },
+          ),
+          RepositoryProvider<LocalDbService>(
+            create: (context) {
+              return LocalDbService();
+            },
+          )
+        ],
         child: BlocProvider<AuthenticationBloc>(
           create: (context) {
             final authService = RepositoryProvider.of<AuthService>(context);
