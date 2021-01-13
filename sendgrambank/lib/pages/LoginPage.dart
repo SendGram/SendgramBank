@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:sendgrambank/services/LocalDbService.dart';
 import 'package:sendgrambank/widgets/CustomTextField.dart';
 import 'package:sendgrambank/widgets/CustomButton.dart';
 import '../blocs/auth/auth.dart';
@@ -16,6 +17,7 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final authService = RepositoryProvider.of<AuthService>(context);
     final authBloc = BlocProvider.of<AuthenticationBloc>(context);
+    final localDbService = RepositoryProvider.of<LocalDbService>(context);
     final size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Color(0xff37474f),
@@ -29,7 +31,8 @@ class LoginPage extends StatelessWidget {
                 return LinearProgressIndicator();
               }
               return BlocProvider(
-                create: (context) => LoginBloc(authBloc, authService),
+                create: (context) =>
+                    LoginBloc(authBloc, authService, localDbService),
                 child: _Form(),
               );
             }),
