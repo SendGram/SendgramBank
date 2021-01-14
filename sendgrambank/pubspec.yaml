@@ -31,6 +31,7 @@ dependencies:
   requests: ^3.3.0
   dio: ^3.0.10
   validators: ^2.0.1
+  hive: ^1.4.4+1
   
 dev_dependencies:
   flutter_test:

@@ -1,4 +1,6 @@
 import 'package:bloc/bloc.dart';
+import 'package:sendgrambank/models/User.dart';
+import 'package:sendgrambank/services/LocalDbService.dart';
 import 'package:sendgrambank/validator/LoginValidator.dart';
 import 'login_event.dart';
 import 'login_state.dart';
@@ -10,11 +12,13 @@ import '../../services/AuthService.dart';
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final AuthenticationBloc _authenticationBloc;
   final AuthService _authenticationService;
+  final LocalDbService _localDbService;
 
-  LoginBloc(
-      AuthenticationBloc authenticationBloc, AuthService authenticationService)
+  LoginBloc(AuthenticationBloc authenticationBloc,
+      AuthService authenticationService, LocalDbService localDbService)
       : _authenticationBloc = authenticationBloc,
         _authenticationService = authenticationService,
+        _localDbService = localDbService,
         super(LoginInitial());
 
   @override
@@ -38,8 +42,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       email = emailValidator(email);
       password = passwordValidator(password);
 
-      final bool user = await _authenticationService.signIn(email, password);
-      if (user) {
+      final User user = await _authenticationService.signIn(email, password);
+      if (user != null) {
+        _localDbService.saveTokens(user.JWT, user.refreshToken);
         _authenticationBloc.add(UserLoggedIn());
         yield LoginSuccess();
         yield LoginInitial();
@@ -49,6 +54,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     } on AuthException catch (e) {
       yield LoginFailure(error: e.message, position: e.position);
     } catch (err) {
+      print(err);
       yield LoginFailure(error: err.message ?? 'An unknown error occured');
     }
   }
@@ -67,9 +73,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       name = nameValidator(name);
       lastName = lastNameValidator(lastName);
 
-      final bool user =
+      final User user =
           await _authenticationService.signUp(email, password, name, lastName);
-      if (user) {
+      if (user != null) {
+        _localDbService.saveTokens(user.JWT, user.refreshToken);
         _authenticationBloc.add(UserLoggedIn());
         yield LoginSuccess();
       } else {
