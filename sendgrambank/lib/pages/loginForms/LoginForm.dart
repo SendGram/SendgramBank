@@ -11,12 +11,11 @@ class LoginForm extends StatelessWidget {
   static final _emailController = TextEditingController();
   static final _passwordController = TextEditingController();
   final state;
-  LoginBloc loginBloc;
 
   LoginForm({Key key, this.state}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    loginBloc = BlocProvider.of<LoginBloc>(context);
+    final loginBloc = BlocProvider.of<LoginBloc>(context);
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
