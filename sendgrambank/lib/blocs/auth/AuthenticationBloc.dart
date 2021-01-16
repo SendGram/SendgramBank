@@ -1,14 +1,18 @@
+import 'package:sendgrambank/models/User.dart';
+import 'package:sendgrambank/services/LocalDbService.dart';
 import 'AuthEvents.dart';
 import 'AuthState.dart';
 import '../../services/AuthService.dart';
 import 'package:bloc/bloc.dart';
-import '../../exceptions/AuthException.dart';
 
 class AuthenticationBloc extends Bloc<AuthEvents, AuthState> {
   final AuthService _authenticationService;
+  final LocalDbService _localDbService;
 
-  AuthenticationBloc(AuthService authenticationService)
+  AuthenticationBloc(
+      AuthService authenticationService, LocalDbService localDbService)
       : _authenticationService = authenticationService,
+        _localDbService = localDbService,
         super(AuthenticationInitial());
 
   @override
@@ -16,9 +20,8 @@ class AuthenticationBloc extends Bloc<AuthEvents, AuthState> {
     if (event is AppLoaded) {
       yield* _mapAppLoadedToState(event);
     }
-
     if (event is UserLoggedIn) {
-      yield* _mapUserLoggedInToState(event);
+      yield AuthenticatedState(user: event.user);
     }
   }
 
@@ -26,25 +29,18 @@ class AuthenticationBloc extends Bloc<AuthEvents, AuthState> {
     //mappa evento -> stato per app appena aperta (AppLoaded)
     yield AuthenticationLoading();
     try {
-      //otteniamo Refresh Token da Hive (DB) verifichiamo se è valido
-      await Future.delayed(Duration(
-          milliseconds:
-              500)); // finta richiesta bloccante per testare AuthenticationLoading()
-      final currentUser = await _authenticationService.getCurrentUser();
+      final User user = await _authenticationService
+          .refreshToken(await _localDbService.getRefreshToken());
 
-      if (currentUser != null) {
-        //Refresh token è valido, utento loggato
-        yield AuthenticatedState();
+      if (user != null) {
+        yield AuthenticatedState(user: user);
       } else {
         //Utente deve fare il login
         yield AuthenticationNotAuthenticated();
       }
     } catch (e) {
-      yield throw AuthException();
+      print(e);
+      yield AuthenticationNotAuthenticated();
     }
-  }
-
-  Stream<AuthState> _mapUserLoggedInToState(UserLoggedIn event) async* {
-    yield AuthenticatedState();
   }
 }
