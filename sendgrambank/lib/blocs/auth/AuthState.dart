@@ -4,7 +4,11 @@ abstract class AuthState {
   const AuthState();
 }
 
-class AuthenticatedState extends AuthState {}
+class AuthenticatedState extends AuthState {
+  final User user;
+
+  AuthenticatedState({this.user});
+}
 
 class AuthenticationInitial extends AuthState {}
 

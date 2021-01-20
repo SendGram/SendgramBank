@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:sendgrambank/models/User.dart';
-import 'package:sendgrambank/services/LocalDbService.dart';
 import 'package:sendgrambank/validator/LoginValidator.dart';
 import 'login_event.dart';
 import 'login_state.dart';
@@ -12,13 +11,11 @@ import '../../services/AuthService.dart';
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final AuthenticationBloc _authenticationBloc;
   final AuthService _authenticationService;
-  final LocalDbService _localDbService;
 
-  LoginBloc(AuthenticationBloc authenticationBloc,
-      AuthService authenticationService, LocalDbService localDbService)
+  LoginBloc(
+      AuthenticationBloc authenticationBloc, AuthService authenticationService)
       : _authenticationBloc = authenticationBloc,
         _authenticationService = authenticationService,
-        _localDbService = localDbService,
         super(LoginInitial());
 
   @override
@@ -44,8 +41,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
       final User user = await _authenticationService.signIn(email, password);
       if (user != null) {
-        _localDbService.saveTokens(user.JWT, user.refreshToken);
-        _authenticationBloc.add(UserLoggedIn());
+        _authenticationBloc.add(UserLoggedIn(user: user));
         yield LoginSuccess();
         yield LoginInitial();
       } else {
@@ -54,8 +50,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     } on AuthException catch (e) {
       yield LoginFailure(error: e.message, position: e.position);
     } catch (err) {
-      print(err);
-      yield LoginFailure(error: err.message ?? 'An unknown error occured');
+      String message = (err is AuthException) ? err.message : "Internal Error";
+      yield LoginFailure(error: message);
     }
   }
 
@@ -76,17 +72,16 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       final User user =
           await _authenticationService.signUp(email, password, name, lastName);
       if (user != null) {
-        _localDbService.saveTokens(user.JWT, user.refreshToken);
-        _authenticationBloc.add(UserLoggedIn());
+        _authenticationBloc.add(UserLoggedIn(user: user));
         yield LoginSuccess();
       } else {
         yield LoginFailure(error: "Internal Error");
       }
     } on AuthException catch (e) {
-      print(e.message);
       yield RegisterFailure(error: e.message, position: e.position);
     } catch (err) {
-      yield RegisterFailure(error: err.message ?? 'An unknown error occured');
+      String message = (err is AuthException) ? err.message : "Internal Error";
+      yield LoginFailure(error: message);
     }
   }
 }

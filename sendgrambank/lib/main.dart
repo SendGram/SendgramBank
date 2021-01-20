@@ -13,7 +13,7 @@ void main() =>
         providers: [
           RepositoryProvider<AuthService>(
             create: (context) {
-              return APIAuthenticationService();
+              return APIAuthenticationService(LocalDbService());
             },
           ),
           RepositoryProvider<LocalDbService>(
@@ -25,7 +25,10 @@ void main() =>
         child: BlocProvider<AuthenticationBloc>(
           create: (context) {
             final authService = RepositoryProvider.of<AuthService>(context);
-            return AuthenticationBloc(authService)..add(AppLoaded());
+            final localDbService =
+                RepositoryProvider.of<LocalDbService>(context);
+            return AuthenticationBloc(authService, localDbService)
+              ..add(AppLoaded());
           },
           child: MyApp(),
         ),
@@ -42,8 +45,7 @@ class MyApp extends StatelessWidget {
       home: BlocBuilder<AuthenticationBloc, AuthState>(
         builder: (context, state) {
           if (state is AuthenticatedState) {
-            //Utente già autenticato, mostro HomePage
-            return HomePage();
+            return HomePage(currentUser: state.user);
           }
           return LoginPage();
         },

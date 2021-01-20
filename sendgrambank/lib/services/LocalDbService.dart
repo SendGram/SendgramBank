@@ -7,21 +7,30 @@ class LocalDbService {
     _openBox();
   }
 
-  void _openBox() async {
-    await Hive.init("SendgramBankDB");
+  Future<void> _openBox() async {
+    Hive.init("SendgramBankDB");
     _box = await Hive.openBox('SendgramBankLocalDB');
   }
 
-  void saveTokens(String JWT, String refreshToken) {
-    _box.put("JWT", JWT);
+  void saveTokens(String jwt, String refreshToken) async {
+    saveJwt(jwt);
+    saveRefreshJwt(refreshToken);
+  }
+
+  void saveJwt(String jwt) {
+    _box.put("JWT", jwt);
+  }
+
+  void saveRefreshJwt(String refreshToken) {
     _box.put("refreshToken", refreshToken);
   }
 
-  String getJWT() {
+  Future<String> getJWT() {
     return _box.get("JWT");
   }
 
-  String getRefreshToken() {
+  Future<String> getRefreshToken() async {
+    if (_box == null) await _openBox();
     return _box.get("refreshToken");
   }
 }

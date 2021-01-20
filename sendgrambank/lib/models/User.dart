@@ -1,9 +1,16 @@
-class User {
-  final String email;
-  final String name;
-  final String lastname;
-  final String JWT;
-  final String refreshToken;
+import 'package:jwt_decode/jwt_decode.dart';
 
-  User({this.email, this.name, this.lastname, this.JWT, this.refreshToken});
+class User {
+  String email;
+  String name;
+  String lastname;
+
+  User({this.email, this.name, this.lastname});
+
+  User.fromJwt(String token) {
+    final parsedToken = Jwt.parseJwt(token);
+    this.email = parsedToken['email'];
+    this.name = parsedToken['name'];
+    this.lastname = parsedToken['lastname'];
+  }
 }

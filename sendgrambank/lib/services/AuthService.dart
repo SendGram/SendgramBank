@@ -1,12 +1,11 @@
-import 'dart:convert';
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import '../exceptions/AuthException.dart';
 import '../models/User.dart';
+import 'LocalDbService.dart';
 
 abstract class AuthService {
-  Future<User> getCurrentUser();
+  Future<User> refreshToken(String refreshToken);
   Future<User> signIn(String email, String password);
   Future<User> signUp(
       String email, String password, String name, String lastname);
@@ -14,10 +13,25 @@ abstract class AuthService {
 }
 
 class APIAuthenticationService extends AuthService {
+  final LocalDbService _localDbService;
+
+  APIAuthenticationService(this._localDbService);
   @override
-  Future<User> getCurrentUser() async {
-    //mando refresh token a refresh endpoint
-    return null; // Da fare
+  Future<User> refreshToken(String refreshToken) async {
+    if (refreshToken == null) return null;
+    Response response;
+    User user;
+    try {
+      response = await Dio().post("http://127.0.0.1:3000/auth/refresh",
+          options: Options(headers: {
+            HttpHeaders.contentTypeHeader: "application/json",
+          }),
+          data: {"refreshToken": refreshToken});
+      user = User.fromJwt(response.data['jwt']);
+      _localDbService.saveJwt(response.data['jwt']);
+    } on DioError {}
+
+    return user;
   }
 
   @override
@@ -30,10 +44,9 @@ class APIAuthenticationService extends AuthService {
             HttpHeaders.contentTypeHeader: "application/json",
           }),
           data: {"email": email, "password": password});
-      user = User(
-          email: email,
-          JWT: response.data['jwt'],
-          refreshToken: response.data['refreshToken']);
+      user = User.fromJwt(response.data['jwt']);
+      _localDbService.saveTokens(
+          response.data['jwt'], response.data['refreshToken']);
     } on DioError catch (e) {
       if (e.response != null) {
         if (e.response.statusCode == 400)
@@ -69,10 +82,9 @@ class APIAuthenticationService extends AuthService {
             "name": name,
             "lastname": lastname
           });
-      user = User(
-          email: email,
-          JWT: response.data['jwt'],
-          refreshToken: response.data['refreshToken']);
+      user = User.fromJwt(response.data['jwt']);
+      _localDbService.saveTokens(
+          response.data['jwt'], response.data['refreshToken']);
     } on DioError catch (e) {
       if (e.response != null) {
         if (e.response.statusCode == 400)
