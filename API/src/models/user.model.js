@@ -53,7 +53,7 @@ userSchema.statics.checkForDuplicateEmail = (error) => {
                 location: 'body',
                 messages: ['email already exists'],
             }],
-            status: 409,
+            statusCode: 409,
             isPublic: true,
             stack: error.stack,
         });
@@ -63,7 +63,7 @@ userSchema.statics.checkForDuplicateEmail = (error) => {
 
 userSchema.statics.findUser = async function(email, password) {
     const err = {
-        status: httpStatus.UNAUTHORIZED,
+        statusCode: httpStatus.UNAUTHORIZED,
         isPublic: true,
     };
     if (!email) throw new APIError({...err, message: 'A email is required' });
