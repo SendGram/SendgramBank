@@ -2,7 +2,7 @@ class APIError extends Error {
     constructor({
         message,
         errors,
-        status,
+        statusCode,
         isPublic,
         stack,
     }) {
@@ -10,7 +10,7 @@ class APIError extends Error {
         this.name = this.constructor.name;
         this.message = message;
         this.errors = errors;
-        this.status = status;
+        this.statusCode = statusCode;
         this.isPublic = isPublic;
         this.stack = stack;
     }
