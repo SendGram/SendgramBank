@@ -9,14 +9,16 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return RaisedButton(
       //hover cfcfcf
-      color: Color(0xff9e9e9e),
+      color: Color(0xff39A0ED),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8.0),
       ),
       padding: EdgeInsets.all(20),
       child: Text(text,
           style: GoogleFonts.robotoCondensed(
-              fontSize: 17, fontWeight: FontWeight.w500)),
+              fontSize: 17,
+              fontWeight: FontWeight.w500,
+              color: Color(0xFFD9D9D9))),
       onPressed: onPressed,
     );
   }
