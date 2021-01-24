@@ -115,3 +115,6 @@ dist
 API/docs/
 
 .dccache
+
+# Local DB Folder
+sendgrambank/SendgramBankDB/
