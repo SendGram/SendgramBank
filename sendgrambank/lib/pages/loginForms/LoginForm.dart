@@ -22,7 +22,7 @@ class LoginForm extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text("Login",
-            style: GoogleFonts.oxygen(fontSize: 40, color: Color(0xffCECFC9))),
+            style: GoogleFonts.roboto(fontSize: 40, color: Color(0xff494949))),
         SizedBox(
           height: 5,
         ),

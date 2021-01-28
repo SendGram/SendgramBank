@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'SendgramBank',
       theme: ThemeData(
-          primaryColor: Color(0xffcfcfcf), hintColor: Color(0xff9e9e9e)),
+          primaryColor: Color(0xff39A0ED), hintColor: Color(0xff5C5C5C)),
       home: BlocBuilder<AuthenticationBloc, AuthState>(
         builder: (context, state) {
           if (state is AuthenticatedState) {

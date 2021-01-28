@@ -25,7 +25,7 @@ class RegisterForm extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text("Signup",
-            style: GoogleFonts.oxygen(fontSize: 40, color: Color(0xffCECFC9))),
+            style: GoogleFonts.roboto(fontSize: 40, color: Color(0xff494949))),
         SizedBox(
           height: 5,
         ),

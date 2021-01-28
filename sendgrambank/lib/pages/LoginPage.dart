@@ -14,7 +14,7 @@ class LoginPage extends StatelessWidget {
     final authBloc = BlocProvider.of<AuthenticationBloc>(context);
     final size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Color(0xff37474f),
+      backgroundColor: Color(0xFFD9D9D9),
       body: SafeArea(
         child: Center(
           child: Container(

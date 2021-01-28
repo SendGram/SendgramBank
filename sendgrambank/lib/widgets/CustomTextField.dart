@@ -9,13 +9,14 @@ class CustomTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
-      cursorColor: Color(0xcfcfcf),
+      cursorColor: Color(0xFF5C5C5C),
       style: TextStyle(
-        color: Color(0xffffffff),
+        color: Color(0xFF5C5C5C),
       ),
       decoration: InputDecoration(
           labelText: text,
-          fillColor: Color(0xff9e9e9e),
+          enabledBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: Color(0xFF5C5C5C))),
           errorText: errorText,
           errorStyle: TextStyle(fontSize: 15)),
     );
