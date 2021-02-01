@@ -6,6 +6,12 @@ const sharedData = require('./testSharedData').sharedData;
 chai.use(chaiHttp);
 chai.should();
 
+function validateLogin(res) {
+    res.should.have.status(200);
+    res.body.should.have.property('jwt');
+    res.body.should.have.property('refreshToken');
+}
+
 module.exports = () => {
     let jwt, refreshToken;
     step('input validation in register', async(done) => {
@@ -33,9 +39,7 @@ module.exports = () => {
             .post('/auth/register')
             .send({ 'email': 'email@example.com', 'password': 'password', 'name': 'name', 'lastname': 'lastname' })
             .end((err, res) => {
-                res.should.have.status(200);
-                res.body.should.have.property('jwt');
-                res.body.should.have.property('refreshToken');
+                validateLogin(res);
                 jwt = res.body.jwt;
                 sharedData['jwt'] = jwt;
                 refreshToken = res.body.refreshToken;
@@ -47,9 +51,7 @@ module.exports = () => {
             .post('/auth/register')
             .send({ 'email': 'email1@example.com', 'password': 'password1', 'name': 'name1', 'lastname': 'lastname1' })
             .end((err, res) => {
-                res.should.have.status(200);
-                res.body.should.have.property('jwt');
-                res.body.should.have.property('refreshToken');
+                validateLogin(res);
                 done();
             });
     });
@@ -61,9 +63,7 @@ module.exports = () => {
                 "password": "password"
             })
             .end((err, res) => {
-                res.should.have.status(200);
-                res.body.should.have.property('jwt');
-                res.body.should.have.property('refreshToken');
+                validateLogin(res);
                 done();
             });
     });
@@ -83,7 +83,7 @@ module.exports = () => {
         chai.request(server)
             .post('/auth/refresh')
             .send({
-                "refreshToken": refreshToken
+                refreshToken
             })
             .end((err, res) => {
                 res.should.have.status(200);
