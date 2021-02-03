@@ -36,24 +36,4 @@ module.exports = {
             refreshToken: Joi.string().required().regex(/^[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_.+/=]*$/),
         }),
     },
-
-    // POST /auth/send-reset-token
-    resetTokenPassword: {
-        body: Joi.object({
-            email: Joi.string()
-                .email()
-                .required(),
-        }),
-    },
-
-    changePassword: {
-        body: Joi.object({
-            newPassword: Joi.string()
-                .required()
-                .max(128),
-            token: Joi.string()
-                .required()
-                .min(8).max(8)
-        }),
-    },
 };
