@@ -46,6 +46,17 @@ app.use(function(req, res, next) {
 
 // error handler
 app.use((err, req, res, next) => {
+    if (err.details) {
+        //validation error
+        err.errors = [];
+        // prettier-ignore
+        err.details.body.forEach?.(({ context }) => {
+            err.errors.push({
+                field: context.label,
+                message: "Inserisci valore valido"
+            });
+        });
+    }
     const response = {
         code: err.status || 500,
         message: err.message || httpStatus['500_MESSAGE'],
