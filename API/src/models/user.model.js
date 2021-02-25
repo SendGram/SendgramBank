@@ -28,7 +28,7 @@ userSchema.pre('save', async function(next) {
     try {
         if (!this.isModified('password')) return next();
 
-        const hash = await bcrypt.hash(this.password, 15);
+        const hash = await bcrypt.hash(this.password, 13);
         this.password = hash;
 
         return next();
@@ -53,7 +53,7 @@ userSchema.statics.checkForDuplicateEmail = (error) => {
                 location: 'body',
                 messages: ['email already exists'],
             }],
-            status: 409,
+            statusCode: 409,
             isPublic: true,
             stack: error.stack,
         });
@@ -63,7 +63,7 @@ userSchema.statics.checkForDuplicateEmail = (error) => {
 
 userSchema.statics.findUser = async function(email, password) {
     const err = {
-        status: httpStatus.UNAUTHORIZED,
+        statusCode: httpStatus.UNAUTHORIZED,
         isPublic: true,
     };
     if (!email) throw new APIError({...err, message: 'A email is required' });
