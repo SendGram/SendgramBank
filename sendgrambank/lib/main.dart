@@ -6,34 +6,35 @@ import 'package:sendgrambank/services/AuthService.dart';
 import 'package:sendgrambank/services/LocalDbService.dart';
 import 'blocs/auth/auth.dart';
 
-void main() =>
-    //Dependency injection
-    runApp(
-      MultiRepositoryProvider(
-        providers: [
-          RepositoryProvider<AuthService>(
-            create: (context) {
-              return APIAuthenticationService(LocalDbService());
-            },
-          ),
-          RepositoryProvider<LocalDbService>(
-            create: (context) {
-              return LocalDbService();
-            },
-          )
-        ],
-        child: BlocProvider<AuthenticationBloc>(
+void main() {
+  LocalDbService localDbService = new LocalDbService();
+  //Dependency injection
+  runApp(
+    MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider<AuthService>(
           create: (context) {
-            final authService = RepositoryProvider.of<AuthService>(context);
-            final localDbService =
-                RepositoryProvider.of<LocalDbService>(context);
-            return AuthenticationBloc(authService, localDbService)
-              ..add(AppLoaded());
+            return APIAuthenticationService(localDbService);
           },
-          child: MyApp(),
         ),
+        RepositoryProvider<LocalDbService>(
+          create: (context) {
+            return localDbService;
+          },
+        )
+      ],
+      child: BlocProvider<AuthenticationBloc>(
+        create: (context) {
+          final authService = RepositoryProvider.of<AuthService>(context);
+          final localDbService = RepositoryProvider.of<LocalDbService>(context);
+          return AuthenticationBloc(authService, localDbService)
+            ..add(AppLoaded());
+        },
+        child: MyApp(),
       ),
-    );
+    ),
+  );
+}
 
 class MyApp extends StatelessWidget {
   @override

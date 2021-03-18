@@ -1,15 +1,13 @@
 import 'package:hive/hive.dart';
 
 class LocalDbService {
-  Box _box;
-
-  LocalDbService() {
-    _openBox();
-  }
+  static Box _box;
 
   Future<void> _openBox() async {
-    Hive.init("SendgramBankDB");
-    _box = await Hive.openBox('SendgramBankLocalDB');
+    if (_box == null) {
+      Hive.init("SendgramBankDB");
+      _box = await Hive.openBox('SendgramBankLocalDB');
+    }
   }
 
   void saveTokens(String jwt, String refreshToken) async {
