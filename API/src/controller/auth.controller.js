@@ -1,8 +1,8 @@
-const User = require('../models/user.model');
-const mongoose = require('mongoose');
-const session = require('session-jwt');
+const User = require("../models/user.model");
+const mongoose = require("mongoose");
+const session = require("session-jwt");
 
-exports.register = async(req, res, next) => {
+exports.register = async (req, res, next) => {
     try {
         const { name, lastname, password, email } = req.body;
         const user = new User({
@@ -10,11 +10,14 @@ exports.register = async(req, res, next) => {
             name,
             lastname,
             password,
-            email
+            email,
         });
 
         const saved = await user.save();
-        const { jwt, refreshToken } = await session.newSession({ "_id": saved._id, name, lastname, email }, "user");
+        const { jwt, refreshToken } = await session.newSession(
+            { _id: saved._id, name, lastname, email },
+            "user"
+        );
 
         res.status(200).json({ jwt, refreshToken });
     } catch (err) {
@@ -22,17 +25,20 @@ exports.register = async(req, res, next) => {
     }
 };
 
-exports.login = async(req, res, next) => {
+exports.login = async (req, res, next) => {
     try {
         const { email, password } = req.body;
         const user = await User.findUser(email, password);
 
-        const { jwt, refreshToken } = await session.newSession({
-            "_id": user._id,
-            "name": user.name,
-            "lastname": user.lastname,
-            "email": user.email
-        }, "user");
+        const { jwt, refreshToken } = await session.newSession(
+            {
+                _id: user._id,
+                name: user.name,
+                lastname: user.lastname,
+                email: user.email,
+            },
+            "user"
+        );
 
         res.status(200).json({ jwt, refreshToken });
     } catch (err) {
@@ -40,7 +46,7 @@ exports.login = async(req, res, next) => {
     }
 };
 
-exports.refresh = async(req, res, next) => {
+exports.refresh = async (req, res, next) => {
     try {
         const refreshToken = req.body.refreshToken;
         const jwt = await session.refresh(refreshToken);

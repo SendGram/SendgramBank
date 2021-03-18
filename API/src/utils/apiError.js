@@ -1,11 +1,5 @@
 class APIError extends Error {
-    constructor({
-        message,
-        errors,
-        statusCode,
-        isPublic,
-        stack,
-    }) {
+    constructor({ message, errors, statusCode, isPublic, stack }) {
         super(message);
         this.name = this.constructor.name;
         this.message = message;

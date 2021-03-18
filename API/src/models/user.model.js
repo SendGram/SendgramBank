@@ -1,7 +1,7 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
-const APIError = require('../utils/apiError');
-const httpStatus = require('http-status');
+const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
+const APIError = require("../utils/apiError");
+const httpStatus = require("http-status");
 
 const userSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
@@ -21,12 +21,12 @@ const userSchema = mongoose.Schema({
         type: String,
         unique: true,
         required: true,
-    }
+    },
 });
 
-userSchema.pre('save', async function(next) {
+userSchema.pre("save", async function (next) {
     try {
-        if (!this.isModified('password')) return next();
+        if (!this.isModified("password")) return next();
 
         const hash = await bcrypt.hash(this.password, 13);
         this.password = hash;
@@ -40,19 +40,21 @@ userSchema.pre('save', async function(next) {
 userSchema.method({
     async checkPassword(password) {
         return bcrypt.compare(password, this.password);
-    }
+    },
 });
 
 userSchema.statics.checkForDuplicateEmail = (error) => {
-    if (error.name === 'MongoError' && error.code === 11000) {
+    if (error.name === "MongoError" && error.code === 11000) {
         //check for duplicate key error
         return new APIError({
-            message: 'Validation Error',
-            errors: [{
-                field: 'email',
-                location: 'body',
-                messages: ['email already exists'],
-            }],
+            message: "Validation Error",
+            errors: [
+                {
+                    field: "email",
+                    location: "body",
+                    messages: ["email already exists"],
+                },
+            ],
             statusCode: 409,
             isPublic: true,
             stack: error.stack,
@@ -61,17 +63,18 @@ userSchema.statics.checkForDuplicateEmail = (error) => {
     return error;
 };
 
-userSchema.statics.findUser = async function(email, password) {
+userSchema.statics.findUser = async function (email, password) {
     const err = {
         statusCode: httpStatus.UNAUTHORIZED,
         isPublic: true,
     };
-    if (!email) throw new APIError({...err, message: 'A email is required' });
-    if (!password) throw new APIError({...err, message: 'A password is required' });
+    if (!email) throw new APIError({ ...err, message: "A email is required" });
+    if (!password)
+        throw new APIError({ ...err, message: "A password is required" });
     const user = await this.findOne({ email }).exec();
-    if (!user || !await user.checkPassword(password)) throw new APIError({...err, message: 'Incorrect email or password' });
+    if (!user || !(await user.checkPassword(password)))
+        throw new APIError({ ...err, message: "Incorrect email or password" });
     return user;
 };
 
-
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model("User", userSchema);
