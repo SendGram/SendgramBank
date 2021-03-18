@@ -1,6 +1,6 @@
 import 'package:sendgrambank/exceptions/AuthException.dart';
-import 'package:validators/sanitizers.dart';
-import 'package:validators/validators.dart';
+import 'package:validators2/sanitizers.dart';
+import 'package:validators2/validators.dart';
 
 String emailValidator(String email) {
   return (isEmail(email))
