@@ -1,4 +1,5 @@
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sendgrambank/models/User.dart';
@@ -213,6 +214,7 @@ List<Color> gradientColors = [
 
 LineChartData mainData() {
   return LineChartData(
+    lineTouchData: LineTouchData(enabled: false),
     gridData: FlGridData(
       show: false,
       drawVerticalLine: true,
@@ -284,10 +286,10 @@ LineChartData mainData() {
         ],
         isCurved: true,
         colors: gradientColors,
-        barWidth: 5,
+        barWidth: 0,
         isStrokeCapRound: true,
         dotData: FlDotData(
-          show: true,
+          show: false,
         ),
         belowBarData: BarAreaData(
           show: true,
