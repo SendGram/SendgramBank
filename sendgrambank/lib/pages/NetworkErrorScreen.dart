@@ -13,6 +13,7 @@ class NetworkErrorScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Color(0xFFFFFFFF),
       body: Center(
@@ -22,8 +23,8 @@ class NetworkErrorScreen extends StatelessWidget {
           children: [
             Container(
               child: SmartFlareActor(
-                  width: 500.0,
-                  height: 500.0,
+                  width: size.width * 0.4,
+                  height: size.width * 0.4,
                   startingAnimation: 'init',
                   filename: 'lib/animation/net.flr'),
             ),
