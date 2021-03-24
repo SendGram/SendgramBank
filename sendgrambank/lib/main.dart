@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sendgrambank/blocs/dashboardContent/DashboardContentState.dart';
 import 'package:sendgrambank/pages/HomePage.dart';
 import 'package:sendgrambank/pages/LoginPage.dart';
 import 'package:sendgrambank/pages/NetworkErrorScreen.dart';
 import 'package:sendgrambank/services/AuthService.dart';
 import 'package:sendgrambank/services/LocalDbService.dart';
 import 'blocs/auth/auth.dart';
+import 'blocs/dashboardContent/DashboardContentBloc.dart';
 import 'blocs/network/networkBloc.dart';
 import 'blocs/network/networkState.dart';
 
@@ -63,7 +65,10 @@ class MyApp extends StatelessWidget {
           return BlocBuilder<AuthenticationBloc, AuthState>(
             builder: (context, state) {
               if (state is AuthenticatedState) {
-                return HomePage(currentUser: state.user);
+                return BlocProvider<DashboardContentBloc>(
+                    create: (context) => DashboardContentBloc(
+                        DashboardContentState.GraphContentState),
+                    child: HomePage(currentUser: state.user));
               }
               return LoginPage();
             },
