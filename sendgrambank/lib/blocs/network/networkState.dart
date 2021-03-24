@@ -1,0 +1,1 @@
+enum NetworkState { NetworkError, NetworkAvailable }

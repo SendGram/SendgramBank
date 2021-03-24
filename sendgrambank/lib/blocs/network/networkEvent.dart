@@ -1,0 +1,1 @@
+enum NetworkEvent { NetworkFailEvent, CheckConnectivity }
