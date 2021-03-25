@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:sendgrambank/blocs/Transaction/index.dart';
 import 'package:sendgrambank/blocs/dashboardContent/DashboardContentBloc.dart';
 import 'package:sendgrambank/blocs/dashboardContent/DashboardContentEvent.dart';
 import 'package:sendgrambank/blocs/dashboardContent/DashboardContentState.dart';
@@ -129,7 +130,10 @@ class HomePage extends StatelessWidget {
                     if (state == DashboardContentState.GraphContentState)
                       return GraphContent();
                     else
-                      return TransactionContent();
+                      return BlocProvider<TransactionBloc>(
+                        create: (context) => TransactionBloc(),
+                        child: TransactionContent(),
+                      );
                   })
                 ],
               ),
