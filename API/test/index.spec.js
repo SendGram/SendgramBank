@@ -9,7 +9,7 @@ describe("transaction", transactionTest);
 function cleanDb() {
     //connect to mongoDb and drop collections
     mongoose.connect(
-        `mongodb://${process.env.D_USER}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_IP}:27017/Platform?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false`,
+        `mongodb://${process.env.D_USER}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_IP}:27017/SendgramBankDB?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false`,
         {
             useNewUrlParser: true,
             useUnifiedTopology: true,
