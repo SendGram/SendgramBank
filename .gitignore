@@ -118,3 +118,4 @@ API/docs/
 
 # Local DB Folder
 sendgrambank/SendgramBankDB/
+sendgrambank/pubspec.lock

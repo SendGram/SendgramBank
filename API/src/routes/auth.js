@@ -1,8 +1,8 @@
-const express = require('express');
-const controller = require('../controller/auth.controller');
+const express = require("express");
+const controller = require("../controller/auth.controller");
 const router = express.Router();
-const { register, login, refresh } = require('../validator/auth.validator');
-const { validate } = require('express-validation');
+const { register, login, refresh } = require("../validator/auth.validator");
+const { validate } = require("express-validation");
 
 /**
  * @api {post} auth/register Register
@@ -22,7 +22,7 @@ const { validate } = require('express-validation');
  *
  * @apiError (Bad Request 400)  ValidationError  Some parameters may contain invalid values
  */
-router.post('/register', validate(register), controller.register);
+router.post("/register", validate(register), controller.register);
 
 /**
  * @api {post} auth/login Login
@@ -40,7 +40,7 @@ router.post('/register', validate(register), controller.register);
  *
  * @apiError (Bad Request 400)  ValidationError  Some parameters may contain invalid values
  */
-router.post('/login', validate(login), controller.login);
+router.post("/login", validate(login), controller.login);
 
 /**
  * @api {post} auth/refresh Refresh
@@ -56,6 +56,6 @@ router.post('/login', validate(login), controller.login);
  *
  * @apiError (Bad Request 400)  ValidationError  Some parameters may contain invalid values
  */
-router.post('/refresh', validate(refresh), controller.refresh);
+router.post("/refresh", validate(refresh), controller.refresh);
 
 module.exports = router;
