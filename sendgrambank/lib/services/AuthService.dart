@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:sendgrambank/blocs/network/networkBloc.dart';
+import 'package:sendgrambank/blocs/network/networkEvent.dart';
 import '../exceptions/AuthException.dart';
 import '../models/User.dart';
 import 'LocalDbService.dart';
@@ -14,8 +16,9 @@ abstract class AuthService {
 
 class APIAuthenticationService extends AuthService {
   final LocalDbService _localDbService;
+  final NetworkBloc _networkBloc;
 
-  APIAuthenticationService(this._localDbService);
+  APIAuthenticationService(this._localDbService, this._networkBloc);
   @override
   Future<User> refreshToken(String refreshToken) async {
     if (refreshToken == null) return null;
@@ -29,7 +32,12 @@ class APIAuthenticationService extends AuthService {
           data: {"refreshToken": refreshToken});
       user = User.fromJwt(response.data['jwt']);
       _localDbService.saveJwt(response.data['jwt']);
-    } on DioError {}
+    } on DioError catch (e) {
+      if (e.error is SocketException) {
+        _networkBloc.add(NetworkEvent.NetworkFailEvent);
+      }
+      throw e;
+    }
 
     return user;
   }
@@ -48,7 +56,9 @@ class APIAuthenticationService extends AuthService {
       _localDbService.saveTokens(
           response.data['jwt'], response.data['refreshToken']);
     } on DioError catch (e) {
-      if (e.response != null) {
+      if (e.error is SocketException) {
+        _networkBloc.add(NetworkEvent.NetworkFailEvent);
+      } else if (e.response != null) {
         if (e.response.statusCode == 400)
           throw new AuthException(
               message: "Insert a valid email and password",
@@ -86,7 +96,9 @@ class APIAuthenticationService extends AuthService {
       _localDbService.saveTokens(
           response.data['jwt'], response.data['refreshToken']);
     } on DioError catch (e) {
-      if (e.response != null) {
+      if (e.error is SocketException) {
+        _networkBloc.add(NetworkEvent.NetworkFailEvent);
+      } else if (e.response != null) {
         if (e.response.statusCode == 400)
           throw new AuthException(message: "Insert invalid value");
 

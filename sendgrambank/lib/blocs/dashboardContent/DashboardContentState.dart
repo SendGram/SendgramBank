@@ -1,0 +1,1 @@
+enum DashboardContentState { GraphContentState, TransactionContentState }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sendgrambank/services/LocalDbService.dart';
 import '../blocs/auth/auth.dart';
 import '../blocs/login/login.dart';
 import '../services/AuthService.dart';
@@ -13,6 +12,7 @@ class LoginPage extends StatelessWidget {
     final authService = RepositoryProvider.of<AuthService>(context);
     final authBloc = BlocProvider.of<AuthenticationBloc>(context);
     final size = MediaQuery.of(context).size;
+
     return Scaffold(
       backgroundColor: Color(0xFFD9D9D9),
       body: SafeArea(
@@ -44,7 +44,8 @@ class _Form extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<LoginBloc, LoginState>(listener: (context, state) {
       if (state is LoginFailure && state.position == null) {
-        Scaffold.of(context).showSnackBar(SnackBar(content: Text(state.error)));
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text(state.error)));
       }
     }, builder: (context, state) {
       if (state is LoginLoading) return LinearProgressIndicator();

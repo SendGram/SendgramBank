@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const APIError = require("../utils/apiError");
 const httpStatus = require("http-status");
+const Double = require("@mongoosejs/double");
 
 const userSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
@@ -21,6 +22,10 @@ const userSchema = mongoose.Schema({
         type: String,
         unique: true,
         required: true,
+    },
+    amount: {
+        type: Double,
+        default: 0,
     },
 });
 

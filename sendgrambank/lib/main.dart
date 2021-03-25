@@ -1,39 +1,54 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sendgrambank/blocs/dashboardContent/DashboardContentState.dart';
 import 'package:sendgrambank/pages/HomePage.dart';
 import 'package:sendgrambank/pages/LoginPage.dart';
+import 'package:sendgrambank/pages/NetworkErrorScreen.dart';
 import 'package:sendgrambank/services/AuthService.dart';
 import 'package:sendgrambank/services/LocalDbService.dart';
 import 'blocs/auth/auth.dart';
+import 'blocs/dashboardContent/DashboardContentBloc.dart';
+import 'blocs/network/networkBloc.dart';
+import 'blocs/network/networkState.dart';
 
-void main() =>
-    //Dependency injection
-    runApp(
-      MultiRepositoryProvider(
+void main() {
+  LocalDbService _localDbService = new LocalDbService();
+  NetworkBloc _networkBloc = new NetworkBloc(NetworkState.NetworkAvailable);
+  //Dependency injection
+  runApp(
+    MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider<AuthService>(
+          create: (context) {
+            return APIAuthenticationService(_localDbService, _networkBloc);
+          },
+        ),
+        RepositoryProvider<LocalDbService>(
+          create: (context) {
+            return _localDbService;
+          },
+        )
+      ],
+      child: MultiBlocProvider(
         providers: [
-          RepositoryProvider<AuthService>(
+          BlocProvider<AuthenticationBloc>(
             create: (context) {
-              return APIAuthenticationService(LocalDbService());
+              final authService = RepositoryProvider.of<AuthService>(context);
+              final localDbService =
+                  RepositoryProvider.of<LocalDbService>(context);
+              return AuthenticationBloc(authService, localDbService)
+                ..add(AppLoaded());
             },
           ),
-          RepositoryProvider<LocalDbService>(
-            create: (context) {
-              return LocalDbService();
-            },
-          )
+          BlocProvider<NetworkBloc>(create: (context) {
+            return _networkBloc;
+          })
         ],
-        child: BlocProvider<AuthenticationBloc>(
-          create: (context) {
-            final authService = RepositoryProvider.of<AuthService>(context);
-            final localDbService =
-                RepositoryProvider.of<LocalDbService>(context);
-            return AuthenticationBloc(authService, localDbService)
-              ..add(AppLoaded());
-          },
-          child: MyApp(),
-        ),
+        child: MyApp(),
       ),
-    );
+    ),
+  );
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -42,12 +57,22 @@ class MyApp extends StatelessWidget {
       title: 'SendgramBank',
       theme: ThemeData(
           primaryColor: Color(0xff39A0ED), hintColor: Color(0xff5C5C5C)),
-      home: BlocBuilder<AuthenticationBloc, AuthState>(
+      home: BlocBuilder<NetworkBloc, NetworkState>(
         builder: (context, state) {
-          if (state is AuthenticatedState) {
-            return HomePage(currentUser: state.user);
+          if (state == NetworkState.NetworkError) {
+            return NetworkErrorScreen();
           }
-          return LoginPage();
+          return BlocBuilder<AuthenticationBloc, AuthState>(
+            builder: (context, state) {
+              if (state is AuthenticatedState) {
+                return BlocProvider<DashboardContentBloc>(
+                    create: (context) => DashboardContentBloc(
+                        DashboardContentState.GraphContentState),
+                    child: HomePage(currentUser: state.user));
+              }
+              return LoginPage();
+            },
+          );
         },
       ),
     );

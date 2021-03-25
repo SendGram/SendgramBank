@@ -1,0 +1,1 @@
+enum DashboardContentEvent { GraphContentEvent, TransactionEvent }
