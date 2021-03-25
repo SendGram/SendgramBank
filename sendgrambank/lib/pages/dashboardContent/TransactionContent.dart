@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:sendgrambank/blocs/Transaction/index.dart';
 import 'package:sendgrambank/widgets/CustomWidgets.dart';
 
 class TransactionContent extends StatelessWidget {
-  const TransactionContent({
+  final _beneficiaryController = TextEditingController();
+  final _ammountController = TextEditingController();
+
+  TransactionContent({
     Key key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
+    final transactionBloc = BlocProvider.of<TransactionBloc>(context);
     return Expanded(
       child: SingleChildScrollView(
         child: Column(
@@ -23,11 +28,15 @@ class TransactionContent extends StatelessWidget {
             Container(
                 height: 60,
                 width: size.width * 0.4,
-                child: CustomTextField(text: "Email destinatario")),
+                child: CustomTextField(
+                  text: "Email del beneficiario",
+                  controller: _beneficiaryController,
+                )),
             Container(
                 height: 70,
                 width: size.width * 0.4,
-                child: CustomTextField(text: "Denaro da inviare")),
+                child: CustomTextField(
+                    text: "Denaro da inviare", controller: _ammountController)),
             Container(
               height: 60,
               width: size.width * 0.4,
@@ -35,16 +44,22 @@ class TransactionContent extends StatelessWidget {
                 children: [
                   Expanded(
                     child: CustomButton(
-                      text: "Invia denaro",
-                    ),
+                        text: "Invia denaro",
+                        onPressed: () {
+                          String beneficiary =
+                              _beneficiaryController.value.text;
+                          String amount = _ammountController.value.text;
+
+                          transactionBloc.add(NewTransactionEvent(
+                              beneficiary: beneficiary, amount: amount));
+                        }),
                   ),
                   SizedBox(
                     width: 30,
                   ),
                   Expanded(
-                    child: CustomButton(
-                      text: "Torna indietro",
-                    ),
+                    child:
+                        CustomButton(text: "Torna indietro", onPressed: () {}),
                   )
                 ],
               ),
