@@ -3,12 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sendgrambank/blocs/Transaction/index.dart';
 import 'package:sendgrambank/widgets/CustomWidgets.dart';
+import 'package:sendgrambank/models/User.dart';
 
 class TransactionContent extends StatelessWidget {
   final _beneficiaryController = TextEditingController();
-  final _ammountController = TextEditingController();
-
+  final _amountController = TextEditingController();
+  final User currentUser;
   TransactionContent({
+    this.currentUser,
     Key key,
   }) : super(key: key);
 
@@ -36,7 +38,7 @@ class TransactionContent extends StatelessWidget {
                 height: 70,
                 width: size.width * 0.4,
                 child: CustomTextField(
-                    text: "Denaro da inviare", controller: _ammountController)),
+                    text: "Denaro da inviare", controller: _amountController)),
             Container(
               height: 60,
               width: size.width * 0.4,
@@ -48,10 +50,12 @@ class TransactionContent extends StatelessWidget {
                         onPressed: () {
                           String beneficiary =
                               _beneficiaryController.value.text;
-                          String amount = _ammountController.value.text;
+                          String amount = _amountController.value.text;
 
                           transactionBloc.add(NewTransactionEvent(
-                              beneficiary: beneficiary, amount: amount));
+                              sender: currentUser,
+                              beneficiary: beneficiary,
+                              amount: amount));
                         }),
                   ),
                   SizedBox(
