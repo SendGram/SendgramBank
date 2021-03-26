@@ -1,10 +1,12 @@
 const authTest = require("./auth.test");
 const transactionTest = require("./transaction.test");
+const userTest = require("./user.test");
 const mongoose = require("mongoose");
 
 cleanDb();
 describe("auth", authTest);
 describe("transaction", transactionTest);
+describe("user", userTest);
 
 function cleanDb() {
     //connect to mongoDb and drop collections
