@@ -17,4 +17,15 @@ module.exports = () => {
                 done();
             });
     });
+    step("Test getTransaction", async (done) => {
+        chai.request(server)
+            .get("/users/transaction")
+            .set("jwt", sharedData.jwt)
+            .end((err, res) => {
+                res.should.have.status(200);
+                (typeof res.body).should.equal("object");
+                res.body.transactions.length.should.equal(3);
+                done();
+            });
+    });
 };
