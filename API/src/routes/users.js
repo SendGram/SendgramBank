@@ -1,12 +1,22 @@
 const express = require("express");
 const router = express.Router();
+const controller = require("../controller/user.controller");
+const session = require("session-jwt");
+const { validate } = require("express-validation");
+const validator = require("../validator/user.validator");
 
-router.get("/getAmount", function (req, res, next) {
-    res.send("respond with a resource");
-});
+router.get(
+    "/amount",
+    validate(validator.getAmount),
+    session.ensureAuth,
+    controller.getAmount
+);
 
-router.get("/getTransaction", function (req, res, next) {
-    res.send("respond with a resource");
-});
+router.get(
+    "/transaction",
+    validate(validator.getTransaction),
+    session.ensureAuth,
+    controller.getTransaction
+);
 
 module.exports = router;
