@@ -2,11 +2,11 @@ const Transaction = require("../models/transaction.model");
 
 exports.newTransaction = async (req, res, next) => {
     try {
-        const { beneficiary, ammount } = req.body;
+        const { beneficiary, amount } = req.body;
         const transaction = await Transaction.newTransaction(
             req.session.email,
             beneficiary,
-            ammount
+            amount
         );
 
         const saved = await transaction.save();

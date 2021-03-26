@@ -5,7 +5,7 @@ module.exports = {
     newTransaction: {
         body: Joi.object({
             beneficiary: Joi.string().required().email(),
-            ammount: Joi.number().required(),
+            amount: Joi.number().required(),
         }),
         headers: Joi.custom((value, helpers) => {
             const regex = RegExp(

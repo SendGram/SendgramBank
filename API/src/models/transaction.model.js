@@ -16,7 +16,7 @@ const transactionSchema = mongoose.Schema({
         ref: "User",
         required: true,
     },
-    ammount: {
+    amount: {
         type: Double,
         required: true,
     },
@@ -25,7 +25,7 @@ const transactionSchema = mongoose.Schema({
 transactionSchema.statics.newTransaction = async function (
     senderEmail,
     beneficiaryEmail,
-    ammount
+    amount
 ) {
     let sender, beneficiary;
     const err = {
@@ -47,7 +47,7 @@ transactionSchema.statics.newTransaction = async function (
         _id: new mongoose.Types.ObjectId(),
         sender,
         beneficiary,
-        ammount,
+        amount,
     });
 };
 

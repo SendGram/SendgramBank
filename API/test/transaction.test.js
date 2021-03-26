@@ -12,7 +12,7 @@ module.exports = () => {
         chai.request(server)
             .post("/transaction/new")
             .set("jwt", sharedData.jwt)
-            .send({ beneficiary: "email1@example.com", ammount: 10 })
+            .send({ beneficiary: "email1@example.com", amount: 10 })
             .end((err, res) => {
                 res.should.have.status(201);
                 done();
