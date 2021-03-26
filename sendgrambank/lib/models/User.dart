@@ -4,6 +4,7 @@ class User {
   String email;
   String name;
   String lastname;
+  String jwt;
 
   User({this.email, this.name, this.lastname});
 
@@ -12,5 +13,6 @@ class User {
     this.email = parsedToken['email'];
     this.name = parsedToken['name'];
     this.lastname = parsedToken['lastname'];
+    this.jwt = token;
   }
 }
