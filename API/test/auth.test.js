@@ -68,6 +68,8 @@ module.exports = () => {
             })
             .end((err, res) => {
                 validateLogin(res);
+                sharedData["jwtSecondUser"] = res.body.jwt;
+                console.log(res.body.jwt);
                 done();
             });
     });
