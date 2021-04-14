@@ -39,7 +39,6 @@ class AuthenticationBloc extends Bloc<AuthEvents, AuthState> {
         yield AuthenticationNotAuthenticated();
       }
     } catch (e) {
-      print(e);
       yield AuthenticationNotAuthenticated();
     }
   }
