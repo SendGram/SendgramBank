@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:sendgrambank/exceptions/TransactionException.dart';
 import 'package:sendgrambank/models/User.dart';
 
 class TransactionService {
@@ -18,7 +19,16 @@ class TransactionService {
           }),
           data: {"beneficiary": beneficiary, "amount": amount});
     } on DioError catch (e) {
-      print(e);
+      if (e.response != null) {
+        if (e.response.statusCode == 400)
+          throw new TransactionException(
+              message: "Insert a valid email", position: "email");
+
+        if (e.response.statusCode == 406) {
+          throw new TransactionException(
+              message: "insufficient balace", position: "amount");
+        }
+      }
     }
   }
 }
