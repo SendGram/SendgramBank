@@ -28,4 +28,15 @@ module.exports = () => {
                 done();
             });
     });
+
+    step("Test getAmount", async (done) => {
+        chai.request(server)
+            .get("/users/amount")
+            .set("jwt", sharedData.jwtSecondUser)
+            .end((err, res) => {
+                res.should.have.status(200);
+                res.body.amount.should.equal(60);
+                done();
+            });
+    });
 };
