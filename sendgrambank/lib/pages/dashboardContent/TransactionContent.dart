@@ -18,59 +18,71 @@ class TransactionContent extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     final transactionBloc = BlocProvider.of<TransactionBloc>(context);
-    return Expanded(
-      child: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text("Invia denaro",
-                style:
-                    GoogleFonts.roboto(fontSize: 30, color: Color(0xff494949))),
-            Container(
-                height: 60,
-                width: size.width * 0.4,
-                child: CustomTextField(
-                  text: "Email del beneficiario",
-                  controller: _beneficiaryController,
-                )),
-            Container(
-                height: 70,
-                width: size.width * 0.4,
-                child: CustomTextField(
-                    text: "Denaro da inviare", controller: _amountController)),
-            Container(
-              height: 60,
-              width: size.width * 0.4,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: CustomButton(
-                        text: "Invia denaro",
-                        onPressed: () {
-                          String beneficiary =
-                              _beneficiaryController.value.text;
-                          String amount = _amountController.value.text;
+    return BlocBuilder<TransactionBloc, TransactionState>(
+      builder: (contex, state) {
+        return Expanded(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text("Invia denaro",
+                    style: GoogleFonts.roboto(
+                        fontSize: 30, color: Color(0xff494949))),
+                Container(
+                    height: 80,
+                    width: size.width * 0.4,
+                    child: CustomTextField(
+                        text: "Email del beneficiario",
+                        controller: _beneficiaryController,
+                        errorText: (state is TransactionErrorState &&
+                                state.position == "email")
+                            ? state.message
+                            : null)),
+                Container(
+                    height: 80,
+                    width: size.width * 0.4,
+                    child: CustomTextField(
+                        text: "Denaro da inviare",
+                        controller: _amountController,
+                        errorText: (state is TransactionErrorState &&
+                                state.position == "amount")
+                            ? state.message
+                            : null)),
+                Container(
+                  height: 80,
+                  width: size.width * 0.4,
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: CustomButton(
+                            text: "Invia denaro",
+                            onPressed: () {
+                              String beneficiary =
+                                  _beneficiaryController.value.text;
+                              String amount = _amountController.value.text;
 
-                          transactionBloc.add(NewTransactionEvent(
-                              sender: currentUser,
-                              beneficiary: beneficiary,
-                              amount: amount));
-                        }),
+                              transactionBloc.add(NewTransactionEvent(
+                                  sender: currentUser,
+                                  beneficiary: beneficiary,
+                                  amount: amount));
+                            }),
+                      ),
+                      SizedBox(
+                        width: 30,
+                      ),
+                      Expanded(
+                        child: CustomButton(
+                            text: "Torna indietro", onPressed: () {}),
+                      )
+                    ],
                   ),
-                  SizedBox(
-                    width: 30,
-                  ),
-                  Expanded(
-                    child:
-                        CustomButton(text: "Torna indietro", onPressed: () {}),
-                  )
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }
