@@ -48,7 +48,7 @@ transactionSchema.statics.newTransaction = async function (
         throw new APIError({ ...err, message: "Beneficiary email is wrong" });
     beneficiary = userBeneficiary._id;
 
-    return await new Transaction({
+    return new Transaction({
         _id: new mongoose.Types.ObjectId(),
         sender,
         beneficiary,
