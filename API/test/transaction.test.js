@@ -8,7 +8,7 @@ chai.should();
 
 module.exports = () => {
     let jwt;
-    step("creo transazione", async (done) => {
+    step("create first transaction", async (done) => {
         chai.request(server)
             .post("/transaction/new")
             .set("jwt", sharedData.jwt)
@@ -18,7 +18,7 @@ module.exports = () => {
                 done();
             });
     });
-    step("creo transazione", async (done) => {
+    step("create second transaction", async (done) => {
         chai.request(server)
             .post("/transaction/new")
             .set("jwt", sharedData.jwt)
@@ -28,7 +28,7 @@ module.exports = () => {
                 done();
             });
     });
-    step("creo transazione", async (done) => {
+    step("create second transaction", async (done) => {
         chai.request(server)
             .post("/transaction/new")
             .set("jwt", sharedData.jwt)
@@ -39,7 +39,7 @@ module.exports = () => {
             });
     });
 
-    step("creo transazione verso email inesistente", async (done) => {
+    step("create transaction to non-existent email", async (done) => {
         chai.request(server)
             .post("/transaction/new")
             .set("jwt", sharedData.jwt)
@@ -50,7 +50,7 @@ module.exports = () => {
             });
     });
 
-    step("creo transazione verso email non vailda", async (done) => {
+    step("create transaction to non-viable email", async (done) => {
         chai.request(server)
             .post("/transaction/new")
             .set("jwt", sharedData.jwt)
@@ -61,7 +61,7 @@ module.exports = () => {
             });
     });
 
-    step("creo transazione verso amount non vaildo", async (done) => {
+    step("create transaction to invalid amount", async (done) => {
         chai.request(server)
             .post("/transaction/new")
             .set("jwt", sharedData.jwt)
@@ -75,7 +75,7 @@ module.exports = () => {
             });
     });
 
-    step("creo transazione", async (done) => {
+    step("create transaction with insufficient balance", async (done) => {
         chai.request(server)
             .post("/transaction/new")
             .set("jwt", sharedData.jwt)
