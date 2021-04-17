@@ -115,12 +115,25 @@ class HomePage extends StatelessWidget {
                     child: Column(
                       children: [
                         SizedBox(height: 20),
-                        CustomButton(
-                            text: "Invia denaro",
-                            onPressed: () {
-                              dashboardContentbloc
-                                  .add(DashboardContentEvent.TransactionEvent);
-                            })
+                        Container(
+                          width: 110,
+                          child: CustomButton(
+                              text: "Home",
+                              onPressed: () {
+                                dashboardContentbloc.add(
+                                    DashboardContentEvent.GraphContentEvent);
+                              }),
+                        ),
+                        SizedBox(height: 20),
+                        Container(
+                          width: 110,
+                          child: CustomButton(
+                              text: "Invia denaro",
+                              onPressed: () {
+                                dashboardContentbloc.add(
+                                    DashboardContentEvent.TransactionEvent);
+                              }),
+                        )
                       ],
                     ),
                   ),
