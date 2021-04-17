@@ -50,6 +50,7 @@ flutter:
     assets:
         - lib/animation/profile.flr
         - lib/animation/net.flr
+        - lib/animation/loading.flr
 
     # An image asset can refer to one or more resolution-specific "variants", see
     # https://flutter.dev/assets-and-images/#resolution-aware.
