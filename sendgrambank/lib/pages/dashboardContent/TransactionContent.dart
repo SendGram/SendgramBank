@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:sendgrambank/blocs/Transaction/index.dart';
 import 'package:sendgrambank/widgets/CustomWidgets.dart';
 import 'package:sendgrambank/models/User.dart';
+import 'package:smart_flare/actors/smart_flare_actor.dart';
 
 class TransactionContent extends StatelessWidget {
   final _beneficiaryController = TextEditingController();
@@ -20,6 +21,19 @@ class TransactionContent extends StatelessWidget {
     final transactionBloc = BlocProvider.of<TransactionBloc>(context);
     return BlocBuilder<TransactionBloc, TransactionState>(
       builder: (contex, state) {
+        if (state is TransactionLoadingState ||
+            state is TransactionCompletedState)
+          return Expanded(
+            child: Center(
+              child: SmartFlareActor(
+                  width: size.width * 0.4,
+                  height: size.width * 0.4,
+                  filename: 'lib/animation/loading.flr',
+                  startingAnimation: (state is TransactionCompletedState)
+                      ? 'success'
+                      : 'loading'),
+            ),
+          );
         return Expanded(
           child: SingleChildScrollView(
             child: Column(
