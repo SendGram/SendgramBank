@@ -45,7 +45,7 @@ module.exports = () => {
             .post("/auth/register")
             .send({
                 email: "email@example.com",
-                password: "password",
+                password: "password123456",
                 name: "name",
                 lastname: "lastname",
             })
@@ -62,12 +62,13 @@ module.exports = () => {
             .post("/auth/register")
             .send({
                 email: "email1@example.com",
-                password: "password1",
+                password: "password123456",
                 name: "name1",
                 lastname: "lastname1",
             })
             .end((err, res) => {
                 validateLogin(res);
+                sharedData["jwtSecondUser"] = res.body.jwt;
                 done();
             });
     });
@@ -76,7 +77,7 @@ module.exports = () => {
             .post("/auth/login")
             .send({
                 email: "email@example.com",
-                password: "password",
+                password: "password123456",
             })
             .end((err, res) => {
                 validateLogin(res);

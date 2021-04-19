@@ -25,7 +25,7 @@ const userSchema = mongoose.Schema({
     },
     amount: {
         type: Double,
-        default: 0,
+        default: 30,
     },
 });
 
@@ -80,6 +80,21 @@ userSchema.statics.findUser = async function (email, password) {
     if (!user || !(await user.checkPassword(password)))
         throw new APIError({ ...err, message: "Incorrect email or password" });
     return user;
+};
+
+userSchema.statics.findUserBalanceByEmail = async function (email) {
+    const err = {
+        statusCode: 406,
+        isPublic: true,
+    };
+
+    const user = await this.findOne({ email }).exec();
+    if (!user) throw new APIError({ ...err, message: "Incorrect email" });
+    return user.amount.value;
+};
+
+userSchema.statics.updateBalanceByEmail = async function (email, newAmount) {
+    await this.updateOne({ email }, { $set: { amount: newAmount } }).exec();
 };
 
 module.exports = mongoose.model("User", userSchema);

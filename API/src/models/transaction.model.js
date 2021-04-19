@@ -16,16 +16,21 @@ const transactionSchema = mongoose.Schema({
         ref: "User",
         required: true,
     },
-    ammount: {
+    amount: {
         type: Double,
         required: true,
+    },
+    date: {
+        type: Date,
+        required: true,
+        default: () => new Date(),
     },
 });
 
 transactionSchema.statics.newTransaction = async function (
     senderEmail,
     beneficiaryEmail,
-    ammount
+    amount
 ) {
     let sender, beneficiary;
     const err = {
@@ -43,11 +48,56 @@ transactionSchema.statics.newTransaction = async function (
         throw new APIError({ ...err, message: "Beneficiary email is wrong" });
     beneficiary = userBeneficiary._id;
 
-    return await new Transaction({
+    return new Transaction({
         _id: new mongoose.Types.ObjectId(),
         sender,
         beneficiary,
-        ammount,
+        amount,
+    });
+};
+
+transactionSchema.statics.getAllTransactionsFromEmail = function (email) {
+    return new Promise(async (resolve, reject) => {
+        const user = await User.findOne({ email });
+        const sentTransaction = await Transaction.find({
+            sender: user._id,
+        })
+            .populate("beneficiary")
+            .populate("sender");
+        const receivedTransaction = await Transaction.find({
+            beneficiary: user._id,
+        })
+            .populate("beneficiary")
+            .populate("sender");
+
+        let transactions = sentTransaction
+            .concat(receivedTransaction)
+            .sort((a, b) => {
+                return a.date > b.date ? 1 : -1;
+            });
+
+        transactions = transactions.map((transaction) => {
+            const amount = transaction.amount.value;
+            const date = transaction.date;
+            const sender = {
+                email: transaction.sender.email,
+                name: transaction.sender.name,
+                lastName: transaction.sender.lastname,
+            };
+            const beneficiary = {
+                email: transaction.beneficiary.email,
+                name: transaction.beneficiary.name,
+                lastName: transaction.beneficiary.lastname,
+            };
+
+            return {
+                sender,
+                beneficiary,
+                amount,
+                date,
+            };
+        });
+        resolve(transactions);
     });
 };
 

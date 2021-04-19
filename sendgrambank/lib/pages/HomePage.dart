@@ -7,6 +7,7 @@ import 'package:sendgrambank/blocs/dashboardContent/DashboardContentEvent.dart';
 import 'package:sendgrambank/blocs/dashboardContent/DashboardContentState.dart';
 import 'package:sendgrambank/models/User.dart';
 import 'package:sendgrambank/pages/dashboardContent/TransactionContent.dart';
+import 'package:sendgrambank/services/TransactionService.dart';
 import 'package:sendgrambank/widgets/CustomButton.dart';
 
 import 'dashboardContent/GraphContent.dart';
@@ -114,12 +115,25 @@ class HomePage extends StatelessWidget {
                     child: Column(
                       children: [
                         SizedBox(height: 20),
-                        CustomButton(
-                            text: "Invia denaro",
-                            onPressed: () {
-                              dashboardContentbloc
-                                  .add(DashboardContentEvent.TransactionEvent);
-                            })
+                        Container(
+                          width: 110,
+                          child: CustomButton(
+                              text: "Home",
+                              onPressed: () {
+                                dashboardContentbloc.add(
+                                    DashboardContentEvent.GraphContentEvent);
+                              }),
+                        ),
+                        SizedBox(height: 20),
+                        Container(
+                          width: 110,
+                          child: CustomButton(
+                              text: "Invia denaro",
+                              onPressed: () {
+                                dashboardContentbloc.add(
+                                    DashboardContentEvent.TransactionEvent);
+                              }),
+                        )
                       ],
                     ),
                   ),
@@ -130,9 +144,19 @@ class HomePage extends StatelessWidget {
                     if (state == DashboardContentState.GraphContentState)
                       return GraphContent();
                     else
-                      return BlocProvider<TransactionBloc>(
-                        create: (context) => TransactionBloc(),
-                        child: TransactionContent(),
+                      return RepositoryProvider(
+                        create: (context) => TransactionService(),
+                        child: BlocProvider<TransactionBloc>(
+                          create: (context) {
+                            final transactionService =
+                                RepositoryProvider.of<TransactionService>(
+                                    context);
+                            return TransactionBloc(transactionService);
+                          },
+                          child: TransactionContent(
+                            currentUser: currentUser,
+                          ),
+                        ),
                       );
                   })
                 ],

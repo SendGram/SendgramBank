@@ -8,13 +8,91 @@ chai.should();
 
 module.exports = () => {
     let jwt;
-    step("creo transazione", async (done) => {
+    step("create first transaction", async (done) => {
         chai.request(server)
             .post("/transaction/new")
             .set("jwt", sharedData.jwt)
-            .send({ beneficiary: "email1@example.com", ammount: 10 })
+            .send({ beneficiary: "email1@example.com", amount: 10 })
             .end((err, res) => {
                 res.should.have.status(201);
+                done();
+            });
+    });
+    step("create second transaction", async (done) => {
+        chai.request(server)
+            .post("/transaction/new")
+            .set("jwt", sharedData.jwt)
+            .send({ beneficiary: "email1@example.com", amount: 10 })
+            .end((err, res) => {
+                res.should.have.status(201);
+                done();
+            });
+    });
+    step("create second transaction", async (done) => {
+        chai.request(server)
+            .post("/transaction/new")
+            .set("jwt", sharedData.jwt)
+            .send({ beneficiary: "email1@example.com", amount: 10 })
+            .end((err, res) => {
+                res.should.have.status(201);
+                done();
+            });
+    });
+
+    step("create transaction with negative amount", async (done) => {
+        chai.request(server)
+            .post("/transaction/new")
+            .set("jwt", sharedData.jwt)
+            .send({ beneficiary: "email1@example.com", amount: -10 })
+            .end((err, res) => {
+                res.should.have.status(400);
+                done();
+            });
+    });
+
+    step("create transaction to non-existent email", async (done) => {
+        chai.request(server)
+            .post("/transaction/new")
+            .set("jwt", sharedData.jwt)
+            .send({ beneficiary: "test@example.com", amount: 10 })
+            .end((err, res) => {
+                res.should.have.status(406);
+                done();
+            });
+    });
+
+    step("create transaction to non-viable email", async (done) => {
+        chai.request(server)
+            .post("/transaction/new")
+            .set("jwt", sharedData.jwt)
+            .send({ beneficiary: "invalid email", amount: 10 })
+            .end((err, res) => {
+                res.should.have.status(400);
+                done();
+            });
+    });
+
+    step("create transaction to invalid amount", async (done) => {
+        chai.request(server)
+            .post("/transaction/new")
+            .set("jwt", sharedData.jwt)
+            .send({
+                beneficiary: "email1@example.com",
+                amount: "10h",
+            })
+            .end((err, res) => {
+                res.should.have.status(400);
+                done();
+            });
+    });
+
+    step("create transaction with insufficient balance", async (done) => {
+        chai.request(server)
+            .post("/transaction/new")
+            .set("jwt", sharedData.jwt)
+            .send({ beneficiary: "email1@example.com", amount: 10 })
+            .end((err, res) => {
+                res.should.have.status(406);
                 done();
             });
     });
