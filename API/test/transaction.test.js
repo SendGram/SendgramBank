@@ -39,6 +39,17 @@ module.exports = () => {
             });
     });
 
+    step("create transaction with negative amount", async (done) => {
+        chai.request(server)
+            .post("/transaction/new")
+            .set("jwt", sharedData.jwt)
+            .send({ beneficiary: "email1@example.com", amount: -10 })
+            .end((err, res) => {
+                res.should.have.status(400);
+                done();
+            });
+    });
+
     step("create transaction to non-existent email", async (done) => {
         chai.request(server)
             .post("/transaction/new")
