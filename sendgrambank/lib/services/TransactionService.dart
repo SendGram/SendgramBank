@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -12,7 +13,7 @@ class TransactionService {
   ) async {
     Response response;
     try {
-      response = await Dio().post("http://192.168.0.19:3000/transaction/new",
+      response = await Dio().post("http://127.0.0.1:3000/transaction/new",
           options: Options(headers: {
             HttpHeaders.contentTypeHeader: "application/json",
             "jwt": sender.jwt
@@ -22,13 +23,19 @@ class TransactionService {
       if (e.response != null) {
         if (e.response.statusCode == 400)
           throw new TransactionException(
-              message: "Insert a valid email", position: "email");
+              message: "Inserisci email valida", position: "email");
 
         if (e.response.statusCode == 406) {
+          String errorMessage = jsonDecode(e.response.toString())['message'];
+          if (errorMessage == "Incorrect email") {
+            throw new TransactionException(
+                message: "Inserisci email valida", position: "email");
+          }
           throw new TransactionException(
-              message: "insufficient balace", position: "amount");
+              message: "Saldo non sufficiente", position: "amount");
         }
       }
+      throw e;
     }
   }
 }

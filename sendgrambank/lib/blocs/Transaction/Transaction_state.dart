@@ -7,3 +7,7 @@ class TransactionErrorState extends TransactionState {
   String position;
   TransactionErrorState({this.message, this.position});
 }
+
+class TransactionCompletedState extends TransactionState {}
+
+class TransactionLoadingState extends TransactionState {}
