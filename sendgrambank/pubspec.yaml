@@ -33,6 +33,7 @@ dependencies:
     fl_chart: ^0.20.1
     smart_flare: any
     socket_io_client: ^1.0.0
+    bot_toast: ^4.0.1
 
 dev_dependencies:
     flutter_test:
