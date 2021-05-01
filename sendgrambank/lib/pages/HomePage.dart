@@ -9,7 +9,7 @@ import 'package:sendgrambank/models/User.dart';
 import 'package:sendgrambank/pages/dashboardContent/TransactionContent.dart';
 import 'package:sendgrambank/services/TransactionService.dart';
 import 'package:sendgrambank/widgets/CustomButton.dart';
-
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'dashboardContent/GraphContent.dart';
 
 class HomePage extends StatelessWidget {
@@ -19,9 +19,9 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dashboardContentbloc = BlocProvider.of<DashboardContentBloc>(context);
-
     Size size = MediaQuery.of(context).size;
-    print(size.width);
+
+    _initWebsocket();
     return Scaffold(
       backgroundColor: Color(0xffD9D9D9),
       body: SafeArea(
@@ -166,5 +166,19 @@ class HomePage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _initWebsocket() {
+    IO.Socket socket = IO.io('http://localhost:8080', <String, dynamic>{
+      'transports': ['websocket'],
+      'autoConnect': true,
+      'query': {"token": currentUser.jwt}
+    });
+    socket.onConnect((_) {
+      print('connect');
+    });
+    socket.onDisconnect((_) => print('disconnect'));
+    socket.on("message", (data) => print(data));
+    socket.on('newTransaction', (data) => print(data));
   }
 }
