@@ -5,6 +5,7 @@ import 'package:sendgrambank/blocs/Transaction/index.dart';
 import 'package:sendgrambank/blocs/dashboardContent/DashboardContentBloc.dart';
 import 'package:sendgrambank/blocs/dashboardContent/DashboardContentEvent.dart';
 import 'package:sendgrambank/blocs/dashboardContent/DashboardContentState.dart';
+import 'package:sendgrambank/cubit/Amount_Cubit/amount_cubit.dart';
 import 'package:sendgrambank/models/User.dart';
 import 'package:sendgrambank/pages/dashboardContent/TransactionContent.dart';
 import 'package:sendgrambank/services/TransactionService.dart';
@@ -19,9 +20,11 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dashboardContentbloc = BlocProvider.of<DashboardContentBloc>(context);
-    Size size = MediaQuery.of(context).size;
+    final amountCubit = BlocProvider.of<AmountCubit>(context)
+      ..updateAmount(currentUser);
 
-    _initWebsocket();
+    Size size = MediaQuery.of(context).size;
+    _initWebsocket(currentUser, amountCubit);
     return Scaffold(
       backgroundColor: Color(0xffD9D9D9),
       body: SafeArea(
@@ -52,12 +55,21 @@ class HomePage extends StatelessWidget {
                                 children: [
                                   Container(
                                     height: 35,
-                                    child: Text("500.00",
-                                        style: GoogleFonts.roboto(
-                                            textStyle: TextStyle(
-                                                fontSize: 35,
-                                                fontWeight: FontWeight.w500,
-                                                color: Color(0xff494949)))),
+                                    child:
+                                        BlocBuilder<AmountCubit, AmountState>(
+                                      builder: (context, state) {
+                                        return Text(
+                                            (state is AmountValueState)
+                                                ? state.amount.toString() +
+                                                    ".00"
+                                                : "",
+                                            style: GoogleFonts.roboto(
+                                                textStyle: TextStyle(
+                                                    fontSize: 35,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Color(0xff494949))));
+                                      },
+                                    ),
                                   ),
                                   Padding(
                                     padding: EdgeInsets.only(left: 10),
@@ -168,7 +180,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  void _initWebsocket() {
+  void _initWebsocket(User user, AmountCubit amountCubit) {
     IO.Socket socket = IO.io('http://localhost:8080', <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': true,
@@ -179,6 +191,6 @@ class HomePage extends StatelessWidget {
     });
     socket.onDisconnect((_) => print('disconnect'));
     socket.on("message", (data) => print(data));
-    socket.on('newTransaction', (data) => print(data));
+    socket.on('newTransaction', (data) => amountCubit.updateAmount(user));
   }
 }
