@@ -18,7 +18,7 @@ String passwordValidator(String password) {
 }
 
 String nameValidator(String name) {
-  return (RegExp(r"[a-zA-Z][a-zA-Z ]{2,15}").hasMatch(name))
+  return (RegExp("[a-zA-Z][a-zA-Z ]{2,15}").hasMatch(name))
       ? name
       : throw new AuthException(
           message: "The name must be between 3 and 15 characters long.",
@@ -26,7 +26,7 @@ String nameValidator(String name) {
 }
 
 String lastNameValidator(String lastName) {
-  return (RegExp(r"[a-zA-Z][a-zA-Z ]{2,15}").hasMatch(lastName))
+  return (RegExp("[a-zA-Z][a-zA-Z ]{2,15}").hasMatch(lastName))
       ? lastName
       : throw new AuthException(
           message: "The lastName must be between 3 and 15 characters long.",
