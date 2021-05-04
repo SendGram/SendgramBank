@@ -1,6 +1,7 @@
 const Transaction = require("../models/transaction.model");
 const User = require("../models/user.model");
 const APIError = require("../utils/apiError");
+const socketio = require("../utils/socket.io");
 
 exports.newTransaction = async (req, res, next) => {
     try {
@@ -34,6 +35,10 @@ exports.newTransaction = async (req, res, next) => {
         );
 
         const saved = await transaction.save();
+        socketio.sendToUser(beneficiaryEmail, "newTransaction", {
+            amount,
+            senderEmail,
+        });
         res.status(201).json(saved);
     } catch (error) {
         next(error);
