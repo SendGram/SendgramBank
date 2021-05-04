@@ -7,7 +7,6 @@ chai.use(chaiHttp);
 chai.should();
 
 module.exports = () => {
-    let jwt;
     step("create first transaction", async (done) => {
         chai.request(server)
             .post("/transaction/new")
