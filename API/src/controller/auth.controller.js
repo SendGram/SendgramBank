@@ -1,11 +1,11 @@
 const User = require("../models/user.model");
 const mongoose = require("mongoose");
 const session = require("session-jwt");
-const jwt = require("jsonwebtoken");
+const jsonwebtoken = require("jsonwebtoken");
 const socketio = require("../utils/socket.io");
 
 socketio.on("connection", (client) => {
-    jwt.verify(
+    jsonwebtoken.verify(
         client.handshake.query.token,
         process.env.JWT_SECRET,
         (err, decoded) => {
