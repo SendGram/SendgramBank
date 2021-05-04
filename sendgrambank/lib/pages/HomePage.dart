@@ -23,7 +23,7 @@ class HomePage extends StatelessWidget {
   final User currentUser;
   AmountCubit _amountCubit;
 
-  const HomePage({Key key, this.currentUser}) : super(key: key);
+  HomePage({Key key, this.currentUser}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final dashboardContentbloc = BlocProvider.of<DashboardContentBloc>(context);
