@@ -1,3 +1,4 @@
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sendgrambank/blocs/dashboardContent/DashboardContentState.dart';
@@ -59,6 +60,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'SendgramBank',
+      builder: BotToastInit(), //1. call BotToastInit
+      navigatorObservers: [BotToastNavigatorObserver()],
       theme: ThemeData(
           primaryColor: Color(0xff39A0ED), hintColor: Color(0xff5C5C5C)),
       home: BlocBuilder<NetworkBloc, NetworkState>(

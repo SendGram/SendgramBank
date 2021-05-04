@@ -35,10 +35,14 @@ exports.newTransaction = async (req, res, next) => {
         );
 
         const saved = await transaction.save();
-        socketio.sendToUser(beneficiaryEmail, "newTransaction", {
-            amount,
-            senderEmail,
-        });
+        socketio.sendToUser(
+            beneficiaryEmail,
+            "newTransaction",
+            JSON.stringify({
+                amount,
+                senderEmail,
+            })
+        );
         res.status(201).json(saved);
     } catch (error) {
         next(error);

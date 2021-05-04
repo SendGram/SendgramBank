@@ -1,4 +1,8 @@
+import 'dart:collection';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sendgrambank/blocs/Transaction/index.dart';
@@ -10,21 +14,25 @@ import 'package:sendgrambank/models/User.dart';
 import 'package:sendgrambank/pages/dashboardContent/TransactionContent.dart';
 import 'package:sendgrambank/services/TransactionService.dart';
 import 'package:sendgrambank/widgets/CustomButton.dart';
+import 'package:sendgrambank/widgets/CustomNotification.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'dashboardContent/GraphContent.dart';
+import 'package:bot_toast/bot_toast.dart';
 
 class HomePage extends StatelessWidget {
   final User currentUser;
+  AmountCubit _amountCubit;
 
   const HomePage({Key key, this.currentUser}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final dashboardContentbloc = BlocProvider.of<DashboardContentBloc>(context);
-    final amountCubit = BlocProvider.of<AmountCubit>(context)
+    _amountCubit = BlocProvider.of<AmountCubit>(context)
       ..updateAmount(currentUser);
 
     Size size = MediaQuery.of(context).size;
-    _initWebsocket(currentUser, amountCubit);
+    _initWebsocket();
+
     return Scaffold(
       backgroundColor: Color(0xffD9D9D9),
       body: SafeArea(
@@ -180,7 +188,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  void _initWebsocket(User user, AmountCubit amountCubit) {
+  void _initWebsocket() {
     IO.Socket socket = IO.io('http://localhost:8080', <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': true,
@@ -191,6 +199,15 @@ class HomePage extends StatelessWidget {
     });
     socket.onDisconnect((_) => print('disconnect'));
     socket.on("message", (data) => print(data));
-    socket.on('newTransaction', (data) => amountCubit.updateAmount(user));
+    socket.on('newTransaction', _handleNewTransaction);
+  }
+  
+  void _handleNewTransaction(data){
+      HashMap map = HashMap.from(jsonDecode(data));
+      var amount = map['amount'];
+      var senderEmail = map['senderEmail'];
+      createNotification(
+          "Nuova Transazione", "Hai ricevuto $amount euro da $senderEmail");
+      _amountCubit.updateAmount(currentUser);
   }
 }
