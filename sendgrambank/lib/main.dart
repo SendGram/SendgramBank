@@ -2,6 +2,7 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sendgrambank/blocs/dashboardContent/DashboardContentState.dart';
+import 'package:sendgrambank/cubit/Amount_Cubit/amount_cubit.dart';
 import 'package:sendgrambank/pages/HomePage.dart';
 import 'package:sendgrambank/pages/LoginPage.dart';
 import 'package:sendgrambank/pages/NetworkErrorScreen.dart';
@@ -43,7 +44,10 @@ void main() {
           ),
           BlocProvider<NetworkBloc>(create: (context) {
             return _networkBloc;
-          })
+          }),
+          BlocProvider<AmountCubit>(create: (context) {
+            return AmountCubit();
+          }),
         ],
         child: MyApp(),
       ),

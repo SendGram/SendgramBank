@@ -9,6 +9,7 @@ import 'package:sendgrambank/blocs/Transaction/index.dart';
 import 'package:sendgrambank/blocs/dashboardContent/DashboardContentBloc.dart';
 import 'package:sendgrambank/blocs/dashboardContent/DashboardContentEvent.dart';
 import 'package:sendgrambank/blocs/dashboardContent/DashboardContentState.dart';
+import 'package:sendgrambank/cubit/Amount_Cubit/amount_cubit.dart';
 import 'package:sendgrambank/models/User.dart';
 import 'package:sendgrambank/pages/dashboardContent/TransactionContent.dart';
 import 'package:sendgrambank/services/TransactionService.dart';
@@ -20,13 +21,16 @@ import 'package:bot_toast/bot_toast.dart';
 
 class HomePage extends StatelessWidget {
   final User currentUser;
+  AmountCubit _amountCubit;
 
-  const HomePage({Key key, this.currentUser}) : super(key: key);
+  HomePage({Key key, this.currentUser}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final dashboardContentbloc = BlocProvider.of<DashboardContentBloc>(context);
-    Size size = MediaQuery.of(context).size;
+    _amountCubit = BlocProvider.of<AmountCubit>(context)
+      ..updateAmount(currentUser);
 
+    Size size = MediaQuery.of(context).size;
     _initWebsocket();
 
     return Scaffold(
@@ -59,12 +63,20 @@ class HomePage extends StatelessWidget {
                                 children: [
                                   Container(
                                     height: 35,
-                                    child: Text("500.00",
-                                        style: GoogleFonts.roboto(
+                                    child: BlocBuilder<AmountCubit, double>(
+                                      builder: (context, state) {
+                                        return Text(
+                                          state.toString(),
+                                          style: GoogleFonts.roboto(
                                             textStyle: TextStyle(
-                                                fontSize: 35,
-                                                fontWeight: FontWeight.w500,
-                                                color: Color(0xff494949)))),
+                                              fontSize: 35,
+                                              fontWeight: FontWeight.w500,
+                                              color: Color(0xff494949),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
                                   ),
                                   Padding(
                                     padding: EdgeInsets.only(left: 10),
@@ -186,12 +198,15 @@ class HomePage extends StatelessWidget {
     });
     socket.onDisconnect((_) => print('disconnect'));
     socket.on("message", (data) => print(data));
-    socket.on('newTransaction', (data) {
-      HashMap map = HashMap.from(jsonDecode(data));
-      var amount = map['amount'];
-      var senderEmail = map['senderEmail'];
-      createNotification(
-          "Nuova Transazione", "Hai ricevuto $amount euro da $senderEmail");
-    });
+    socket.on('newTransaction', _handleNewTransaction);
+  }
+
+  void _handleNewTransaction(data) {
+    HashMap map = HashMap.from(jsonDecode(data));
+    var amount = map['amount'];
+    var senderEmail = map['senderEmail'];
+    createNotification(
+        "Nuova Transazione", "Hai ricevuto $amount euro da $senderEmail");
+    _amountCubit.updateAmount(currentUser);
   }
 }
