@@ -63,19 +63,18 @@ class HomePage extends StatelessWidget {
                                 children: [
                                   Container(
                                     height: 35,
-                                    child:
-                                        BlocBuilder<AmountCubit, AmountState>(
+                                    child: BlocBuilder<AmountCubit, double>(
                                       builder: (context, state) {
                                         return Text(
-                                            (state is AmountValueState)
-                                                ? state.amount.toString() +
-                                                    ".00"
-                                                : "",
-                                            style: GoogleFonts.roboto(
-                                                textStyle: TextStyle(
-                                                    fontSize: 35,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Color(0xff494949))));
+                                          state.toString(),
+                                          style: GoogleFonts.roboto(
+                                            textStyle: TextStyle(
+                                              fontSize: 35,
+                                              fontWeight: FontWeight.w500,
+                                              color: Color(0xff494949),
+                                            ),
+                                          ),
+                                        );
                                       },
                                     ),
                                   ),
@@ -201,13 +200,13 @@ class HomePage extends StatelessWidget {
     socket.on("message", (data) => print(data));
     socket.on('newTransaction', _handleNewTransaction);
   }
-  
-  void _handleNewTransaction(data){
-      HashMap map = HashMap.from(jsonDecode(data));
-      var amount = map['amount'];
-      var senderEmail = map['senderEmail'];
-      createNotification(
-          "Nuova Transazione", "Hai ricevuto $amount euro da $senderEmail");
-      _amountCubit.updateAmount(currentUser);
+
+  void _handleNewTransaction(data) {
+    HashMap map = HashMap.from(jsonDecode(data));
+    var amount = map['amount'];
+    var senderEmail = map['senderEmail'];
+    createNotification(
+        "Nuova Transazione", "Hai ricevuto $amount euro da $senderEmail");
+    _amountCubit.updateAmount(currentUser);
   }
 }
