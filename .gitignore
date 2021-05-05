@@ -112,3 +112,10 @@ dist
 .vscode-test
 .vscode
 .idea
+API/docs/
+
+.dccache
+
+# Local DB Folder
+sendgrambank/SendgramBankDB/
+sendgrambank/pubspec.lock
