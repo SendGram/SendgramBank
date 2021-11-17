@@ -13,7 +13,7 @@
     "dependencies": {
         "@mongoosejs/double": "0.2.0",
         "bcrypt": "5.0.1",
-        "cookie-parser": "~1.4.5",
+        "cookie-parser": "~1.4.6",
         "debug": "~2.6.9",
         "express": "~4.17.1",
         "express-validation": "^3.0.8",
